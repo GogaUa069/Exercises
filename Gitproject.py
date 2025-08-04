@@ -41,7 +41,3 @@ class LinkedList:
         :return: Returns __data
         """
         ...
-
-    @staticmethod
-    def get_name():
-        return "Hello Wolrd"
