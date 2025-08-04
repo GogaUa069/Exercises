@@ -45,3 +45,7 @@ class LinkedList:
     @staticmethod
     def get_name():
         return "Hello Wolrd"
+
+    @staticmethod
+    def get_name2():
+        return "Hello World2!"
