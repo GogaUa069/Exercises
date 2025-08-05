@@ -1,50 +1,33 @@
 from math import sqrt
 
 
-class Complex:
-    """
-    Working with complex numbers
-    """
-    def __init__(self, real, img):
-        """
-        :param real: int/float. Real part of complex number.
-        :param img: int/float. Imaginary part of complex number.
-        """
-        self.__real = real
-        self.__img = img
+class RadiusVector:
+    def __init__(self, *args):
+        self.coord_length = len(args)
+        self.coord_tuple = tuple()
 
-    @property
-    def real(self):
-        return self.__real
+        if self.coord_length == 1:
+            self.coord_tuple = (0, )*args[0]
 
-    @real.setter
-    def real(self, value):
-        if type(value) in (int, float):
-            self.__real = value
-        else:
-            raise ValueError("Неверный тип данных.")
+    def set_coords(self, *args):
+        self.coord_tuple = tuple(args)
 
-    @property
-    def img(self):
-        return self.__img
+    def get_coords(self):
+        return self.coord_tuple
 
-    @img.setter
-    def img(self, value):
-        if type(value) in (int, float):
-            self.__img = value
-        else:
-            raise ValueError("Неверный тип данных.")
+    def __len__(self):
+        return len(self.coord_tuple)
 
     def __abs__(self):
-        """
-        :return: The square root of the sum of the squares of the real and imaginary parts of a complex number.
-        """
-        return sqrt(self.real**2 + self.__img**2)
+        square_root_sum_coords = sum([coord**2 for coord in self.coord_tuple])
+        return sqrt(square_root_sum_coords)
 
 
-# EX. <<<
-#cmp = Complex(7, 8)
-#cmp.real = 3
-#cmp.img = 4
-#c_abs = abs(cmp)
-#print(cmp.real, cmp.img, c_abs)
+#vector3D = RadiusVector(5)
+#vector3D.set_coords(10, 20, 30)
+
+#print("Coords:", vector3D.get_coords())
+#print("Length:", len(vector3D))
+#print("Abs:", abs(vector3D))
+#a, b, c = vector3D.get_coords()
+#print("a, b, c:", a, b, c)
