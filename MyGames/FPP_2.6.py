@@ -8,7 +8,7 @@ from time import sleep
 
 
 class Monologues:
-    how_to_play_info = ("How to play:",
+    how_to_play_info = ("\n@GogaUa096 Follow me on instagram :)\n\nHow to play:",
                         Fore.BLUE + "Task: To find the number guessed by the computer.",
                         "1. Enter the range in which you will search for the number. (The range 5-100)",
                         "2. Then, start find number." + Style.RESET_ALL,
@@ -56,6 +56,7 @@ class GetData:
         self.difficulty_lvl = str
         self.last_game = None
         self.win_streak = 0
+        self._is_used_promo = False
 
     def get_difficulty_lvl(self):
         acceptable_types = list()
@@ -89,6 +90,9 @@ class GetData:
                     print("Coming soon!\n")  # <----------------------- Add Random LVl
                 case "adventure" | "6":
                     print("Coming soon!\n")  # <------------------------- Add Adventure LVL
+                case "mswde096" | "096":
+                    print(Fore.LIGHTRED_EX + "Yey! You used promo-code! Now You have +10.000 lives!" + Style.RESET_ALL)
+                    self._is_used_promo = True
                 case _:
                     print(f"Please, use: {Fore.LIGHTRED_EX + ", ".join(acceptable_types).upper() + Style.RESET_ALL}\n"
                           f"Or enter number in range 1-6\n")
@@ -158,6 +162,8 @@ class MediumGame(GetData):
     def __init__(self):
         self._border = self._hidden_number = self._number = self._attempts_counter = self._attempts_limit = 0
         GetData.__init__(self)
+        if self._is_used_promo:
+            self._attempts_limit += 10000
 
     def get_border(self):
         print("Select the border.\nEnter total in range 5-100\n")
@@ -296,7 +302,8 @@ def medium_game_func():
     print(Fore.RED + "Medium Level:" + Style.RESET_ALL)
     my_medium_game = MediumGame()
     my_medium_game.get_border()
-    my_medium_game.get_attempts_limit()
+    if not data1._is_used_promo:
+        my_medium_game.get_attempts_limit()
     my_medium_game.number_searching()
 
 
