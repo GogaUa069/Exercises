@@ -1,43 +1,28 @@
-class ObjList:
-    def __init__(self, data):
-        self.__data = data
-        self.__prev = None
-        self.__next = None
-
-
-class LinkedList:
+class Budget:
     def __init__(self):
-        self.head = None
-        self.tail = None
+        self.item_list = list()
 
-    def add_obj(self, obj):
-        """
-        Adds new object to the end of the list
-        :param obj: ObjList class ex.
-        :return: Doesn't return anything
-        """
-        ...
+    def add_item(self, it):
+        if isinstance(it, Item):
+            self.item_list.append(it)
 
-    def remove_obj(self, indx):
-        """
-        Removes object from list by index
-        :param indx: element index
-        :return: Doesn't return anything
-        """
-        ...
+    def remove_item(self, indx):
+        try:
+            del self.item_list[indx]
+        except IndexError:
+            print(False)
 
-    def __len__(self, linked_lst):
-        """
-        Shows total of list
-        :param linked_lst:
-        :return: Returns length of list
-        """
-        ...
+    def get_items(self):
+        return self.item_list
 
-    def linked_lst(self, indx):
-        """
-        Shows data from list object
-        :param indx: class obj index
-        :return: Returns __data
-        """
-        ...
+
+class Item:
+    def __init__(self, name: str, money: (int, float)):
+        self.name = name
+        self.money = money
+
+    def __add__(self, other):
+        return self.money + other.money
+
+    def __radd__(self, other):
+        return self.money + other
