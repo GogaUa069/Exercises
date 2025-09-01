@@ -1,4 +1,4 @@
-# v 4.2.3-alpha
+# v 4.3.3-alpha
 
 import time
 from colorama import Fore, Style
@@ -28,6 +28,9 @@ class SystemPrompt:
             self.get_colored_text(">>> 2. Start guessing!", "BLUE"),
             self.get_colored_text(">>> Your turn!", "LIGHTRED_EX")
         )
+        self.COMMON = self.get_colored_text("COMMON", "LIGHTBLUE_EX")
+        self.EPIC = self.get_colored_text("EPIC", "LIGHTMAGENTA_EX")
+        self.LEGENDARY = self.get_colored_text("LEGENDARY", "LIGHTYELLOW_EX")
 
     @staticmethod
     def get_colored_text(text: str, color: str, is_bold=False, is_reset_all=True):
@@ -63,6 +66,11 @@ class SystemPrompt:
 
     def pass_func(self):
         return
+
+    @staticmethod
+    def del_asci(text):
+        ansi_escape = re.compile(r"\x1B[@-_][0-?]*[ -/]*[@-~]")
+        return ansi_escape.sub("", text)
 
 
 system = SystemPrompt()
@@ -119,7 +127,7 @@ class GameIntro:
         """
         self.INTRO_SOUNDTRACK.play()
         self.my_accounts()
-        self.show_game_banner("Guess Code 4.2.3 ALPHA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
+        self.show_game_banner("Guess Code 4.3.3 ALPHA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
         self.loading()
 
 
@@ -183,6 +191,67 @@ class SoundOption:
         print(self.sound[flag]["COMMUNICATE"])
         sound = self.sound[flag]
         sound["SOUND"].play(maxtime=sound["MAXTIME"])
+
+
+class GamePattern:
+    def __init__(self, lvl: str, name: str, type_: str, description: str):
+        self.lvl = {"FUNC": lvl, "SPACE": ""}
+        self.name = {"FUNC": name, "SPACE": ""}
+        self.type = {"FUNC": type_, "SPACE": ""}
+        self.description = {"FUNC": description, "SPACE": ""}
+
+        self.data_list = [self.lvl, self.name, self.type, self.description]
+
+
+basic_game = GamePattern("1", "BASIC", system.COMMON, "Infinite lives. Time-free mode.")
+average_game = GamePattern("2", "AVERAGE", system.COMMON, "Finite lives. Time-free mode.")
+advanced_game = GamePattern("3", "ADVANCED", system.COMMON, "Finite lives. Countdown active.")
+wild_game = GamePattern("4", "WILD", system.EPIC, "Lives and time are randomized.")
+custom_game = GamePattern("5", "CUSTOM", system.EPIC, "Lives and time are under your control.")
+adventure = GamePattern("6", "ADVENTURE", system.LEGENDARY, "Beat AVERAGE, ADVANCED, and WILD levels in a single run!")
+
+
+class GameChoiceBorder:
+
+    def __init__(self, headers_, data_: list):
+        self.headers = headers_
+        self.data = data_
+
+        self.longest_length = 0
+        self.longest_name = 0
+        self.longest_type = 0
+        self.longest_description = 0
+
+    def get_longest(self, attr):
+        attr_list = [system.del_asci(getattr(game, attr)["FUNC"]) for game in self.data]
+        longest_attr = max(attr_list, key=lambda x: len(x))
+        setattr(self, "longest_"+attr, len(longest_attr))
+
+    def get_space(self, attr):
+        for game in self.data:
+            space_len = (getattr(self, "longest_" + attr) - len(system.del_asci(str(getattr(game, attr)["FUNC"])))) + 1
+            getattr(game, attr)["SPACE"] = " " * space_len
+
+    def sort_data(self):
+        for header in ("lvl", "name", "type", "description"):
+            self.get_longest(header)
+            self.get_space(header)
+
+    def show_border(self):
+        self.sort_data()
+        print(system.get_colored_text(">>> Select Game Mode:\n", "LIGHTRED_EX"))
+        for game in self.data:
+            print("| ", end="")
+            for attr in game.data_list:
+                print(attr["FUNC"]+attr["SPACE"], end="| ")
+            print()
+
+
+headers = GamePattern("LVL", "NAME", "TYPE", "DESCRIPTION")
+data = [headers, basic_game, average_game, advanced_game, wild_game, custom_game, adventure]
+
+border = GameChoiceBorder(headers, data)
+
 
 class Soundtracks:
     HEADER = "Soundtracks"
@@ -283,15 +352,11 @@ class Settings:
 settings = Settings()
 
 
-class GameChoice:
-    ...
-
-
 class MainMenu:
     HEADER = "Main Menu"
 
     def __init__(self):
-        self.PLAY = Option("Play", system.coming_soon, ("PLAY", "P", "1"))
+        self.PLAY = Option("Play", border.show_border, ("PLAY", "P", "1"))
         self.SETTINGS = Option(settings.HEADER, settings, ("SETTINGS", "S", "2"))
         self.QUIT = Option("Quit", system.farewell, ("QUIT", "Q", "3"))
         self.OPTIONS = (self.PLAY, self.SETTINGS, self.QUIT)
@@ -303,8 +368,8 @@ class MainMenu:
 
 main_menu = MainMenu()
 
-def game():
+def game_func():
     game_intro.intro()
     main_menu()
 
-game()
+game_func()
