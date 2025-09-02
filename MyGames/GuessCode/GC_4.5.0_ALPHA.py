@@ -1,4 +1,4 @@
-# v 4.4.4-alpha
+# v 4.5.0-alpha
 
 import time
 from colorama import Fore, Style
@@ -9,6 +9,8 @@ import pyfiglet
 from tqdm import tqdm
 
 pygame.init()
+
+WIN_STREAK = 0
 
 
 class SystemPrompt:
@@ -127,7 +129,7 @@ class GameIntro:
         """
         self.INTRO_SOUNDTRACK.play()
         self.my_accounts()
-        self.show_game_banner("Guess Code 4.4.4 ALPHA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
+        self.show_game_banner("Guess Code 4.5.0 ALPHA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
         self.loading()
 
 
@@ -201,12 +203,12 @@ class SoundOption:
         sound["SOUND"].play(maxtime=sound["MAXTIME"])
 
 
-basic_game_data = ("1", system.get_colored_text("BASIC", "LIGHTWHITE_EX", is_bold=True), system.COMMON, "Infinite lives. Time-free mode.")
-average_game_data = ("2", system.get_colored_text("AVERAGE", "LIGHTMAGENTA_EX"), system.COMMON, "Finite lives. Time-free mode.")
-advanced_game_data = ("3", system.get_colored_text("ADVANCED", "LIGHTBLUE_EX"), system.COMMON, "Finite lives. Countdown active.")
-wild_game_data = ("4", system.get_colored_text("WILD", "LIGHTGREEN_EX"), system.EPIC, "Lives and time are randomized.")
-custom_game_data = ("5", system.get_colored_text("CUSTOM", "LIGHTYELLOW_EX"), system.EPIC, "Lives and time are under your control.")
-adventure_data = ("6", system.get_colored_text("ADVENTURE", "LIGHTRED_EX"), system.LEGENDARY, "Beat AVERAGE, ADVANCED, and WILD levels in a single run!")
+basic_game_data = ("1", "BASIC", system.COMMON, "Infinite lives. Time-free mode.")
+average_game_data = ("2", "AVERAGE", system.COMMON, "Finite lives. Time-free mode.")
+advanced_game_data = ("3", "ADVANCED", system.COMMON, "Finite lives. Countdown active.")
+wild_game_data = ("4", "WILD", system.EPIC, "Lives and time are randomized.")
+custom_game_data = ("5", "CUSTOM", system.EPIC, "Lives and time are under your control.")
+adventure_data = ("6", "ADVENTURE", system.LEGENDARY, "Beat AVERAGE, ADVANCED, and WILD levels in a single run!")
 
 
 class GameBorderPattern:
@@ -219,12 +221,12 @@ class GameBorderPattern:
         self.data_list = [self.lvl, self.name, self.type, self.description]
 
 
-basic_game = GameBorderPattern(*basic_game_data)
-average_game = GameBorderPattern(*average_game_data)
-advanced_game = GameBorderPattern(*advanced_game_data)
-wild_game = GameBorderPattern(*wild_game_data)
-custom_game = GameBorderPattern(*custom_game_data)
-adventure = GameBorderPattern(*adventure_data)
+basic_game_border = GameBorderPattern(*basic_game_data)
+average_game_border = GameBorderPattern(*average_game_data)
+advanced_game_border = GameBorderPattern(*advanced_game_data)
+wild_game_border = GameBorderPattern(*wild_game_data)
+custom_game_border = GameBorderPattern(*custom_game_data)
+adventure_border = GameBorderPattern(*adventure_data)
 
 
 class GameChoiceBorder:
@@ -265,14 +267,71 @@ class GameChoiceBorder:
 
 headers = GameBorderPattern("LVL", "NAME", "TYPE", "DESCRIPTION")
 leave_func = GameBorderPattern("7", "MAIN MENU", "-----", "Back to Main Menu")
-data = [headers, basic_game, average_game, advanced_game, wild_game, custom_game, adventure, leave_func]
+data = [headers, basic_game_border, average_game_border, advanced_game_border, wild_game_border, custom_game_border,
+        adventure_border, leave_func]
 
 border = GameChoiceBorder(headers, data)
 
 
+class BasicGame:
+    BARRIER_RANGE = range(5, 101)
+
+    def __init__(self):
+        self.search_barrier = self.hidden_number = self.attempts_counter = 0
+
+    def set_barrier(self):
+        print(system.get_colored_text("\nBasic Game:"
+                                      "\n>>> Select search barrier."
+                                      "\n>>> Enter total in range 5-100", "LIGHTRED_EX"))
+        while True:
+            try:
+                print()
+                self.search_barrier = int(input(system.INPUT))
+                if self.search_barrier in self.BARRIER_RANGE:
+                    self.hidden_number = randint(1, self.search_barrier)
+                    break
+                else:
+                    system.error("Enter TOTAL in range 5-100")
+            except ValueError:
+                system.error("Enter TOTAL in range 5-100")
+
+    def search_num(self):
+        global WIN_STREAK
+        answer = ""
+        search_range = range(1, self.search_barrier+1)
+        print(system.get_colored_text(f">>> Your turn! Enter total in range 1-{self.search_barrier}", "LIGHTRED_EX"))
+
+        while answer != self.hidden_number:
+            try:
+                print()
+                answer = int(input(system.INPUT))
+                if answer < self.hidden_number and answer in search_range:
+                    print(system.get_colored_text("Your total is SMALLER than hidden number!", "LIGHTWHITE_EX"))
+                    self.attempts_counter += 1
+                elif answer > self.hidden_number and answer in search_range:
+                    print(system.get_colored_text("Your total is BIGGER than hidden number!", "LIGHTWHITE_EX"))
+                    self.attempts_counter += 1
+                elif answer == self.hidden_number:
+                    WIN_STREAK += 1
+                    print(system.get_colored_text(f"Yey! You found the hidden number!\n"
+                                                  f"It took {self.attempts_counter} attempts!\n"
+                                                  f"Your win streak: {WIN_STREAK}\n", "LIGHTCYAN_EX"))
+                else:
+                    system.error(f"Enter TOTAL in RANGE 1-{self.search_barrier}")
+            except ValueError:
+                system.error(f"Enter TOTAL in RANGE 1-{self.search_barrier}")
+
+    def __call__(self, *args, **kwargs):
+        self.set_barrier()
+        self.search_num()
+
+
+basic_game = BasicGame()
+
+
 class GameChoice:
     def __init__(self):
-        self.BASIC = Option("BASIC", system.coming_soon, ("BASIC", "1"))
+        self.BASIC = Option("BASIC", basic_game, ("BASIC", "1"))
         self.AVERAGE = Option("AVERAGE", system.coming_soon, ("AVERAGE", "2"))
         self.ADVANCED = Option("ADVANCED", system.coming_soon, ("ADVANCED", "3"))
         self.WILD = Option("WILD", system.coming_soon, ("WILD", "4"))
