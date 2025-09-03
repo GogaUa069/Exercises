@@ -1,4 +1,8 @@
-# v 4.5.0-alpha
+# v 4.5.2-alpha
+
+# Add Streak saving
+# Add PLAY AGAIN menu
+# Increase basic game
 
 import time
 from colorama import Fore, Style
@@ -129,7 +133,7 @@ class GameIntro:
         """
         self.INTRO_SOUNDTRACK.play()
         self.my_accounts()
-        self.show_game_banner("Guess Code 4.5.0 ALPHA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
+        self.show_game_banner("Guess Code 4.5.2 ALPHA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
         self.loading()
 
 
@@ -157,10 +161,7 @@ class MenuPattern:
             if self.answer in option.variants:
                 option.usage()
                 return
-        if self.is_border:
-            system.error(end="\n")
-        else:
-            system.error()
+        system.error()
 
     def select_answer(self):
         while self.answer not in self.options[-1].variants:
@@ -266,7 +267,7 @@ class GameChoiceBorder:
 
 
 headers = GameBorderPattern("LVL", "NAME", "TYPE", "DESCRIPTION")
-leave_func = GameBorderPattern("7", "MAIN MENU", "-----", "Back to Main Menu")
+leave_func = GameBorderPattern("7", "MAIN MENU", "---------", "Back to Main Menu")
 data = [headers, basic_game_border, average_game_border, advanced_game_border, wild_game_border, custom_game_border,
         adventure_border, leave_func]
 
@@ -280,9 +281,10 @@ class BasicGame:
         self.search_barrier = self.hidden_number = self.attempts_counter = 0
 
     def set_barrier(self):
+        barrier_error = "Enter TOTAL in range 5-100"
         print(system.get_colored_text("\nBasic Game:"
                                       "\n>>> Select search barrier."
-                                      "\n>>> Enter total in range 5-100", "LIGHTRED_EX"))
+                                      "\n>>> Enter total in range 5-100", "CYAN"))
         while True:
             try:
                 print()
@@ -291,15 +293,18 @@ class BasicGame:
                     self.hidden_number = randint(1, self.search_barrier)
                     break
                 else:
-                    system.error("Enter TOTAL in range 5-100")
+                    system.error(barrier_error)
             except ValueError:
-                system.error("Enter TOTAL in range 5-100")
+                system.error(barrier_error)
 
     def search_num(self):
+        self.attempts_counter = 0
+        answer_error = f"Enter TOTAL in RANGE 1-{self.search_barrier}"
         global WIN_STREAK
-        answer = ""
+        answer = None
         search_range = range(1, self.search_barrier+1)
-        print(system.get_colored_text(f">>> Your turn! Enter total in range 1-{self.search_barrier}", "LIGHTRED_EX"))
+        print(system.get_colored_text(f">>> Your turn!\n"
+                                      f">>> Enter total in range 1-{self.search_barrier}", "CYAN"))
 
         while answer != self.hidden_number:
             try:
@@ -314,12 +319,12 @@ class BasicGame:
                 elif answer == self.hidden_number:
                     WIN_STREAK += 1
                     print(system.get_colored_text(f"Yey! You found the hidden number!\n"
-                                                  f"It took {self.attempts_counter} attempts!\n"
+                                                  f"It took {self.attempts_counter} attempt(s)!\n"
                                                   f"Your win streak: {WIN_STREAK}\n", "LIGHTCYAN_EX"))
                 else:
-                    system.error(f"Enter TOTAL in RANGE 1-{self.search_barrier}")
+                    system.error(answer_error)
             except ValueError:
-                system.error(f"Enter TOTAL in RANGE 1-{self.search_barrier}")
+                system.error(answer_error)
 
     def __call__(self, *args, **kwargs):
         self.set_barrier()
