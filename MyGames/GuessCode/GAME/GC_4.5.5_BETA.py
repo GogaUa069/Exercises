@@ -1,8 +1,8 @@
-# v 4.5.4-alpha
+# v 4.5.5-beta
 
 # Add Streak saving
 # Add PLAY AGAIN menu
-# Increase basic game
+# Add Sounds
 
 import time
 from colorama import Fore, Style
@@ -133,7 +133,7 @@ class GameIntro:
         """
         self.INTRO_SOUNDTRACK.play()
         self.my_accounts()
-        self.show_game_banner("Guess Code 4.5.4 ALPHA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
+        self.show_game_banner("Guess Code 4.5.5 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
         self.loading()
 
 
@@ -298,11 +298,11 @@ class BasicGame:
                 system.error(barrier_error)
 
     def search_num(self):
-        self.attempts_counter = 0
-        answer_error = f"Enter TOTAL in RANGE 1-{self.search_barrier}"
         global WIN_STREAK
+
+        self.attempts_counter = 0
+        self.search_range = range(1, self.search_barrier + 1)
         answer = None
-        search_range = range(1, self.search_barrier+1)
         print(system.get_colored_text(f">>> Your turn!\n"
                                       f">>> Enter total in range 1-{self.search_barrier}", "CYAN"))
 
@@ -310,21 +310,22 @@ class BasicGame:
             try:
                 print()
                 answer = int(input(system.INPUT))
-                if answer < self.hidden_number and answer in search_range:
+                if answer < self.hidden_number and answer in self.search_range:
                     print(system.get_colored_text("Your total is SMALLER than hidden number!", "LIGHTWHITE_EX"))
                     self.attempts_counter += 1
-                elif answer > self.hidden_number and answer in search_range:
+                elif answer > self.hidden_number and answer in self.search_range:
                     print(system.get_colored_text("Your total is BIGGER than hidden number!", "LIGHTWHITE_EX"))
                     self.attempts_counter += 1
                 elif answer == self.hidden_number:
                     WIN_STREAK += 1
                     print(system.get_colored_text(f"Yey! You found the hidden number!\n"
-                                                  f"It took {self.attempts_counter} attempt(s)!\n"
-                                                  f"Your win streak: {WIN_STREAK}\n", "LIGHTCYAN_EX"))
+                                                    f"It took {self.attempts_counter} attempt(s)!\n"
+                                                    f"Your win streak: {WIN_STREAK}\n", "LIGHTCYAN_EX"))
                 else:
-                    system.error(answer_error)
+                    system.error(f"Enter TOTAL in RANGE 1-{self.search_barrier}")
             except ValueError:
-                system.error(answer_error)
+                system.error(f"Enter TOTAL in RANGE 1-{self.search_barrier}")
+
 
     def __call__(self, *args, **kwargs):
         self.set_barrier()
