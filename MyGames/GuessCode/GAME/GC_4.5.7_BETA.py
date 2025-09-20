@@ -1,4 +1,4 @@
-# v 4.5.5-beta
+# v 4.5.7-beta
 
 # Add Streak saving
 # Add PLAY AGAIN menu
@@ -133,7 +133,7 @@ class GameIntro:
         """
         self.INTRO_SOUNDTRACK.play()
         self.my_accounts()
-        self.show_game_banner("Guess Code 4.5.6 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
+        self.show_game_banner("Guess Code 4.5.7 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
         self.loading()
 
 
@@ -414,8 +414,9 @@ class Sounds:
         return self.IS_SOUND
 
     def play_sound(self, sound_type: bool):
-        sound = self.SOUNDS[sound_type]
-        sound["SOUND"].play(maxtime=sound["MAXTIME"])
+        if self.IS_SOUND:
+            sound = self.SOUNDS[sound_type]
+            sound["SOUND"].play(maxtime=sound["MAXTIME"])
 
     def __call__(self, *args, **kwargs):
         sounds_menu = MenuPattern(self.HEADER, self.OPTIONS)
