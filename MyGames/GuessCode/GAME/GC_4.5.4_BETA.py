@@ -1,4 +1,4 @@
-# v 4.5.3-alpha
+# v 4.5.4-alpha
 
 # Add Streak saving
 # Add PLAY AGAIN menu
@@ -86,7 +86,7 @@ class GameIntro:
     """
     All game intro functions
     """
-    INTRO_SOUNDTRACK = pygame.Sound("GAME/Sounds/IntroMusic.wav")
+    INTRO_SOUNDTRACK = pygame.Sound("Sounds/IntroMusic.wav")
 
     @staticmethod
     def my_accounts():
@@ -133,7 +133,7 @@ class GameIntro:
         """
         self.INTRO_SOUNDTRACK.play()
         self.my_accounts()
-        self.show_game_banner("Guess Code 4.5.3 ALPHA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
+        self.show_game_banner("Guess Code 4.5.4 ALPHA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
         self.loading()
 
 
@@ -373,7 +373,7 @@ class Soundtracks:
     @staticmethod
     def play_soundtrack(path):
         try:
-            pygame.mixer.music.load("GAME/"+path)
+            pygame.mixer.music.load(path)
             pygame.mixer.music.play(-1)
         except pygame.error:
             system.error(f"Can't find soundtrack at path {path}")
@@ -395,9 +395,9 @@ class Sounds:
     HEADER = "Sounds"
     IS_SOUND = True
 
-    SOUNDS = {True: {"SOUND": pygame.Sound("GAME/Sounds/YouWinGoga.wav"), "MAXTIME": 2350,
+    SOUNDS = {True: {"SOUND": pygame.Sound("Sounds/YouWinGoga.wav"), "MAXTIME": 2350,
                      "COMMUNICATE": system.get_colored_text("Sounds are turned On", "LIGHTGREEN_EX")},
-              False: {"SOUND": pygame.Sound("GAME/Sounds/YouLostGoga.wav"), "MAXTIME": 2500,
+              False: {"SOUND": pygame.Sound("Sounds/YouLostGoga.wav"), "MAXTIME": 2500,
                     "COMMUNICATE": system.get_colored_text("Sounds are turned Off", "LIGHTRED_EX")}
               }
 
