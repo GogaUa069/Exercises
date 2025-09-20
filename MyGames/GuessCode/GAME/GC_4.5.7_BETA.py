@@ -3,6 +3,7 @@
 # Add Streak saving
 # Add PLAY AGAIN menu
 # Add Sounds (AVERAGE, ADVANCED, WILD, CUSTOM, ADVENTURE)
+# Limit - 200 (Not All)
 
 import time
 from colorama import Fore, Style
