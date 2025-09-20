@@ -2,7 +2,7 @@
 
 # Add Streak saving
 # Add PLAY AGAIN menu
-# Add Sounds
+# Add Sounds (AVERAGE, ADVANCED, WILD, CUSTOM, ADVENTURE)
 
 import time
 from colorama import Fore, Style
@@ -133,7 +133,7 @@ class GameIntro:
         """
         self.INTRO_SOUNDTRACK.play()
         self.my_accounts()
-        self.show_game_banner("Guess Code 4.5.5 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
+        self.show_game_banner("Guess Code 4.5.6 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
         self.loading()
 
 
@@ -318,6 +318,7 @@ class BasicGame:
                     self.attempts_counter += 1
                 elif answer == self.hidden_number:
                     WIN_STREAK += 1
+                    sounds.play_sound(True)
                     print(system.get_colored_text(f"Yey! You found the hidden number!\n"
                                                     f"It took {self.attempts_counter} attempt(s)!\n"
                                                     f"Your win streak: {WIN_STREAK}\n", "LIGHTCYAN_EX"))
@@ -411,6 +412,10 @@ class Sounds:
     def toggle_sound(self):
         self.IS_SOUND = not self.IS_SOUND
         return self.IS_SOUND
+
+    def play_sound(self, sound_type: bool):
+        sound = self.SOUNDS[sound_type]
+        sound["SOUND"].play(maxtime=sound["MAXTIME"])
 
     def __call__(self, *args, **kwargs):
         sounds_menu = MenuPattern(self.HEADER, self.OPTIONS)
