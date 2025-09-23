@@ -1,4 +1,4 @@
-# v 4.6.0-beta
+# v 4.6.1-beta
 
 # Add Streak saving
 # Add PLAY AGAIN menu
@@ -134,7 +134,7 @@ class GameIntro:
         """
         self.INTRO_SOUNDTRACK.play()
         self.my_accounts()
-        self.show_game_banner("Guess Code 4.6.0 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
+        self.show_game_banner("Guess Code 4.6.1 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
         self.loading()
 
 
@@ -276,7 +276,7 @@ border = GameChoiceBorder(headers, data)
 
 
 class BasicGame:
-    BARRIER_RANGE = range(5, 101)
+    BARRIER_RANGE = range(5, 201)
 
     min_range = min(BARRIER_RANGE)
     max_range = max(BARRIER_RANGE)
