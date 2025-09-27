@@ -1,4 +1,4 @@
-# v 4.6.1-beta
+# v 4.7.0-beta
 
 # Add Streak saving
 # Add PLAY AGAIN menu
@@ -31,7 +31,7 @@ class SystemPrompt:
             self.get_colored_text(">>> Press ENTER to continue\n", "LIGHTRED_EX"),
             self.get_colored_text(">>> Rules:", "LIGHTRED_EX"),
             self.get_colored_text(">>> Find the number the computer guessed.", "BLUE"),
-            self.get_colored_text(">>> 1. Choose a range (e.g. 5-100).", "BLUE"),
+            self.get_colored_text(">>> 1. Choose a range (e.g. 5-200).", "BLUE"),
             self.get_colored_text(">>> 2. Start guessing!", "BLUE"),
             self.get_colored_text(">>> Your turn!", "LIGHTRED_EX")
         )
@@ -134,7 +134,7 @@ class GameIntro:
         """
         self.INTRO_SOUNDTRACK.play()
         self.my_accounts()
-        self.show_game_banner("Guess Code 4.6.1 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
+        self.show_game_banner("Guess Code 4.7.0 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
         self.loading()
 
 
@@ -341,10 +341,99 @@ class BasicGame:
 basic_game = BasicGame()
 
 
+class AverageGame:
+    BARRIER_RANGE = range(5, 201)
+
+    min_range = min(BARRIER_RANGE)
+    max_range = max(BARRIER_RANGE)
+
+    def __init__(self):
+        self.search_barrier = \
+        self.hidden_number = \
+        self.attempts_counter = \
+        self.search_range = \
+        self.attempts_limit = 0
+
+    def set_barrier(self):
+        barrier_error = f"Enter TOTAL in range {self.min_range}-{self.max_range}"
+        print(system.get_colored_text("\nAverage Game:"
+                                      "\n>>> Select search barrier."
+                                      f"\n>>> Enter total in range {self.min_range}-{self.max_range}", "CYAN"))
+        while True:
+            try:
+                print()
+                self.search_barrier = int(input(system.INPUT))
+                if self.search_barrier in self.BARRIER_RANGE:
+                    self.hidden_number = randint(1, self.search_barrier)
+                    self.search_range = range(1, self.search_barrier + 1)
+                    break
+                else:
+                    system.error(barrier_error)
+            except ValueError:
+                system.error(barrier_error)
+
+    def set_attempts_limit(self):
+        attempts = 0
+        barrier = self.search_barrier
+
+        while barrier != 1:
+            barrier //= 2
+            attempts += 1
+        self.attempts_limit = attempts + 1
+
+    def search_num(self):
+        global WIN_STREAK
+
+        answer = None
+        answer_error = f"Enter TOTAL in RANGE 1-{self.search_barrier}"
+        print(system.get_colored_text(f">>> Your turn!\n"
+                                      f">>> Enter total in range 1-{self.search_barrier}\n"
+                                      f">>> You have {self.attempts_limit} attempts!", "CYAN"))
+
+        while answer != self.hidden_number and self.attempts_counter < self.attempts_limit:
+            try:
+                print()
+                answer = int(input(system.INPUT))
+                if answer < self.hidden_number and answer in self.search_range:
+                    print(system.get_colored_text("Your total is SMALLER than hidden number!", "LIGHTWHITE_EX"))
+                    self.attempts_counter += 1
+                elif answer > self.hidden_number and answer in self.search_range:
+                    print(system.get_colored_text("Your total is BIGGER than hidden number!", "LIGHTWHITE_EX"))
+                    self.attempts_counter += 1
+                elif answer == self.hidden_number:
+                    WIN_STREAK += 1
+                    sounds.play_sound(True)
+                    print(system.get_colored_text(f"Yey! You found the hidden number!\n"
+                                                  f"It took {self.attempts_counter} attempt(s)!\n"
+                                                  f"Your win streak: {WIN_STREAK}\n", "LIGHTCYAN_EX"))
+                    break
+                else:
+                    system.error(answer_error)
+                if self.attempts_counter == self.attempts_limit:
+                    sounds.play_sound(False)
+                    print(Fore.LIGHTRED_EX + "You've reached the maximum number of attempts!\n"
+                                             "You lost Your win streak!\n" + Style.RESET_ALL)
+                    WIN_STREAK = 0
+                    break
+                attempts_left = self.attempts_limit-self.attempts_counter
+                print(system.get_colored_text(f"{attempts_left} attempts left!", "LIGHTWHITE_EX"))
+            except ValueError:
+                system.error(answer_error)
+
+    def __call__(self, *args, **kwargs):
+        self.__init__()
+        self.set_barrier()
+        self.set_attempts_limit()
+        self.search_num()
+
+
+average_game = AverageGame()
+
+
 class GameChoice:
     def __init__(self):
         self.BASIC = Option("BASIC", basic_game, ("BASIC", "1"))
-        self.AVERAGE = Option("AVERAGE", system.coming_soon, ("AVERAGE", "2"))
+        self.AVERAGE = Option("AVERAGE", average_game, ("AVERAGE", "2"))
         self.ADVANCED = Option("ADVANCED", system.coming_soon, ("ADVANCED", "3"))
         self.WILD = Option("WILD", system.coming_soon, ("WILD", "4"))
         self.CUSTOM = Option("CUSTOM", system.coming_soon, ("CUSTOM", "5"))
