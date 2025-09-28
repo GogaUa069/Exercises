@@ -43,12 +43,12 @@ class SignUp:
 
     def create_account_file(self, encoding="utf-8"):
         with open(f"Datas/{self.login}.txt", "w", encoding=encoding) as file:
-            file.write(f"{self.name}\n{self.password}")
+            file.write(f"{self.name}\n{self.password}\n0")
 
     def get_account_info(self):
         with open(f"Datas/{self.login}.txt", encoding="utf-8") as file:
             print(Fore.CYAN + "\n>>> Account INFO:" + Style.RESET_ALL)
-            for key, value in zip(("Name", "Password"), file.readlines()):
+            for key, value in zip(("Name", "Password", "Win streak"), file.readlines()):
                 print(f"{key}: {value.strip()}")
 
     def __call__(self):
@@ -84,7 +84,7 @@ class LogIn:
                 if indx == 0:
                     name = line
                 if indx == 1:
-                    if password == line:
+                    if password == line.strip():
                         print(Fore.LIGHTCYAN_EX + f"WELCOME! {name}" + Style.RESET_ALL)
                         return True
             return False
@@ -115,7 +115,7 @@ signup = SignUp()
 class App:
 
     @staticmethod
-    def main_menu():
+    def starter_menu():
         answer = ""
 
         while answer not in ("QUIT", "3"):
@@ -137,4 +137,4 @@ class App:
 
 
 app = App()
-app.main_menu()
+app.starter_menu()
