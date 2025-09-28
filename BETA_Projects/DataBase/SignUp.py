@@ -22,10 +22,10 @@ class SignUp:
 
     def set_password(self):
         while True:
-            print(Fore.CYAN + "\n>>> Create Your password: (Length: 5–10; Only digits)" + Style.RESET_ALL)
+            print(Fore.CYAN + "\n>>> Create Your password: (Length: 5–20)" + Style.RESET_ALL)
             self.password = input("<<< ")
 
-            if len(self.password) not in range(5, 11) or not all(num in digits for num in self.password):
+            if len(self.password) not in range(5, 21) or not all(num in digits+letters for num in self.password):
                 print(Fore.LIGHTRED_EX + ">>> Error! Invalid password." + Style.RESET_ALL)
             else:
                 break
@@ -39,7 +39,7 @@ class SignUp:
                 break
 
     def get_login(self):
-        print(Fore.CYAN + f"\nYOUR LOGIN (Don't forget it!): {self.login}" + Style.RESET_ALL)
+        print(Fore.CYAN + f"\n>>> YOUR LOGIN (Don't forget it!): {self.login}" + Style.RESET_ALL)
 
     def create_account_file(self, encoding="utf-8"):
         with open(f"Datas/{self.login}.txt", "w", encoding=encoding) as file:
@@ -47,11 +47,12 @@ class SignUp:
 
     def get_account_info(self):
         with open(f"Datas/{self.login}.txt", encoding="utf-8") as file:
-            print(Fore.CYAN + "\nAccount INFO:" + Style.RESET_ALL)
+            print(Fore.CYAN + "\n>>> Account INFO:" + Style.RESET_ALL)
             for key, value in zip(("Name", "Password"), file.readlines()):
                 print(f"{key}: {value.strip()}")
 
     def __call__(self):
+        print(Fore.CYAN + ">>> Signing Up" + Style.RESET_ALL)
         self.set_name()
         self.set_password()
         self.set_login()
@@ -60,5 +61,52 @@ class SignUp:
         self.get_account_info()
 
 
-signup = SignUp()
-signup()
+# signup = SignUp()
+# signup()
+
+
+class LogIn:
+    def __init__(self):
+        self.login = self.password = ""
+
+    @staticmethod
+    def search_login(login):
+        datas_path = Path("Datas")
+        file_path = datas_path / f"{login}.txt"
+        if not file_path.exists():
+            print(Fore.LIGHTRED_EX + f"Not found account with login: {login}" + Style.RESET_ALL)
+            return False
+        return True
+
+    def password_checking(self, password, encoding="utf-8"):
+        with open(f"Datas/{self.login}.txt", "r", encoding=encoding) as file:
+            for indx, line in enumerate(list(file.readlines())):
+                if indx == 0:
+                    name = line
+                if indx == 1:
+                    if password == line:
+                        print(Fore.LIGHTCYAN_EX + f"WELCOME! {name}" + Style.RESET_ALL)
+                        return True
+            return False
+
+    def check_login(self):
+        while True:
+            print(Fore.CYAN + "\n>>> Enter Your login:" + Style.RESET_ALL)
+            self.login = input("<<< ")
+            if self.search_login(self.login):
+                break
+
+    def check_password(self):
+        while True:
+            print(Fore.CYAN + "\n>>> Enter You password:" + Style.RESET_ALL)
+            self.password = input("<<< ")
+            if self.password_checking(self.password):
+                break
+
+    def __call__(self, *args, **kwargs):
+        self.check_login()
+        self.check_password()
+
+
+login = LogIn()
+login()
