@@ -109,4 +109,32 @@ class LogIn:
 
 
 login = LogIn()
-login()
+signup = SignUp()
+
+
+class App:
+
+    @staticmethod
+    def main_menu():
+        answer = ""
+
+        while answer not in ("QUIT", "3"):
+            print(Fore.LIGHTRED_EX + ">>> Main Menu:" + Style.RESET_ALL)
+            print(Fore.BLUE + "1. LogIn\n"
+                              "2. SignUp\n"
+                              "3. Quit" + Style.RESET_ALL)
+            answer = input("<<< ")
+            match answer.upper():
+                case "LOGIN" | "1":
+                    login()
+                case "SIGNUP" | "2":
+                    signup()
+                case "QUIT" | "3":
+                    print("Goodbye!")
+                    break
+                case _:
+                    print("Enter LOGIN/SIGNUP/QUIT")
+
+
+app = App()
+app.main_menu()
