@@ -1,8 +1,8 @@
-# v 4.7.0-beta
+# v 4.7.1-beta
 
 # Add Streak saving
 # Add PLAY AGAIN menu
-# Add Sounds (AVERAGE, ADVANCED, WILD, CUSTOM, ADVENTURE)
+# Add Sounds (ADVANCED, WILD, CUSTOM, ADVENTURE)
 # Limit - 200 (Not All)
 
 import time
@@ -75,7 +75,7 @@ class SystemPrompt:
         return
 
     @staticmethod
-    def del_asci(text):
+    def del_ascii(text):
         ansi_escape = re.compile(r"\x1B[@-_][0-?]*[ -/]*[@-~]")
         return ansi_escape.sub("", text)
 
@@ -87,7 +87,7 @@ class GameIntro:
     """
     All game intro functions
     """
-    INTRO_SOUNDTRACK = pygame.Sound("Sounds/IntroMusic.wav")
+    INTRO_SOUNDTRACK = pygame.mixer.Sound("Sounds/IntroMusic.wav")
 
     @staticmethod
     def my_accounts():
@@ -134,7 +134,7 @@ class GameIntro:
         """
         self.INTRO_SOUNDTRACK.play()
         self.my_accounts()
-        self.show_game_banner("Guess Code 4.7.0 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
+        self.show_game_banner("Guess Code 4.7.1 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
         self.loading()
 
 
@@ -243,13 +243,13 @@ class GameChoiceBorder:
         self.longest_description = 0
 
     def get_longest(self, attr):
-        attr_list = [system.del_asci(getattr(game, attr)["FUNC"]) for game in self.data]
+        attr_list = [system.del_ascii(getattr(game, attr)["FUNC"]) for game in self.data]
         longest_attr = max(attr_list, key=lambda x: len(x))
         setattr(self, "longest_"+attr, len(longest_attr))
 
     def get_space(self, attr):
         for game in self.data:
-            space_len = (getattr(self, "longest_" + attr) - len(system.del_asci(str(getattr(game, attr)["FUNC"])))) + 1
+            space_len = (getattr(self, "longest_" + attr) - len(system.del_ascii(str(getattr(game, attr)["FUNC"])))) + 1
             getattr(game, attr)["SPACE"] = " " * space_len
 
     def sort_data(self):
@@ -324,13 +324,12 @@ class BasicGame:
                     WIN_STREAK += 1
                     sounds.play_sound(True)
                     print(system.get_colored_text(f"Yey! You found the hidden number!\n"
-                                                    f"It took {self.attempts_counter} attempt(s)!\n"
-                                                    f"Your win streak: {WIN_STREAK}\n", "LIGHTCYAN_EX"))
+                                                  f"It took {self.attempts_counter} attempt(s)!\n"
+                                                  f"Your win streak: {WIN_STREAK}\n", "LIGHTCYAN_EX"))
                 else:
                     system.error(answer_error)
             except ValueError:
                 system.error(answer_error)
-
 
     def __call__(self, *args, **kwargs):
         self.__init__()
@@ -491,10 +490,10 @@ class Sounds:
     HEADER = "Sounds"
     IS_SOUND = True
 
-    SOUNDS = {True: {"SOUND": pygame.Sound("Sounds/YouWinGoga.wav"), "MAXTIME": 2350,
+    SOUNDS = {True: {"SOUND": pygame.mixer.Sound("Sounds/YouWinGoga.wav"), "MAXTIME": 2350,
                      "COMMUNICATE": system.get_colored_text("Sounds are turned On", "LIGHTGREEN_EX")},
-              False: {"SOUND": pygame.Sound("Sounds/YouLostGoga.wav"), "MAXTIME": 2500,
-                    "COMMUNICATE": system.get_colored_text("Sounds are turned Off", "LIGHTRED_EX")}
+              False: {"SOUND": pygame.mixer.Sound("Sounds/YouLostGoga.wav"), "MAXTIME": 2500,
+                      "COMMUNICATE": system.get_colored_text("Sounds are turned Off", "LIGHTRED_EX")}
               }
 
     def __init__(self):
@@ -570,8 +569,10 @@ class MainMenu:
 
 main_menu = MainMenu()
 
+
 def game_func():
     game_intro.intro()
     main_menu()
+
 
 game_func()
