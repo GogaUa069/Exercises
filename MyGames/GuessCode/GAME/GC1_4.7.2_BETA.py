@@ -1,4 +1,4 @@
-# v 4.7.1-beta
+# v 4.7.2-beta
 
 # Add Streak saving
 # Add PLAY AGAIN menu
@@ -64,7 +64,7 @@ class SystemPrompt:
     def coming_soon(self, communicate="Coming soon..."):
         print(self.get_colored_text(f">>> {communicate}", "LIGHTWHITE_EX"))
 
-    def error(self, communicate="Enter one of the options shown above!", end=""):
+    def error(self, communicate="Select one of the options shown above!", end=""):
         print(self.get_colored_text(f">>> Error: {communicate}", "LIGHTRED_EX"), end)
 
     def farewell(self, communicate="Goodbye! :)"):
@@ -134,7 +134,7 @@ class GameIntro:
         """
         self.INTRO_SOUNDTRACK.play()
         self.my_accounts()
-        self.show_game_banner("Guess Code 4.7.1 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
+        self.show_game_banner("Guess Code 4.7.2 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
         self.loading()
 
 
