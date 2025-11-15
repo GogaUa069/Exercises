@@ -3,9 +3,9 @@
 from random import shuffle
 import time
 from colorama import Fore, Style
-from pygame import mixer, Sound, init
+import pygame
 
-init()
+pygame.init()
 
 
 class AudioPlayer:
@@ -14,12 +14,12 @@ class AudioPlayer:
     """
 
     FOREST_SOUNDTRACK = "ForestSoundtrack.wav"
-    CAVE_CHOICE_SCREAMER = Sound("Audio/CaveChoiceScreamer.wav")
-    STEPS = Sound("Audio/Steps.wav")  # MAXTIME: 2670
-    HEARTBEAT = Sound("Audio/HeartBeat.wav")  # MAXTIME: 3500
-    INTRIGUE_SOUND = Sound("Audio/IntrigueSound.wav") # MAXTIME: 4000
-    DEATH_SOUND = Sound("Audio/DeathSound.wav")
-    END_GAME_SOUND = Sound("Audio/EndGameSound.wav")
+    CAVE_CHOICE_SCREAMER = pygame.mixer.Sound("Audio/CaveChoiceScreamer.wav")
+    STEPS = pygame.mixer.Sound("Audio/Steps.wav")  # MAXTIME: 2670
+    HEARTBEAT = pygame.mixer.Sound("Audio/HeartBeat.wav")  # MAXTIME: 3500
+    INTRIGUE_SOUND = pygame.mixer.Sound("Audio/IntrigueSound.wav") # MAXTIME: 4000
+    DEATH_SOUND = pygame.mixer.Sound("Audio/DeathSound.wav")
+    END_GAME_SOUND = pygame.mixer.Sound("Audio/EndGameSound.wav")
     THE_END_SOUNDTRACK_DEATH = "EndMusic.wav"
     THE_END_SOUNDTRACK_LIVE = "LiveMusic.wav"
 
@@ -31,8 +31,8 @@ class AudioPlayer:
        :param is_infinity: if False - 1 time. True - Infinity times
        :return: Soundtrack
        """
-       mixer.music.load("Audio/"+soundtrack)
-       mixer.music.play(-1) if is_infinity else mixer.music.play()
+       pygame.mixer.music.load("Audio/"+soundtrack)
+       pygame.mixer.music.play(-1) if is_infinity else pygame.mixer.music.play()
 
 
 class Ending:
@@ -68,7 +68,7 @@ class Game(AudioPlayer):
         Prehistory of game
         :return: text
         """
-        mixer.music.stop()
+        pygame.mixer.music.stop()
 
         print(Fore.LIGHTRED_EX + "\nClick Enter to continue")
         input()
@@ -76,7 +76,7 @@ class Game(AudioPlayer):
         for text in self.INTRO:
             print(text, end="")
             input()
-        mixer.music.stop()
+        pygame.mixer.music.stop()
 
     def cave_choice(self):
         """
@@ -157,7 +157,7 @@ def main_menu():
         laugh_time = 3000
         fadeout_time = 1500
 
-        mixer.music.stop()
+        pygame.mixer.music.stop()
 
         laugh_sound.play()
         print(Fore.LIGHTCYAN_EX + "Goodbye! :)" + Style.RESET_ALL)
@@ -165,7 +165,7 @@ def main_menu():
         laugh_sound.fadeout(1500)
         time.sleep(fadeout_time / 1000)
 
-    laugh_sound = Sound("Audio/Laugh.wav")  # MAXTIME: 3000
+    laugh_sound = pygame.mixer.Sound("Audio/Laugh.wav")  # MAXTIME: 3000
     answer = ""
     print(Fore.CYAN + "Welcome to the Kingdom of Dragons!\n" + Style.RESET_ALL)
 
