@@ -2,8 +2,6 @@
 
 # Add Streak saving
 # Add PLAY AGAIN menu
-# Add Sounds (ADVANCED, WILD, CUSTOM, ADVENTURE)
-# Limit - 200 (Not All)
 
 import time
 from colorama import Fore, Style
@@ -12,8 +10,14 @@ import pygame
 import re
 import pyfiglet
 from tqdm import tqdm
+import sys
+import os
 
 pygame.init()
+
+def resource_path(relative_path):
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
 
 WIN_STREAK = 0
 
@@ -87,7 +91,7 @@ class GameIntro:
     """
     All game intro functions
     """
-    INTRO_SOUNDTRACK = pygame.mixer.Sound("Sounds/IntroMusic.wav")
+    INTRO_SOUNDTRACK = pygame.mixer.Sound(resource_path("Sounds/IntroMusic.wav"))
 
     @staticmethod
     def my_accounts():
@@ -452,9 +456,9 @@ game_choice = GameChoice()
 class Soundtracks:
     HEADER = "Soundtracks"
 
-    CASUAL_JAZZ = "Music/CasualJazz.wav"
-    COOL_JAZZ = "Music/CoolJazz.mp3"
-    ELECTRIC_JAZZ = "Music/ElectricJazz.wav"
+    CASUAL_JAZZ = resource_path("Music/CasualJazz.wav")
+    COOL_JAZZ = resource_path("Music/CoolJazz.mp3")
+    ELECTRIC_JAZZ = resource_path("Music/ElectricJazz.wav")
 
     def __init__(self):
         self.JAZZ1 = SoundtrackOption("Casual Jazz", self.CASUAL_JAZZ, ("CASUAL", "JAZZ 1", "1"))
@@ -468,7 +472,7 @@ class Soundtracks:
     @staticmethod
     def play_soundtrack(path):
         try:
-            pygame.mixer.music.load(path)
+            pygame.mixer.music.load(resource_path(path))
             pygame.mixer.music.play(-1)
         except pygame.error:
             system.error(f"Can't find soundtrack at path {path}")
@@ -490,9 +494,9 @@ class Sounds:
     HEADER = "Sounds"
     IS_SOUND = True
 
-    SOUNDS = {True: {"SOUND": pygame.mixer.Sound("Sounds/YouWinGoga.wav"), "MAXTIME": 2350,
+    SOUNDS = {True: {"SOUND": pygame.mixer.Sound(resource_path("Sounds/YouWinGoga.wav")), "MAXTIME": 2350,
                      "COMMUNICATE": system.get_colored_text("Sounds are turned On", "LIGHTGREEN_EX")},
-              False: {"SOUND": pygame.mixer.Sound("Sounds/YouLostGoga.wav"), "MAXTIME": 2500,
+              False: {"SOUND": pygame.mixer.Sound(resource_path("Sounds/YouLostGoga.wav")), "MAXTIME": 2500,
                       "COMMUNICATE": system.get_colored_text("Sounds are turned Off", "LIGHTRED_EX")}
               }
 
