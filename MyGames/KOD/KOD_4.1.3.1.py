@@ -1,38 +1,42 @@
-# v 4.1.3
+# v 4.1.3.1
+
+# Remove 'Hello from pygame community' text
 
 from random import shuffle
 import time
 from colorama import Fore, Style
+import sys
+import os
+
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "1"
 import pygame
 
 pygame.init()
 
+def resource_path(relative_path):
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
 
 class AudioPlayer:
-    """
-    All sounds and soundtracks are here
-    """
+    """All sounds and soundtracks are here"""
 
     FOREST_SOUNDTRACK = "ForestSoundtrack.wav"
-    CAVE_CHOICE_SCREAMER = pygame.mixer.Sound("Audio/CaveChoiceScreamer.wav")
-    STEPS = pygame.mixer.Sound("Audio/Steps.wav")  # MAXTIME: 2670
-    HEARTBEAT = pygame.mixer.Sound("Audio/HeartBeat.wav")  # MAXTIME: 3500
-    INTRIGUE_SOUND = pygame.mixer.Sound("Audio/IntrigueSound.wav") # MAXTIME: 4000
-    DEATH_SOUND = pygame.mixer.Sound("Audio/DeathSound.wav")
-    END_GAME_SOUND = pygame.mixer.Sound("Audio/EndGameSound.wav")
     THE_END_SOUNDTRACK_DEATH = "EndMusic.wav"
     THE_END_SOUNDTRACK_LIVE = "LiveMusic.wav"
 
+    CAVE_CHOICE_SCREAMER = pygame.mixer.Sound(resource_path("Audio/CaveChoiceScreamer.wav"))
+    STEPS = pygame.mixer.Sound(resource_path("Audio/Steps.wav"))  # MAXTIME: 2670
+    HEARTBEAT = pygame.mixer.Sound(resource_path("Audio/HeartBeat.wav"))  # MAXTIME: 3500
+    INTRIGUE_SOUND = pygame.mixer.Sound(resource_path("Audio/IntrigueSound.wav"))  # MAXTIME: 4000
+    DEATH_SOUND = pygame.mixer.Sound(resource_path("Audio/DeathSound.wav"))
+    END_GAME_SOUND = pygame.mixer.Sound(resource_path("Audio/EndGameSound.wav"))
+
     @staticmethod
     def play_soundtrack(soundtrack, is_infinity=False):
-       """
-       Pattern for playing soundtracks
-       :param soundtrack: soundtrack path
-       :param is_infinity: if False - 1 time. True - Infinity times
-       :return: Soundtrack
-       """
-       pygame.mixer.music.load("Audio/"+soundtrack)
-       pygame.mixer.music.play(-1) if is_infinity else pygame.mixer.music.play()
+        """Pattern for playing soundtracks"""
+        pygame.mixer.music.load(resource_path("Audio/" + soundtrack))
+        pygame.mixer.music.play(-1) if is_infinity else pygame.mixer.music.play()
 
 
 class Ending:
@@ -165,7 +169,7 @@ def main_menu():
         laugh_sound.fadeout(1500)
         time.sleep(fadeout_time / 1000)
 
-    laugh_sound = pygame.mixer.Sound("Audio/Laugh.wav")  # MAXTIME: 3000
+    laugh_sound = pygame.mixer.Sound(resource_path("Audio/Laugh.wav"))  # MAXTIME: 3000
     answer = ""
     print(Fore.CYAN + "Welcome to the Kingdom of Dragons!\n" + Style.RESET_ALL)
 
