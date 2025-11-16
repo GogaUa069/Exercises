@@ -1,4 +1,4 @@
-# v 4.8.0-beta
+# v 4.8.0.1-beta
 
 # Add Streak saving
 # Add PLAY AGAIN menu
@@ -141,7 +141,7 @@ class GameIntro:
         """
         self.INTRO_SOUNDTRACK.play()
         self.my_accounts()
-        self.show_game_banner("Guess Code 4.8.0 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
+        self.show_game_banner("Guess Code 4.8.0.1 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
         self.loading()
 
 
@@ -222,7 +222,7 @@ adventure_data = ("6", "ADVENTURE", system.LEGENDARY, "Beat AVERAGE, ADVANCED, a
 
 class Credits:
     HEADER = "CREDITS:"
-    SOUNDTRACK = "MUSIC/epic_credits_soundtrack.wav"
+    SOUNDTRACK = resource_path("Music/EpicCreditsSoundtrack.wav")
     freesound_comm = system.get_colored_text(
         "\nAll soundtracks were taken from freesound.org",
         "LIGHTWHITE_EX", is_with_line=True
@@ -232,7 +232,7 @@ class Credits:
         self.credit_list = list(args)
 
     def __call__(self, *args, **kwargs):
-        pygame.mixer.music.load(self.SOUNDTRACK)
+        pygame.mixer.music.load(resource_path(self.SOUNDTRACK))
         pygame.mixer.music.play(-1)
 
         def name_by_let(name: str, indx=0):
