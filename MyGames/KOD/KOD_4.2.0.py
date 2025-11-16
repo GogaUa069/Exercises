@@ -1,17 +1,17 @@
-# v 4.1.3.1
-
-# Remove 'Hello from pygame community' text
+# v 4.2.0
 
 from random import shuffle
 import time
-from colorama import Fore, Style
+from colorama import Fore, Style, init
 import sys
 import os
+import pyfiglet
 
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "1"
 import pygame
 
 pygame.init()
+init()  # Colorama
 
 def resource_path(relative_path):
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
@@ -24,6 +24,7 @@ class AudioPlayer:
     FOREST_SOUNDTRACK = "ForestSoundtrack.wav"
     THE_END_SOUNDTRACK_DEATH = "EndMusic.wav"
     THE_END_SOUNDTRACK_LIVE = "LiveMusic.wav"
+    CREDITS_SOUNDTRACK = "OldCreditsSoundtrack.wav"
 
     CAVE_CHOICE_SCREAMER = pygame.mixer.Sound(resource_path("Audio/CaveChoiceScreamer.wav"))
     STEPS = pygame.mixer.Sound(resource_path("Audio/Steps.wav"))  # MAXTIME: 2670
@@ -37,6 +38,44 @@ class AudioPlayer:
         """Pattern for playing soundtracks"""
         pygame.mixer.music.load(resource_path("Audio/" + soundtrack))
         pygame.mixer.music.play(-1) if is_infinity else pygame.mixer.music.play()
+
+
+class Credits:
+    HEADER = "CREDITS:"
+    freesound_comm = Fore.LIGHTWHITE_EX + "\n\033[4mAll soundtracks were taken from freesound.org\033[0m" + Style.RESET_ALL
+
+    def __init__(self, *args):
+        self.credit_list = list(args)
+
+    def __call__(self, *args, **kwargs):
+        AudioPlayer.play_soundtrack(AudioPlayer.CREDITS_SOUNDTRACK, True)
+
+        def name_by_let(name: str, indx=0):
+            if indx > 0:
+                print(Fore.LIGHTWHITE_EX + f"{indx}. " + Style.RESET_ALL, end="")
+            for char in name:
+                time.sleep(0.21)
+                print(Fore.LIGHTWHITE_EX + f"{char}" + Style.RESET_ALL, end="")
+            print()
+
+        def get_banner_by_let(banner: str):
+            ascii_banner = pyfiglet.figlet_format(banner)
+            for line in ascii_banner.splitlines():
+                print(Fore.LIGHTBLUE_EX + line + Style.RESET_ALL)
+                time.sleep(0.25)
+
+        get_banner_by_let(self.HEADER)
+        for indx, credit in enumerate(self.credit_list):
+            name_by_let(credit, indx+1)
+            time.sleep(1)
+
+        print(self.freesound_comm)
+        input(Fore.LIGHTRED_EX + ">>> Press ENTER to leave " + Style.RESET_ALL)
+        print()
+        pygame.mixer.music.stop()
+
+
+credits = Credits("GogaUa (Yegor Pavlenko) - CEO")
 
 
 class Ending:
@@ -175,14 +214,17 @@ def main_menu():
 
     while answer.upper() not in ("ESCAPE", "2"):
         print(Fore.LIGHTRED_EX + ">>> Main Menu")
-        print(Fore.BLUE + "1. Try Your luck")
-        print("2. Make a miserable escape" + Style.RESET_ALL)
+        print(Fore.BLUE + "1. Try Your luck\n"
+                          "2. Make a miserable escape\n"
+                          "3. Credits" + Style.RESET_ALL)
         answer = input("<<< ")
         match answer.upper():
             case "TRY LUCK" | "TRY" | "1":
                 game_class.game()
             case "ESCAPE" | "2":
                 goodbye_func()
+            case "CREDITS" | "3":
+                credits()
             case _:
                 print(Fore.LIGHTRED_EX + "Select one of the options shown above!\n" + Style.RESET_ALL)
 
