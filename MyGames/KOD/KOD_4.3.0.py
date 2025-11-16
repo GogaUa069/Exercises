@@ -1,4 +1,4 @@
-# v 4.2.0
+# v 4.3.0
 
 from random import shuffle
 import time
@@ -26,6 +26,7 @@ class AudioPlayer:
     THE_END_SOUNDTRACK_LIVE = "LiveMusic.wav"
     CREDITS_SOUNDTRACK = "OldCreditsSoundtrack.wav"
 
+    EPIC_INTRO_SOUND = pygame.mixer.Sound(resource_path("Audio/EpicIntroSound.wav"))  # MAXTIME: 1000
     CAVE_CHOICE_SCREAMER = pygame.mixer.Sound(resource_path("Audio/CaveChoiceScreamer.wav"))
     STEPS = pygame.mixer.Sound(resource_path("Audio/Steps.wav"))  # MAXTIME: 2670
     HEARTBEAT = pygame.mixer.Sound(resource_path("Audio/HeartBeat.wav"))  # MAXTIME: 3500
@@ -38,6 +39,25 @@ class AudioPlayer:
         """Pattern for playing soundtracks"""
         pygame.mixer.music.load(resource_path("Audio/" + soundtrack))
         pygame.mixer.music.play(-1) if is_infinity else pygame.mixer.music.play()
+
+
+class GameIntro:
+    def __init__(self, *args):
+        self.banners = list(args)
+
+    def get_banners(self):
+        for banner in self.banners:
+            banner = pyfiglet.figlet_format(banner)
+            print(Fore.LIGHTRED_EX + banner + Style.RESET_ALL)
+            AudioPlayer.EPIC_INTRO_SOUND.play()
+            time.sleep(1)
+
+    def __call__(self, *args, **kwargs):
+        self.get_banners()
+
+
+game_intro = GameIntro("Kingdom", "Of", "Dragons")
+game_intro()
 
 
 class Credits:
