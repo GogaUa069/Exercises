@@ -1,4 +1,4 @@
-# v 4.8.0.1-beta
+# v 4.8.0.2-beta
 
 # Add Streak saving
 # Add PLAY AGAIN menu
@@ -6,12 +6,13 @@
 import time
 from colorama import Fore, Style, init
 from random import randint, shuffle, choice
-import pygame
 import re
 import pyfiglet
 from tqdm import tqdm
 import sys
 import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "1"
+import pygame
 
 pygame.init()
 init()  # Colorama
@@ -141,7 +142,7 @@ class GameIntro:
         """
         self.INTRO_SOUNDTRACK.play()
         self.my_accounts()
-        self.show_game_banner("Guess Code 4.8.0.1 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
+        self.show_game_banner("Guess Code 4.8.0.2 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
         self.loading()
 
 
