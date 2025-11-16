@@ -1,10 +1,10 @@
-# v 4.7.2-beta
+# v 4.8.0-beta
 
 # Add Streak saving
 # Add PLAY AGAIN menu
 
 import time
-from colorama import Fore, Style
+from colorama import Fore, Style, init
 from random import randint, shuffle, choice
 import pygame
 import re
@@ -14,6 +14,7 @@ import sys
 import os
 
 pygame.init()
+init()  # Colorama
 
 def resource_path(relative_path):
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
@@ -44,7 +45,7 @@ class SystemPrompt:
         self.LEGENDARY = self.get_colored_text("LEGENDARY", "LIGHTYELLOW_EX")
 
     @staticmethod
-    def get_colored_text(text: str, color: str, is_bold=False, is_reset_all=True):
+    def get_colored_text(text: str, color: str, is_bold=False, is_reset_all=True, is_with_line=False):
         """
         Coloring text
         :param text:
@@ -58,6 +59,8 @@ class SystemPrompt:
             colored_text = Style.BRIGHT + colored_text
         if is_reset_all:
             colored_text = colored_text + Style.RESET_ALL
+        if is_with_line:
+            colored_text = f"\033[4m{colored_text}\033[0m"
         return colored_text
 
     def rules(self):
@@ -138,7 +141,7 @@ class GameIntro:
         """
         self.INTRO_SOUNDTRACK.play()
         self.my_accounts()
-        self.show_game_banner("Guess Code 4.7.2 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
+        self.show_game_banner("Guess Code 4.8.0 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
         self.loading()
 
 
@@ -215,6 +218,48 @@ advanced_game_data = ("3", "ADVANCED", system.COMMON, "Finite lives. Countdown a
 wild_game_data = ("4", "WILD", system.EPIC, "Lives and time are randomized.")
 custom_game_data = ("5", "CUSTOM", system.EPIC, "Lives and time are under your control.")
 adventure_data = ("6", "ADVENTURE", system.LEGENDARY, "Beat AVERAGE, ADVANCED, and WILD levels in a single run!")
+
+
+class Credits:
+    HEADER = "CREDITS:"
+    SOUNDTRACK = "MUSIC/epic_credits_soundtrack.wav"
+    freesound_comm = system.get_colored_text(
+        "\nAll soundtracks were taken from freesound.org",
+        "LIGHTWHITE_EX", is_with_line=True
+    )
+
+    def __init__(self, *args):
+        self.credit_list = list(args)
+
+    def __call__(self, *args, **kwargs):
+        pygame.mixer.music.load(self.SOUNDTRACK)
+        pygame.mixer.music.play(-1)
+
+        def name_by_let(name: str, indx=0):
+            if indx > 0:
+                print(system.get_colored_text(f"{indx}. ", "LIGHTWHITE_EX"), end="")
+            for char in name:
+                time.sleep(0.21)
+                print(system.get_colored_text(f"{char}", "LIGHTWHITE_EX"), end="")
+            print()
+
+        def get_banner_by_let(banner: str):
+            ascii_banner = pyfiglet.figlet_format(banner)
+            for line in ascii_banner.splitlines():
+                print(system.get_colored_text(line, "LIGHTBLUE_EX"))
+                time.sleep(0.25)
+
+        get_banner_by_let(self.HEADER)
+        for indx, credit in enumerate(self.credit_list):
+            name_by_let(credit, indx+1)
+            time.sleep(1)
+
+        print(self.freesound_comm)
+        input(system.get_colored_text(">>> Press ENTER to leave ", "LIGHTRED_EX"))
+        pygame.mixer.music.stop()
+
+
+credits = Credits("GogaUa (Yegor Pavlenko) - CEO")
 
 
 class GameBorderPattern:
@@ -563,8 +608,9 @@ class MainMenu:
     def __init__(self):
         self.PLAY = Option("Play", game_choice, ("PLAY", "P", "1"))
         self.SETTINGS = Option(settings.HEADER, settings, ("SETTINGS", "S", "2"))
-        self.QUIT = Option("Quit", system.farewell, ("QUIT", "Q", "3"))
-        self.OPTIONS = (self.PLAY, self.SETTINGS, self.QUIT)
+        self.CREDITS = Option("Credits", credits, ("CREDITS", "C", "3"))
+        self.QUIT = Option("Quit", system.farewell, ("QUIT", "Q", "4"))
+        self.OPTIONS = (self.PLAY, self.SETTINGS, self.CREDITS, self.QUIT)
 
     def __call__(self, *args, **kwargs):
         main_menu_ = MenuPattern(self.HEADER, self.OPTIONS)
