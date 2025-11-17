@@ -1,6 +1,5 @@
-# v 4.3.1.1
+# v 4.3.1.2
 
-# Change You to you
 # Add achieves
 # Add win streak
 
@@ -11,7 +10,7 @@ import sys
 import os
 import pyfiglet
 
-os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "1"
+os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
 import pygame
 
 pygame.init()
