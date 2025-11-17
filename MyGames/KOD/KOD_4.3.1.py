@@ -1,4 +1,8 @@
-# v 4.3.0
+# v 4.3.1
+
+# Change You to you
+# Add achieves
+# Add win streak
 
 from random import shuffle
 import time
@@ -117,10 +121,10 @@ class Game(AudioPlayer):
     """
     ENDINGS = [good_ending, bad_ending]
 
-    INTRO = (Fore.BLUE + "You are in a land inhabited by dragons.", "You see two caves in front of You.",
-             "In one of them, a friendly dragon is waiting to give You some treasure.",
+    INTRO = (Fore.BLUE + "You are in a land inhabited by dragons.", "You see two caves in front of you.",
+             "In one of them, a friendly dragon is waiting to give you some treasure.",
              "In the second, a wicked and hungry dragon waits, ready to eat you!",
-             "But You don't know which dragon is in which cave." + Style.RESET_ALL)
+             "But you don't know which dragon is in which cave." + Style.RESET_ALL)
 
     def __init__(self):
         AudioPlayer.__init__(self)
@@ -151,7 +155,7 @@ class Game(AudioPlayer):
 
         answer = ""
         while answer.upper() not in ("LEFT", "RIGHT", "1", "2"):
-            print(Fore.LIGHTRED_EX + "\nWhich cave will You choose?" + Style.RESET_ALL)
+            print(Fore.LIGHTRED_EX + "\nWhich cave will you choose?" + Style.RESET_ALL)
             answer = input("<<< ")
             match answer.upper():
                 case "LEFT" | "1":
@@ -183,7 +187,7 @@ class Game(AudioPlayer):
         print(Fore.LIGHTWHITE_EX + "\nYou're moving toward the cave...")
         self.STEPS.play(maxtime=2670)
         time.sleep(2.67)
-        print("Its darkness makes You tremble with fear...")
+        print("Its darkness makes you tremble with fear...")
         self.HEARTBEAT.play(maxtime=3500)
         time.sleep(3.5)
         print("The big dragon jumps in front of you. He opens his big jaws and...")
@@ -234,7 +238,7 @@ def main_menu():
 
     while answer.upper() not in ("ESCAPE", "2"):
         print(Fore.LIGHTRED_EX + ">>> Main Menu")
-        print(Fore.BLUE + "1. Try Your luck\n"
+        print(Fore.BLUE + "1. Try your luck\n"
                           "2. Make a miserable escape\n"
                           "3. Credits" + Style.RESET_ALL)
         answer = input("<<< ")
