@@ -1,4 +1,4 @@
-# v 4.3.1
+# v 4.3.1.1
 
 # Change You to you
 # Add achieves
@@ -111,8 +111,8 @@ class Ending:
         self.soundtrack = soundtrack
 
 
-good_ending = Ending(Fore.LIGHTGREEN_EX + "...shares his treasures with You!", AudioPlayer.THE_END_SOUNDTRACK_LIVE)
-bad_ending = Ending(Fore.LIGHTRED_EX + "...instantly eats You up!", AudioPlayer.THE_END_SOUNDTRACK_DEATH)
+good_ending = Ending(Fore.LIGHTGREEN_EX + "...shares his treasures with you!", AudioPlayer.THE_END_SOUNDTRACK_LIVE)
+bad_ending = Ending(Fore.LIGHTRED_EX + "...instantly eats you up!", AudioPlayer.THE_END_SOUNDTRACK_DEATH)
 
 
 class Game(AudioPlayer):
