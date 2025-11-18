@@ -1,7 +1,7 @@
-# v 5.0.0-beta
+# v 5.0.0.1-beta
 
-# Add Streak saving
 # Add PLAY AGAIN menu
+# Add communicate: "You selected this number before!"
 
 import time
 from colorama import Fore, Style, init
@@ -51,6 +51,7 @@ class SystemPrompt:
         :param color: color
         :param is_bold: is bold?
         :param is_reset_all: is reset color after a phrase
+        :param is_with_line: adds line below a text
         :return: Colored text
         """
         colored_text = getattr(Fore, color) + text
@@ -164,7 +165,7 @@ class GameIntro:
         """
         self.INTRO_SOUNDTRACK.play()
         self.my_accounts()
-        self.show_game_banner("Guess Code 5.0.0 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
+        self.show_game_banner("Guess Code 5.0.0.1 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
         self.loading()
 
 
