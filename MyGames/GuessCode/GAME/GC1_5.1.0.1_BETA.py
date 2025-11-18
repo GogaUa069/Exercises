@@ -1,8 +1,10 @@
-# v 5.0.0.1-beta
+# v 5.1.0.1-beta
 
 # Add PLAY AGAIN menu
 # Add communicate: "You selected this number before!"
 
+from pathlib import Path
+import shutil
 import time
 from colorama import Fore, Style, init
 from random import randint, shuffle, choice
@@ -92,9 +94,27 @@ system = SystemPrompt()
 
 class WinStreakController:
     ENCODING = "utf-8"
+    RESOURCE_NAME = "WIN_STREAK_FILE"
+    SAVE_NAME = "WIN_STREAK_FILE"
+
+    def __init__(self):
+        self.save_path = os.path.join(os.getcwd(), self.SAVE_NAME)
+        self._ensure_writable_copy()
+
+    def _resource_path(self, relative_path):
+        base_path = getattr(sys, '_MEIPASS', os.path.dirname(__file__))
+        return os.path.join(base_path, relative_path)
+
+    def _ensure_writable_copy(self):
+        if not os.path.exists(self.save_path):
+            try:
+                shutil.copyfile(self._resource_path(self.RESOURCE_NAME), self.save_path)
+            except Exception as e:
+                with open(self.save_path, "w", encoding=self.ENCODING) as f:
+                    f.write("0")  # fallback if original doesn't exist
 
     def get_streak(self, is_communicate=False):
-        with open("WIN_STREAK_FILE", "r", encoding=self.ENCODING) as file:
+        with open(self.save_path, "r", encoding=self.ENCODING) as file:
             streak = file.read()
             if not is_communicate:
                 return int(streak)
@@ -107,7 +127,7 @@ class WinStreakController:
         else:
             new_streak = self.get_streak() + 1
 
-        with open("WIN_STREAK_FILE", "w", encoding=self.ENCODING) as file:
+        with open(self.save_path, "w", encoding=self.ENCODING) as file:
             file.write(str(new_streak))
 
 
@@ -165,7 +185,7 @@ class GameIntro:
         """
         self.INTRO_SOUNDTRACK.play()
         self.my_accounts()
-        self.show_game_banner("Guess Code 5.0.0.1 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
+        self.show_game_banner("Guess Code 5.1.0.1 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
         self.loading()
 
 
