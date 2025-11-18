@@ -1,4 +1,4 @@
-# v 4.8.0.2-beta
+# v 5.0.0-beta
 
 # Add Streak saving
 # Add PLAY AGAIN menu
@@ -20,8 +20,6 @@ init()  # Colorama
 def resource_path(relative_path):
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
     return os.path.join(base_path, relative_path)
-
-WIN_STREAK = 0
 
 
 class SystemPrompt:
@@ -91,6 +89,30 @@ class SystemPrompt:
 system = SystemPrompt()
 
 
+class WinStreakController:
+    ENCODING = "utf-8"
+
+    def get_streak(self, is_communicate=False):
+        with open("WIN_STREAK_FILE", "r", encoding=self.ENCODING) as file:
+            streak = file.read()
+            if not is_communicate:
+                return int(streak)
+            else:
+                return f"You win streak: {streak}"
+
+    def __call__(self, is_defeat=False):
+        if is_defeat:
+            new_streak = 0
+        else:
+            new_streak = self.get_streak() + 1
+
+        with open("WIN_STREAK_FILE", "w", encoding=self.ENCODING) as file:
+            file.write(str(new_streak))
+
+
+win_streak_controller = WinStreakController()
+
+
 class GameIntro:
     """
     All game intro functions
@@ -142,7 +164,7 @@ class GameIntro:
         """
         self.INTRO_SOUNDTRACK.play()
         self.my_accounts()
-        self.show_game_banner("Guess Code 4.8.0.2 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
+        self.show_game_banner("Guess Code 5.0.0 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
         self.loading()
 
 
@@ -353,8 +375,6 @@ class BasicGame:
                 system.error(barrier_error)
 
     def search_num(self):
-        global WIN_STREAK
-
         answer = None
         answer_error = f"Enter TOTAL in RANGE 1-{self.search_barrier}"
         print(system.get_colored_text(f">>> Your turn!\n"
@@ -371,11 +391,11 @@ class BasicGame:
                     print(system.get_colored_text("Your total is BIGGER than hidden number!", "LIGHTWHITE_EX"))
                     self.attempts_counter += 1
                 elif answer == self.hidden_number:
-                    WIN_STREAK += 1
+                    win_streak_controller()
                     sounds.play_sound(True)
                     print(system.get_colored_text(f"Yey! You found the hidden number!\n"
                                                   f"It took {self.attempts_counter} attempt(s)!\n"
-                                                  f"Your win streak: {WIN_STREAK}\n", "LIGHTCYAN_EX"))
+                                                  f"{win_streak_controller.get_streak(True)}\n", "LIGHTCYAN_EX"))
                 else:
                     system.error(answer_error)
             except ValueError:
@@ -431,8 +451,6 @@ class AverageGame:
         self.attempts_limit = attempts + 1
 
     def search_num(self):
-        global WIN_STREAK
-
         answer = None
         answer_error = f"Enter TOTAL in RANGE 1-{self.search_barrier}"
         print(system.get_colored_text(f">>> Your turn!\n"
@@ -450,11 +468,11 @@ class AverageGame:
                     print(system.get_colored_text("Your total is BIGGER than hidden number!", "LIGHTWHITE_EX"))
                     self.attempts_counter += 1
                 elif answer == self.hidden_number:
-                    WIN_STREAK += 1
+                    win_streak_controller()
                     sounds.play_sound(True)
                     print(system.get_colored_text(f"Yey! You found the hidden number!\n"
                                                   f"It took {self.attempts_counter} attempt(s)!\n"
-                                                  f"Your win streak: {WIN_STREAK}\n", "LIGHTCYAN_EX"))
+                                                  f"{win_streak_controller.get_streak(True)}\n", "LIGHTCYAN_EX"))
                     break
                 else:
                     system.error(answer_error)
@@ -462,7 +480,7 @@ class AverageGame:
                     sounds.play_sound(False)
                     print(Fore.LIGHTRED_EX + "You've reached the maximum number of attempts!\n"
                                              "You lost Your win streak!\n" + Style.RESET_ALL)
-                    WIN_STREAK = 0
+                    win_streak_controller(True)
                     break
                 attempts_left = self.attempts_limit-self.attempts_counter
                 print(system.get_colored_text(f"{attempts_left} attempts left!", "LIGHTWHITE_EX"))
