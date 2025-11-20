@@ -1,7 +1,6 @@
-# v 5.1.0.1-beta
+# v 5.1.1.0-beta
 
 # Add PLAY AGAIN menu
-# Add communicate: "You selected this number before!"
 
 from pathlib import Path
 import shutil
@@ -13,14 +12,14 @@ import pyfiglet
 from tqdm import tqdm
 import sys
 import os
-os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "1"
+os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
 import pygame
 
 pygame.init()
 init()  # Colorama
 
 def resource_path(relative_path):
-    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    base_path = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
     return os.path.join(base_path, relative_path)
 
 
@@ -185,7 +184,7 @@ class GameIntro:
         """
         self.INTRO_SOUNDTRACK.play()
         self.my_accounts()
-        self.show_game_banner("Guess Code 5.1.0.1 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
+        self.show_game_banner("Guess Code 5.1.1.0 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
         self.loading()
 
 
@@ -375,6 +374,7 @@ class BasicGame:
     max_range = max(BARRIER_RANGE)
 
     def __init__(self):
+        self.chosen_numbers = list()
         self.search_barrier = self.hidden_number = self.attempts_counter = self.search_range = 0
 
     def set_barrier(self):
@@ -406,10 +406,10 @@ class BasicGame:
                 print()
                 answer = int(input(system.INPUT))
                 if answer < self.hidden_number and answer in self.search_range:
-                    print(system.get_colored_text("Your total is SMALLER than hidden number!", "LIGHTWHITE_EX"))
+                    print(system.get_colored_text("Your total is SMALLER than hidden number!", "LIGHTWHITE_EX", True))
                     self.attempts_counter += 1
                 elif answer > self.hidden_number and answer in self.search_range:
-                    print(system.get_colored_text("Your total is BIGGER than hidden number!", "LIGHTWHITE_EX"))
+                    print(system.get_colored_text("Your total is BIGGER than hidden number!", "LIGHTWHITE_EX", True))
                     self.attempts_counter += 1
                 elif answer == self.hidden_number:
                     win_streak_controller()
@@ -419,6 +419,12 @@ class BasicGame:
                                                   f"{win_streak_controller.get_streak(True)}\n", "LIGHTCYAN_EX"))
                 else:
                     system.error(answer_error)
+
+                if answer in self.search_range:
+                    if answer not in self.chosen_numbers:
+                        self.chosen_numbers.append(answer)
+                    else:
+                        print(system.get_colored_text("This number has already chosen!","LIGHTWHITE_EX", True))
             except ValueError:
                 system.error(answer_error)
 
