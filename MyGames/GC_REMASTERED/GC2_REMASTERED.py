@@ -72,7 +72,7 @@ class SystemPrompt:
         print(self.color_text(self.communicate_pattern(text, is_error=True), "LIGHTRED_EX", is_bold=True))
 
     def communicate(self, text: str, color="LIGHTWHITE_EX", is_pass=False):
-        print(self.color_text(self.communicate_pattern(text, is_pass=is_pass), color, is_bold=True))
+        return self.color_text(self.communicate_pattern(text, is_pass=is_pass), color, is_bold=True)
 
     @staticmethod
     def del_ascii(text):
@@ -83,6 +83,18 @@ class SystemPrompt:
     def resource_path(relative_path):
         base_path = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
         return os.path.join(base_path, relative_path)
+
+    @staticmethod
+    def get_ascii_text(text, font="standard"):
+        f = pyfiglet.Figlet(font=font)
+        ascii_text = f.renderText(text)
+        return ascii_text
+
+    @staticmethod
+    def get_ascii_text_by_line(text, color="LIGHTBLUE_EX"):
+        for line in text.splitlines():
+            print(system.color_text(line, color, is_bold=True))
+            sleep(0.25)
 
 
 system = SystemPrompt()
@@ -178,17 +190,12 @@ class GameIntro:
         print()
 
     @staticmethod
-    def ascii_banner(banner):
-        ascii_banner = pyfiglet.figlet_format(banner)
-        for line in ascii_banner.splitlines():
-            print(system.color_text(line, "LIGHTBLUE_EX", is_bold=True))
-            sleep(0.25)
-
-    def show_game_banner(self, banner: str):
+    def show_game_banner(banner: str):
         sleep(0.5)
         print(system.color_text("Welcome to:", "CYAN", is_bold=True))
         sleep(1.5)
-        self.ascii_banner(banner)
+        ascii_banner = system.get_ascii_text(banner)
+        system.get_ascii_text_by_line(ascii_banner)
         print(system.color_text("Made by GogaUa\n", "WHITE", is_bold=True))
         sleep(1)
 
@@ -241,4 +248,78 @@ class Option:
 
 
 class Credits:
-    ...
+    HEADER = system.get_ascii_text("CREDITS:")
+    SOUND_RESOURCES_COMM = system.color_text("All audio was taken from freesound.org",
+                                             "LIGHTWHITE_EX", is_underlined=True)
+
+    def __init__(self, *args):
+        self.CREDITS = list(args)
+
+    def get_credits(self):
+        for indx, credit in enumerate(self.CREDITS):
+            print(f"{indx+1}. {credit}")
+
+    def leave(self):
+        print(self.SOUND_RESOURCES_COMM)
+        input(system.color_text(">>> Press ENTER to leave", "LIGHTRED_EX"))
+        pygame.mixer.music.stop()
+
+    def __call__(self):
+        credits_soundtrack()
+        system.get_ascii_text_by_line(self.HEADER)
+        self.get_credits()
+        print(self.SOUND_RESOURCES_COMM)
+        self.leave()
+
+
+credits_ex = Credits("Egor Pavlenko - CEO")
+
+
+class BorderOption:
+    def __init__(self, lvl, name, lvl_type, descr):
+        self.LVL = lvl
+        self.NAME = name
+        self.TYPE = lvl_type
+        self.DESCR = descr
+        self.DATA = [self.LVL, self.NAME, self.TYPE, self.DESCR]
+
+
+basic_game_border = BorderOption("1", "BASIC", system.LVL_COLORS["COMMON"], "Infinite lives. Time-free mode.")
+average_game_border = BorderOption("2", "AVERAGE", system.LVL_COLORS["COMMON"], "Finite lives. Time-free mode.")
+advanced_game_border = BorderOption("3", "ADVANCED", system.LVL_COLORS["COMMON"], "Finite lives. Countdown active.")
+wild_game_border = BorderOption("4", "WILD", system.LVL_COLORS["EPIC"], "Lives and time are randomized.")
+custom_game_border = BorderOption("5", "CUSTOM", system.LVL_COLORS["EPIC"], "Lives and time are under your control.")
+adventure_game_border = BorderOption("6", "ADVENTURE", system.LVL_COLORS["LEGENDARY"], "Beat AVERAGE, ADVANCED, and WILD levels in a single run!")
+leave_border = BorderOption("7", "MAIN MENU", "---------", "Back to Main Menu")
+
+levels = [basic_game_border, average_game_border, advanced_game_border,
+          wild_game_border, custom_game_border, adventure_game_border, leave_border]
+
+
+class GameChoiceBorder:
+    HEADERS = ["LVL", "NAME", "TYPE", "DESCRIPTION"]
+
+    def __init__(self, levels_):
+        self.LEVELS = levels_
+        self.longest_length_list = list()
+        self.data_list = [self.HEADERS] + [lvl.DATA for lvl in self.LEVELS]
+
+    def set_the_longest_data_length(self):
+        for items in zip(*self.data_list):
+            self.longest_length_list.append(max(len(item) for item in items))
+
+    def show_border(self):
+        for row in self.data_list:
+            line = ""
+            for i, item in enumerate(row):
+                line += "| " + item.ljust(self.longest_length_list[i]) + " "
+            line += "|"
+            print(line)
+
+    def __call__(self):
+        self.set_the_longest_data_length()
+        self.show_border()
+
+
+game_choice_border = GameChoiceBorder(levels)
+game_choice_border()
