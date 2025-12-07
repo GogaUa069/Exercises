@@ -1,4 +1,4 @@
-# v 5.1.1.0-beta
+# v 5.2.0-beta
 
 # Add PLAY AGAIN menu
 
@@ -118,7 +118,7 @@ class WinStreakController:
             if not is_communicate:
                 return int(streak)
             else:
-                return f"You win streak: {streak}"
+                return f"Your win streak: {streak}"
 
     def __call__(self, is_defeat=False):
         if is_defeat:
@@ -137,12 +137,14 @@ class GameIntro:
     """
     All game intro functions
     """
-    INTRO_SOUNDTRACK = pygame.mixer.Sound(resource_path("Sounds/IntroMusic.wav"))
+    INTRO_SOUNDTRACK = pygame.mixer.Sound(resource_path("Music/IntroMusic.wav"))
+    github_url = "https://github.com/GogaUa069"
+    instagram_url = "https://www.instagram.com/gogaua096/"
 
-    @staticmethod
-    def my_accounts():
-        print(system.get_colored_text("@GogaUa096 - Follow me on Instagram :)\n"
-                                      "@GogaUa069 - Check my GitHub\n", "CYAN"))
+    def my_accounts(self):
+        print(system.get_colored_text(f"{self.instagram_url} - Follow me on Instagram :)", "CYAN"))
+        print(system.get_colored_text(f"{self.github_url} - Check my GitHub", "CYAN"))
+        print()
 
     @staticmethod
     def loading():
@@ -184,7 +186,7 @@ class GameIntro:
         """
         self.INTRO_SOUNDTRACK.play()
         self.my_accounts()
-        self.show_game_banner("Guess Code 5.1.1.0 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
+        self.show_game_banner("Guess Code 5.2.0 BETA")  # UPDATES UPDATES UPDATES UPDATES UPDATES UPDATES
         self.loading()
 
 
@@ -255,14 +257,6 @@ class SoundOption:
         sound["SOUND"].play(maxtime=sound["MAXTIME"])
 
 
-basic_game_data = ("1", "BASIC", system.COMMON, "Infinite lives. Time-free mode.")
-average_game_data = ("2", "AVERAGE", system.COMMON, "Finite lives. Time-free mode.")
-advanced_game_data = ("3", "ADVANCED", system.COMMON, "Finite lives. Countdown active.")
-wild_game_data = ("4", "WILD", system.EPIC, "Lives and time are randomized.")
-custom_game_data = ("5", "CUSTOM", system.EPIC, "Lives and time are under your control.")
-adventure_data = ("6", "ADVENTURE", system.LEGENDARY, "Beat AVERAGE, ADVANCED, and WILD levels in a single run!")
-
-
 class Credits:
     HEADER = "CREDITS:"
     SOUNDTRACK = resource_path("Music/EpicCreditsSoundtrack.wav")
@@ -303,6 +297,14 @@ class Credits:
 
 
 credits = Credits("GogaUa (Yegor Pavlenko) - CEO")
+
+
+basic_game_data = ("1", "BASIC", system.COMMON, "Infinite lives. Time-free mode.")
+average_game_data = ("2", "AVERAGE", system.COMMON, "Finite lives. Time-free mode.")
+advanced_game_data = ("3", "ADVANCED", system.COMMON, "Finite lives. Countdown active.")
+wild_game_data = ("4", "WILD", system.EPIC, "Lives and time are randomized.")
+custom_game_data = ("5", "CUSTOM", system.EPIC, "Lives and time are under your control.")
+adventure_data = ("6", "ADVENTURE", system.LEGENDARY, "Beat AVERAGE, ADVANCED, and WILD levels in a single run!")
 
 
 class GameBorderPattern:
