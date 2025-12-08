@@ -1,9 +1,9 @@
-# Guess Code 2 V 1.1.0 ALPHA
+# Guess Code 2 V 1.1.0.1 ALPHA
 
 # Add CONTINUE MENU
 # Add channels for soundtracks
 
-from random import randint, shuffle, choice
+from random import randint, choice
 from time import sleep
 import shutil
 import re
@@ -154,12 +154,12 @@ win_streak_controller = WinStreakController()
 
 
 class GameIntro:
-    github_url = "https://github.com/GogaUa069"
-    instagram_url = "https://www.instagram.com/gogaua096/"
+    GitHub_URL = "https://github.com/GogaUa069"
+    Instagram_URL = "https://www.instagram.com/gogaua096/"
 
     def get_my_accounts(self):
-        print(system.communicate(f"{self.instagram_url} - Follow me on Instagram :)", "CYAN"))
-        print(system.communicate(f"{self.github_url} - Check my GitHub\n", "CYAN"))
+        print(system.communicate(f"{self.Instagram_URL} - Follow me on Instagram :)", "CYAN"))
+        print(system.communicate(f"{self.GitHub_URL} - Check my GitHub\n", "CYAN"))
 
     @staticmethod
     def loading():
@@ -183,7 +183,7 @@ class GameIntro:
     def __call__(self):
         intro_soundtrack()
         self.get_my_accounts()
-        self.show_game_banner("Guess Code 2.0\nV 1.1.0  ALPHA")
+        self.show_game_banner("Guess Code 2.0\nv 1.1.0.1 ALPHA")
         self.loading()
 
 
