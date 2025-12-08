@@ -1,10 +1,8 @@
-# Guess Code 2 V 1.0.0 ALPHA
+# Guess Code 2 V 1.1.0 ALPHA
 
 # Add CONTINUE MENU
 # Add channels for soundtracks
-# "GuessCode 2.0 V1.0.0 ALPHA"
 
-from pathlib import Path
 from random import randint, shuffle, choice
 from time import sleep
 import shutil
@@ -115,3 +113,79 @@ class SoundPrompt:
 
 
 toggle_sound = SoundPrompt()
+
+
+class WinStreakController:
+    ENCODING = "utf-8"
+    RESOURCE_NAME = SAVE_NAME = "Utils/WIN_STREAK_FILE"
+
+    def __init__(self):
+        self.SAVE_PATH = os.path.join(os.getcwd(), self.SAVE_NAME)
+        self._ensure_writable_copy()
+
+    @staticmethod
+    def _resource_path(relative_path):
+        base_path = getattr(sys, "_MEIPASS", os.path.dirname(__file__))
+        return os.path.join(base_path, relative_path)
+
+    def _ensure_writable_copy(self):
+        if not os.path.exists(self.SAVE_PATH):
+            try:
+                shutil.copyfile(self._resource_path(self.RESOURCE_NAME), self.SAVE_PATH)
+            except Exception:
+                with open(self.SAVE_PATH, "w", encoding=self.ENCODING) as file:
+                    file.write("0")
+
+    def get_win_streak(self, is_communicate=False):
+        with open(self.SAVE_PATH, "r", encoding=self.ENCODING) as file:
+            streak = file.read()
+            if not is_communicate:
+                return int(streak)
+            else:
+                return f"Your win streak: {streak}"
+
+    def __call__(self, is_defeat=False):
+        new_streak = 0 if is_defeat else self.get_win_streak() + 1
+        with open(self.SAVE_PATH, "w", encoding=self.ENCODING) as file:
+            file.write(str(new_streak))
+
+
+win_streak_controller = WinStreakController()
+
+
+class GameIntro:
+    github_url = "https://github.com/GogaUa069"
+    instagram_url = "https://www.instagram.com/gogaua096/"
+
+    def get_my_accounts(self):
+        print(system.communicate(f"{self.instagram_url} - Follow me on Instagram :)", "CYAN"))
+        print(system.communicate(f"{self.github_url} - Check my GitHub\n", "CYAN"))
+
+    @staticmethod
+    def loading():
+        with tqdm(total=100) as pbar:
+            for i in range(100):
+                color = choice([c for c in system.COLORS if c != "BLACK"])
+                pbar.set_description_str(system.communicate("Loading", color))
+                pbar.update(1)
+                sleep(0.04)
+        print()
+
+    @staticmethod
+    def show_game_banner(banner: str):
+        sleep(0.5)
+        print(system.communicate("Welcome to:", "CYAN", is_bold=True))
+        sleep(1.5)
+        system.get_ascii_text(banner)
+        print(system.communicate("Made by GogaUa\n", "WHITE", is_bold=True))
+        sleep(1)
+
+    def __call__(self):
+        intro_soundtrack()
+        self.get_my_accounts()
+        self.show_game_banner("Guess Code 2.0\nV 1.1.0  ALPHA")
+        self.loading()
+
+
+game_intro = GameIntro()
+game_intro()
