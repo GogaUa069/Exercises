@@ -2,6 +2,7 @@
 
 # Add CONTINUE MENU
 # Add channels for soundtracks
+# "GuessCode 2.0 V1.0.0 ALPHA"
 
 from pathlib import Path
 from random import randint, shuffle, choice
@@ -76,5 +77,41 @@ class SystemPrompt:
             input()
 
 
-# system = SystemPrompt()
-# system.get_ascii_text("GuessCode 2.0 V1.0.0 ALPHA")
+system = SystemPrompt()
+
+main_soundtrack_channel = pygame.mixer.Channel(0)
+secondary_soundtrack_channel = pygame.mixer.Channel(1)
+
+
+class Soundtrack:
+    def __init__(self, name: str, repeats=1):
+        self.NAME = name
+        self.REPEATS = repeats
+
+    def __call__(self):
+        pygame.mixer.music.load(f"Soundtracks/{self.NAME}")
+        pygame.mixer.music.play(self.REPEATS)
+
+
+intro_soundtrack = Soundtrack("IntroSoundtrack.wav")
+credits_soundtrack = Soundtrack("CreditsSoundtrack.wav", -1)
+jazz1 = Soundtrack("Jazz1.wav", -1)
+jazz2 = Soundtrack("Jazz2.mp3", -1)
+jazz3 = Soundtrack("Jazz3.wav", -1)
+
+
+class SoundPrompt:
+    YOU_WIN_SOUND = pygame.mixer.Sound("Sounds/YouWinSound.wav")
+    YOU_LOST_SOUND = pygame.mixer.Sound("Sounds/YouLostSound.wav")
+    ABLE_TO_PLAY = True
+
+    def __call__(self):
+        self.ABLE_TO_PLAY = not self.ABLE_TO_PLAY
+        match self.ABLE_TO_PLAY:
+            case True:
+                self.YOU_WIN_SOUND.play()
+            case False:
+                self.YOU_LOST_SOUND.play()
+
+
+toggle_sound = SoundPrompt()
