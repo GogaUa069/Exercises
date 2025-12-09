@@ -1,4 +1,4 @@
-# Guess Code 2 V 1.2.1 ALPHA
+# Guess Code 2 V 1.3.0 ALPHA
 
 # Add CONTINUE MENU
 # Add channels for soundtracks
@@ -188,7 +188,7 @@ class GameIntro:
     def __call__(self):
         intro_soundtrack()
         self.get_my_accounts()
-        self.show_game_banner("Guess Code 2.0\n v 1.2.1 ALPHA")
+        self.show_game_banner("Guess Code 2.0\n v 1.3.0 ALPHA")
         self.loading()
 
 
@@ -222,8 +222,8 @@ adventure_game_border = BorderOption("6", "ADVENTURE", system.LVL_TYPES["LEGENDA
                                      "Beat AVERAGE, ADVANCED, and WILD levels in a single run and get a prize!")
 leave_border = BorderOption("7",  "MAIN MENU", "---------", "Back to Main Menu")
 
-level_tup = (basic_game_border, average_game_border, advanced_game_border,
-             wild_game_border, custom_game_border, adventure_game_border, leave_border)
+levels_list = [basic_game_border, average_game_border, advanced_game_border,
+             wild_game_border, custom_game_border, adventure_game_border, leave_border]
 
 
 class MenuPattern:
@@ -257,27 +257,28 @@ class MenuPattern:
 class BorderPattern:
     HEADERS = ["LVL", "NAME", "TYPE", "DESCRIPTION"]
 
-    def __init__(self, levels: tuple):
+    def __init__(self, levels: list):
         self.LEVELS = levels
         self.LONGEST_LENGTH_LIST = list()
-        self.DATA = [*self.HEADERS] + [lvl.DATA for lvl in self.LEVELS]
+        self.DATA = [self.HEADERS] + [lvl.DATA for lvl in self.LEVELS]
         self.set_the_longest_data_length()
 
     def set_the_longest_data_length(self):
         for items in zip(*self.DATA):
-            the_longest_item = max(len(item) for item in items)
+            the_longest_item = max(len(system.del_ascii(item)) for item in items)
             self.LONGEST_LENGTH_LIST.append(the_longest_item)
 
     def __call__(self):
         for row in self.DATA:
             line = ""
             for indx, item in enumerate(row):
-                line += "| " + item.ljust(self.LONGEST_LENGTH_LIST[indx]) + " "
+                space_counter = " " * (self.LONGEST_LENGTH_LIST[indx] - len(system.del_ascii(item)) + 1)
+                line += "| " + item + space_counter
             line += "|"
             print(line)
 
 
-game_border = BorderPattern(level_tup)
+game_border = BorderPattern(levels_list)
 
 
 class Credits:
