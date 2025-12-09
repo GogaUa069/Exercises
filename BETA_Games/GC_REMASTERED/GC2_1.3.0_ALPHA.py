@@ -62,6 +62,14 @@ class SystemPrompt:
             colored_text = "\033[4m" + colored_text + "\033[0m"
         return colored_text
 
+    def goodbye_func(self):
+        print(self.communicate("Goodbye! :)", "LIGHTCYAN_EX"))
+        sleep(0.5)
+
+    def turn_off_soundtrack(self):
+        pygame.mixer.music.stop()
+        print(self.communicate("Music is turned Off", "LIGHTRED_EX"))
+
     def get_ascii_text(self, text: str, color="LIGHTBLUE_EX", font="standard"):
         f = pyfiglet.Figlet(font=font)
         ascii_text = f.renderText(text)
@@ -113,8 +121,10 @@ class SoundPrompt:
         match self.ABLE_TO_PLAY:
             case True:
                 self.YOU_WIN_SOUND.play()
+                print(system.communicate("Sound is turned ON", "LIGHTGREEN_EX"))
             case False:
                 self.YOU_LOST_SOUND.play()
+                print(system.communicate("Sound is turned OFF", "LIGHTRED_EX"))
 
 
 toggle_sound = SoundPrompt()
@@ -174,7 +184,6 @@ class GameIntro:
                 pbar.set_description_str(system.communicate("Loading", color))
                 pbar.update(1)
                 sleep(0.04)
-        print()
 
     @staticmethod
     def show_game_banner(banner: str):
@@ -235,7 +244,7 @@ class MenuPattern:
     def show_menu(self):
         match self.BORDER:
             case None:
-                print(system.communicate(f"\n{self.HEADER}", "LIGHTRED_EX"))
+                print(system.communicate(f"\n>>> {self.HEADER}", "LIGHTRED_EX"))
                 for indx, option in enumerate(self.OPTIONS):
                     print(system.communicate(f"{indx + 1}. {option.NAME}", "LIGHTBLUE_EX"))
             case _:
@@ -247,6 +256,7 @@ class MenuPattern:
                 option()
             else:
                 print(system.communicate("Select one of the options shown above!", is_error=True))
+                break
 
     def __call__(self):
         while True:
@@ -309,3 +319,52 @@ class Credits:
 
 
 credits_ = Credits("Egor Pavlenko - CEO")
+
+# SOUNDTRACKS MENU AND OPTIONS:
+jazz1_option = Option("Jazz1", jazz1)
+jazz2_option = Option("Jazz2", jazz2)
+jazz3_option = Option("Jazz3", jazz3)
+turn_off_soundtrack_option = Option("Turn Off", system.turn_off_soundtrack)
+back_to_audio_from_soundtracks = Option("Back - Audio", system.communicate)
+
+soundtracks_menu_options = (jazz1_option, jazz2_option, jazz3_option, turn_off_soundtrack_option, back_to_audio_from_soundtracks)
+soundtracks_menu = MenuPattern("Soundtracks", soundtracks_menu_options)
+
+# SOUNDS MENU AND OPTIONS:
+toggle_sound_option = Option("Turn Off/On", toggle_sound)
+back_to_audio_from_sounds = Option("Back - Audio", system.communicate)
+
+sounds_menu_options = (toggle_sound_option, back_to_audio_from_sounds)
+sounds_menu = MenuPattern("Sounds", sounds_menu_options)
+
+# AUDIO MENU AND OPTIONS:
+soundtracks_option = Option("Soundtracks", soundtracks_menu)
+sounds_option = Option("Sounds", sounds_menu)
+back_to_settings_from_audio = Option("Back - Settings", system.communicate)
+
+audio_menu_options = (soundtracks_option, sounds_option, back_to_settings_from_audio)
+audio_menu = MenuPattern("Audio", audio_menu_options)
+
+# SETTINGS AND OPTIONS:
+rules_option = Option("Rules", system.get_rules)
+audio_option = Option("Audio", audio_menu)
+credits_option = Option("Credits", credits_)
+back_to_main_menu_from_settings = Option("Back - Main Menu", system.communicate)
+
+settings_menu_options = (rules_option, audio_option, credits_option, back_to_main_menu_from_settings)
+settings_menu = MenuPattern("Settings", settings_menu_options)
+
+# MAIN MENU AND OPTIONS:
+play_option = Option("Play", system.communicate)
+settings_option = Option("Settings", settings_menu)
+quit_option = Option("Quit", system.goodbye_func)
+
+main_menu_options = (play_option, settings_option, quit_option)
+main_menu = MenuPattern("Main Menu", main_menu_options)
+
+
+def game():
+    game_intro()
+    main_menu()
+
+game()
