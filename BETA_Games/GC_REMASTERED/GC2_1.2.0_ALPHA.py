@@ -1,4 +1,4 @@
-# Guess Code 2 V 1.1.0.1 ALPHA
+# Guess Code 2 V 1.2.0 ALPHA
 
 # Add CONTINUE MENU
 # Add channels for soundtracks
@@ -68,6 +68,11 @@ class SystemPrompt:
         for line in ascii_text.splitlines():
             print(self.communicate(line, color, is_bold=True))
             sleep(0.25)
+
+    def get_text_by_let(self, text):
+        for char in text:
+            sleep(0.21)
+            print(self.communicate(char, "LIGHTWHITE_EX"), end="")
 
     def get_rules(self):
         for line in self.RULES:
@@ -183,9 +188,84 @@ class GameIntro:
     def __call__(self):
         intro_soundtrack()
         self.get_my_accounts()
-        self.show_game_banner("Guess Code 2.0\nv 1.1.0.1 ALPHA")
+        self.show_game_banner("Guess Code 2.0\nv 1.2.0 ALPHA")
         self.loading()
 
 
 game_intro = GameIntro()
-game_intro()
+
+
+class MenuPattern:
+    def __init__(self, header: str, options: tuple, border=None):
+        self.HEADER = header
+        self.OPTIONS = options
+        self.BORDER = border
+
+    def show_menu(self):
+        match self.BORDER:
+            case None:
+                print(system.communicate(f"\n{self.HEADER}", "LIGHTRED_EX"))
+                for indx, option in enumerate(self.OPTIONS):
+                    print(system.communicate(f"{indx + 1}. {option.NAME}", "LIGHTBLUE_EX"))
+            case _:
+                self.BORDER()
+
+    def check_answer(self, answer: str):
+        for indx, option in enumerate(self.OPTIONS):
+            if answer.upper() in (option.NAME, str(indx+1)):
+                option()
+            else:
+                print(system.communicate("Select one of the options shown above!", is_error=True))
+
+    def __call__(self):
+        while True:
+            self.show_menu()
+            self.check_answer(input(system.INPUT))
+
+
+class Option:
+    def __init__(self, name: str, func):
+        self.NAME = name
+        self.FUNC = func
+
+    def __call__(self):
+        self.FUNC()
+
+
+class BorderOption:
+    def __init__(self, lvl: str, name: str, lvl_type: str, descr: str):
+        self.LVL = lvl
+        self.NAME = name
+        self.LVL_TYPE = lvl_type
+        self.DESCR = descr
+        self.DATA = [self.LVL, self.NAME, self.LVL_TYPE, self.DESCR]
+
+
+class Credits:
+    HEADER = "CREDITS:"
+
+    def __init__(self, *args):
+        self.CREDITS = list(args)
+
+    def get_credits(self):
+        for indx, credit in enumerate(self.CREDITS):
+            text = f"{indx+1}. {credit}"
+            system.get_text_by_let(text)
+            print()
+        sleep(1)
+        print()
+
+    @staticmethod
+    def leave_credits():
+        print(system.communicate("All audio was taken from freesound.org", "LIGHTWHITE_EX", is_underlined=True))
+        input(system.communicate(">>> Press ENTER to leave", "LIGHTRED_EX"))
+        pygame.mixer.music.stop()
+
+    def __call__(self):
+        credits_soundtrack()
+        system.get_ascii_text(self.HEADER)
+        self.get_credits()
+        self.leave_credits()
+
+
+credits_ = Credits("Egor Pavlenko - CEO")
