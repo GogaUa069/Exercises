@@ -2,9 +2,7 @@
 
 # Add CONTINUE MENU
 # Add channels for soundtracks
-
-# DO SMTH: (funcs)
-# goodbye_func
+# Add goodbye func
 
 # ***************************************************************************************************
 
@@ -28,6 +26,10 @@ pygame.mixer.init()
 
 
 class SystemPrompt:
+    """
+    Class for all basic things and patterns.
+    """
+
     COLORS = [attr for attr in dir(colorama.Fore) if not attr.startswith("_")]
 
     def __init__(self):
@@ -44,16 +46,26 @@ class SystemPrompt:
 
     @staticmethod
     def del_ascii(text: str):
+        """
+        Deletes color from text.
+        """
         ansi_escape = re.compile(r"\x1B[@-_][0-?]*[ -/]*[@-~]")
         return ansi_escape.sub("", text)
 
     @staticmethod
     def resource_path(relative_path: str):
+        """
+        Used to save soundtracks.
+        :param relative_path: path to soundtrack
+        """
         base_path = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
         return os.path.join(base_path, relative_path)
 
     @staticmethod
     def communicate(text=None, color=None, is_error=False, is_bold=False, is_underlined=False):
+        """
+        Pattern for communicates.
+        """
         if text is None and color is None:
             return None
         elif is_error:
@@ -68,6 +80,9 @@ class SystemPrompt:
         return colored_text
 
     def get_ascii_text(self, text: str, color="LIGHTBLUE_EX", font="standard"):
+        """
+        Prints text in ASCII format.
+        """
         f = pyfiglet.Figlet(font=font)
         ascii_text = f.renderText(text)
         for line in ascii_text.splitlines():
@@ -75,11 +90,17 @@ class SystemPrompt:
             sleep(0.25)
 
     def get_text_by_let(self, text: str):
+        """
+        Prints text char by char.
+        """
         for char in text:
             sleep(0.21)
             print(self.communicate(char, "LIGHTWHITE_EX"), end="")
 
     def get_rules(self):
+        """
+        Gives rules line by line.
+        """
         for line in self.RULES:
             print(line, end="")
             input()
@@ -89,12 +110,19 @@ system = SystemPrompt()
 
 
 class Soundtrack:
+    """
+    Soundtrack pattern.
+    """
+
     def __init__(self, name: str, repeats=1):
         self.NAME = name
         self.REPEATS = repeats
 
     @staticmethod
     def turn_off_soundtrack():
+        """
+        Turning off a soundtrack.
+        """
         pygame.mixer.music.stop()
         print(system.communicate("Music if turned Off", "LIGHTRED_EX"))
 
@@ -111,11 +139,17 @@ jazz3 = Soundtrack("Jazz3.wav", -1)
 
 
 class SoundPrompt:
+    """
+    Works with sounds.
+    """
     YOU_WIN_SOUND = pygame.mixer.Sound("Sounds/YouWinSound.wav")
     YOU_LOST_SOUND = pygame.mixer.Sound("Sounds/YouLostSound.wav")
     ABLE_TO_PLAY = True
 
     def __call__(self):
+        """
+        Toggles sound.
+        """
         self.ABLE_TO_PLAY = not self.ABLE_TO_PLAY
         match self.ABLE_TO_PLAY:
             case True:
@@ -130,6 +164,10 @@ toggle_sound = SoundPrompt()
 
 
 class WinStreakController:
+    """
+    All about win streak.
+    """
+
     ENCODING = "utf-8"
     RESOURCE_NAME = SAVE_NAME = "Utils/WIN_STREAK_FILE"
 
@@ -139,10 +177,17 @@ class WinStreakController:
 
     @staticmethod
     def _resource_path(relative_path: str):
+        """
+        ...
+        :param relative_path: ...
+        """
         base_path = getattr(sys, "_MEIPASS", os.path.dirname(__file__))
         return os.path.join(base_path, relative_path)
 
     def _ensure_writable_copy(self):
+        """
+        ...
+        """
         if not os.path.exists(self.SAVE_PATH):
             try:
                 shutil.copyfile(self._resource_path(self.RESOURCE_NAME), self.SAVE_PATH)
@@ -151,6 +196,9 @@ class WinStreakController:
                     file.write("0")
 
     def get_win_streak(self, is_communicate=False):
+        """
+        Returns your win streak.
+        """
         with open(self.SAVE_PATH, "r", encoding=self.ENCODING) as file:
             streak = file.read()
             if not is_communicate:
@@ -210,8 +258,8 @@ class Credits:
         self.CREDITS = list(args)
 
     def get_credits(self):
-        for indx, credit in enumerate(self.CREDITS):
-            text = f"{indx+1}. {credit}"
+        for indx, credit in enumerate(self.CREDITS, 1):
+            text = f"{indx}. {credit}"
             system.get_text_by_let(text)
             print()
         sleep(1)
