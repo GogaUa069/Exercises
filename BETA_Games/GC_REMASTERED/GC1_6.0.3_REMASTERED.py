@@ -1,4 +1,4 @@
-# Guess Code 1 v6.0.2 Remastered
+# Guess Code 1 v6.0.3 Remastered
 
 # Add CONTINUE MENU
 # Add channels for soundtracks
@@ -127,7 +127,7 @@ class Soundtrack:
         Turning off a soundtrack.
         """
         pygame.mixer.music.stop()
-        print(system.communicate("Music if turned Off", "LIGHTRED_EX"))
+        print(system.communicate(">>> Music if turned Off", "LIGHTRED_EX"))
 
     def __call__(self):
         pygame.mixer.music.load(f"Soundtracks/{self.NAME}")
@@ -157,10 +157,10 @@ class SoundPrompt:
         match self.ABLE_TO_PLAY:
             case True:
                 self.YOU_WIN_SOUND.play(maxtime=2350)
-                print(system.communicate("Sound is turned ON", "LIGHTGREEN_EX"))
+                print(system.communicate(">>> Sound is turned ON", "LIGHTGREEN_EX"))
             case False:
                 self.YOU_LOST_SOUND.play(maxtime=2500)
-                print(system.communicate("Sound is turned OFF", "LIGHTRED_EX"))
+                print(system.communicate(">>> Sound is turned OFF", "LIGHTRED_EX"))
 
 
 toggle_sound = SoundPrompt()
@@ -181,7 +181,6 @@ class WinStreakController:
     def _resource_path(relative_path: str):
         """
         ...
-        :param relative_path: ...
         """
         base_path = getattr(sys, "_MEIPASS", os.path.dirname(__file__))
         return os.path.join(base_path, relative_path)
@@ -258,7 +257,7 @@ class GameIntro:
     def __call__(self):
         intro_soundtrack()
         self.get_my_accounts()
-        self.show_game_banner("Guess Code v6.0.2\nRemastered")
+        self.show_game_banner("Guess Code v6.0.3\nRemastered")
         self.loading()
 
 
