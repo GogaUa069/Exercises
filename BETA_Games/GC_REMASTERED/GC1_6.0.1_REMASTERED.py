@@ -1,4 +1,4 @@
-# Guess Code 2.0 REMASTERED BETA
+# Guess Code 1 v6.0.1 Remastered
 
 # Add CONTINUE MENU
 # Add channels for soundtracks
@@ -223,8 +223,8 @@ class GameIntro:
     Instagram_URL = "https://www.instagram.com/gogaua096/"
 
     def get_my_accounts(self):
-        print(system.communicate(f"{self.Instagram_URL} - Follow me on Instagram :)", "CYAN"))
-        print(system.communicate(f"{self.GitHub_URL} - Check my GitHub\n", "CYAN"))
+        print(system.communicate(f"Follow me on Instagram -> {self.Instagram_URL}", "CYAN"))
+        print(system.communicate(f"Check my GitHub -> {self.GitHub_URL}\n", "CYAN"))
 
     @staticmethod
     def loading():
@@ -247,7 +247,7 @@ class GameIntro:
     def __call__(self):
         intro_soundtrack()
         self.get_my_accounts()
-        self.show_game_banner("Guess Code v6.0.0\nRemastered")
+        self.show_game_banner("Guess Code v6.0.1\nRemastered")
         self.loading()
 
 
