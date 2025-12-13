@@ -1,4 +1,4 @@
-# Guess Code 1 v6.0.1 Remastered
+# Guess Code 1 v6.0.2 Remastered
 
 # Add CONTINUE MENU
 # Add channels for soundtracks
@@ -28,7 +28,6 @@ class SystemPrompt:
     """
     Class for all basic things and patterns.
     """
-
     COLORS = [attr for attr in dir(colorama.Fore) if not attr.startswith("_")]
 
     def __init__(self):
@@ -55,7 +54,6 @@ class SystemPrompt:
     def resource_path(relative_path: str):
         """
         Used to save soundtracks.
-        :param relative_path: path to soundtrack
         """
         base_path = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
         return os.path.join(base_path, relative_path)
@@ -79,6 +77,9 @@ class SystemPrompt:
         return colored_text
 
     def quit_game(self):
+        """
+        Quits the game.
+        """
         print(self.communicate("Goodbye :)", "LIGHTCYAN_EX"))
         sleep(0.5)
 
@@ -116,7 +117,6 @@ class Soundtrack:
     """
     Soundtrack pattern.
     """
-
     def __init__(self, name: str, repeats=1):
         self.NAME = name
         self.REPEATS = repeats
@@ -170,7 +170,6 @@ class WinStreakController:
     """
     All about win streak.
     """
-
     ENCODING = "utf-8"
     RESOURCE_NAME = SAVE_NAME = "Utils/WIN_STREAK_FILE"
 
@@ -219,15 +218,24 @@ win_streak_controller = WinStreakController()
 
 
 class GameIntro:
+    """
+    All about game intro.
+    """
     GitHub_URL = "https://github.com/GogaUa069"
     Instagram_URL = "https://www.instagram.com/gogaua096/"
 
     def get_my_accounts(self):
+        """
+        Showing my accounts.
+        """
         print(system.communicate(f"Follow me on Instagram -> {self.Instagram_URL}", "CYAN"))
         print(system.communicate(f"Check my GitHub -> {self.GitHub_URL}\n", "CYAN"))
 
     @staticmethod
     def loading():
+        """
+        Loading line.
+        """
         with tqdm(total=100) as pbar:
             for i in range(100):
                 color = choice([c for c in system.COLORS if c != "BLACK"])
@@ -237,6 +245,9 @@ class GameIntro:
 
     @staticmethod
     def show_game_banner(banner: str):
+        """
+        Shows game banner.
+        """
         sleep(0.5)
         print(system.communicate("Welcome to:", "CYAN", is_bold=True))
         sleep(1.5)
@@ -247,7 +258,7 @@ class GameIntro:
     def __call__(self):
         intro_soundtrack()
         self.get_my_accounts()
-        self.show_game_banner("Guess Code v6.0.1\nRemastered")
+        self.show_game_banner("Guess Code v6.0.2\nRemastered")
         self.loading()
 
 
@@ -255,12 +266,18 @@ game_intro = GameIntro()
 
 
 class Credits:
+    """
+    About game creator(s)
+    """
     HEADER = "CREDITS:"
 
     def __init__(self, *args):
         self.CREDITS = list(args)
 
     def get_credits(self):
+        """
+        Showing credits.
+        """
         for indx, credit in enumerate(self.CREDITS, 1):
             text = f"{indx}. {credit}"
             system.get_text_by_let(text)
@@ -270,6 +287,9 @@ class Credits:
 
     @staticmethod
     def leave_credits():
+        """
+        Leaving the credits menu
+        """
         print(system.communicate("All audio was taken from freesound.org", "LIGHTWHITE_EX", is_underlined=True))
         input(system.communicate(">>> Press ENTER to leave", "LIGHTRED_EX"))
         pygame.mixer.music.stop()
@@ -285,6 +305,9 @@ credits_ = Credits("Egor Pavlenko - CEO")
 
 
 class Option:
+    """
+    Options for Menus
+    """
     def __init__(self, name: str, func):
         self.NAME = name
         self.FUNC = func
@@ -294,6 +317,9 @@ class Option:
 
 
 class BorderOption:
+    """
+    Options for Borders.
+    """
     def __init__(self, lvl: str, name: str, lvl_type: str, descr: str):
         self.LVL = lvl
         self.NAME = name
@@ -313,10 +339,16 @@ LEVELS = [
 
 
 class MenuPattern:
+    """
+    Pattern for Menus.
+    """
     def __init__(self, header: str, options: tuple, border=None):
         self.HEADER, self.OPTIONS, self.BORDER = header, options, border
 
     def show_menu(self):
+        """
+        Showing menu: In text format or border.
+        """
         if self.BORDER is None:
             print(system.communicate(f"\n>>> {self.HEADER}", "LIGHTRED_EX"))
             for i, opt in enumerate(self.OPTIONS, 1):
@@ -325,6 +357,9 @@ class MenuPattern:
             self.BORDER()
 
     def check_answer(self, answer: str):
+        """
+        Checks answer in menu.
+        """
         for indx, option in enumerate(self.OPTIONS, 1):
             if answer.upper() in (option.NAME.upper(), str(indx)):
                 option()
@@ -340,6 +375,9 @@ class MenuPattern:
 
 
 class BorderPattern:
+    """
+    Pattern for border type menu.
+    """
     HEADERS = ["LVL", "NAME", "TYPE", "DESCRIPTION"]
 
     def __init__(self, levels: list):
