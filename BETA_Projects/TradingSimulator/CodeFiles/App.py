@@ -4,7 +4,15 @@ from secrets import choice, randbelow
 import yaml
 
 
-class App:
+class PrivacyPolicyAgreement:
+    __ex_counter = 1
+
+    def __new__(cls, *args, **kwargs):
+        if cls.__ex_counter == 1:
+            cls.__ex_counter += 1
+            return super().__new__(cls)
+        return None
+
     @staticmethod
     def _get_privacy_policy():
         try:
@@ -25,9 +33,23 @@ class App:
             if input(system.INPUT) == agreement_code:
                 break
 
-    def _privacy_policy_agreement(self):
-        self._get_privacy_policy()
-        self._repeat_agreement_code()
+    @classmethod
+    def privacy_policy_agreement(cls):
+        cls._get_privacy_policy()
+        cls._repeat_agreement_code()
+
+
+privacy_policy_agreement = PrivacyPolicyAgreement()
+
+
+class App:
+    __ex_counter = 1
+
+    def __new__(cls, *args, **kwargs):
+        if cls.__ex_counter == 1:
+            cls.__ex_counter += 1
+            return super().__new__(cls)
+        return None
 
     @staticmethod
     def _upload_account_data(data: dict):
@@ -36,27 +58,27 @@ class App:
         with open(f"{system.ACCOUNT_DIRECTORY_PATH}{account_file}.yaml", "w", encoding=system.FILE_ENCODING) as file:
             yaml.dump(data, file, default_flow_style=False)
 
-    @staticmethod
-    def _set_user_field(field_name: str, pattern: str) -> str:
-        while True:
-            value = input(system.INPUT)
-            if system.validator(value, pattern):
-                return value
-            print(system.communicate(f"Invalid {field_name}, try again!", "LIGHTRED_EX"))
+    # @staticmethod
+    # def _set_user_field(field_name: str, pattern: str) -> str:
+    #     while True:
+    #         value = input(system.INPUT)
+    #         if system.validator(value, pattern):
+    #             return value
+    #         print(system.communicate(f"Invalid {field_name}, try again!", "LIGHTRED_EX"))
 
-    def _register_account(self):
-        fields = {
-            "name": "full_name",
-            "last_name": "full_name",
-            "email": "email"
-        }
-        return {field: self._set_user_field(field, pattern) for field, pattern in fields.items()}
+    # def _register_account(self):
+    #     fields = {
+    #         "name": "full_name",
+    #         "last_name": "full_name",
+    #         "email": "email"
+    #     }
+    #     return {field: self._set_user_field(field, pattern) for field, pattern in fields.items()}
 
-    def sign_up(self):
-        self._privacy_policy_agreement()
-        account_data = self._register_account()
-        self._upload_account_data(account_data)
-        print(system.communicate("Congratulations! You have just created your own account!", "LIGHTRED_EX"))
+    # def sign_up(self):
+    #     privacy_policy_agreement.privacy_policy_agreement()
+    #     account_data = self._register_account()
+    #     self._upload_account_data(account_data)
+    #     print(system.communicate("Congratulations! You have just created your own account!", "LIGHTRED_EX"))
 
     def sign_in(self):
         ...
