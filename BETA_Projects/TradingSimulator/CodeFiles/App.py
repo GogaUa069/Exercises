@@ -1,4 +1,5 @@
 from SystemConfig import system
+import uuid
 from secrets import choice, randbelow
 import yaml
 
@@ -30,9 +31,9 @@ class App:
 
     @staticmethod
     def _upload_account_data(data: dict):
-        account_id = str(randbelow(10000))
-        account_file = "User" + account_id.rjust(5, "0")
-        with open(f"{system.ACCOUNT_DIRECTORY_PATH}{account_file}", "w", encoding=system.FILE_ENCODING) as file:
+        account_id = str(uuid.uuid4())[:8]
+        account_file = f"User_{account_id}"
+        with open(f"{system.ACCOUNT_DIRECTORY_PATH}{account_file}.yaml", "w", encoding=system.FILE_ENCODING) as file:
             yaml.dump(data, file, default_flow_style=False)
 
     @staticmethod
@@ -55,6 +56,7 @@ class App:
         self._privacy_policy_agreement()
         account_data = self._register_account()
         self._upload_account_data(account_data)
+        print(system.communicate("Congratulations! You have just created your own account!", "LIGHTRED_EX"))
 
     def sign_in(self):
         ...
@@ -74,3 +76,7 @@ class App:
                     break
                 case _:
                     print(system.communicate("Please, select one of the options shown above!", "LIGHTRED_EX"))
+
+
+app = App()
+app.welcome()

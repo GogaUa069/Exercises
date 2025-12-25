@@ -20,7 +20,7 @@ class SystemConfig:
         return None
 
     def __init__(self):
-        self.INPUT = self.communicate("<<< ", "LIGHTWHITE_EX")
+        self.INPUT = self.communicate("<<< ", "LIGHTWHITE_EX", False)
 
     @staticmethod
     def communicate(text: str, color: str, is_system: bool=True) -> str:
