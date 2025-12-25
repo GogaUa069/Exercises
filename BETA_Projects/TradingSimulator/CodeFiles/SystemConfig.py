@@ -3,10 +3,11 @@ from string import ascii_letters as letters, digits
 from colorama import Fore, Style
 
 
-class SystemPrompt:
+class SystemConfig:
     __ex_counter = 1
 
     AGREEMENT_CODE_CHARS = letters + digits
+    ACCOUNT_DIRECTORY_PATH = "TradingSimulator/Accounts/"
     PRIVACY_POLICY_FILE = "../Utils/PrivacyPolicy"
     FILE_ENCODING = "utf-8"
     PATTERNS = {"full_name": re.compile(r"^[a-zA-Z-' ]{9}$"),
@@ -30,4 +31,4 @@ class SystemPrompt:
         return self.PATTERNS[pattern].fullmatch(value) is not None
 
 
-system = SystemPrompt()
+system = SystemConfig()
