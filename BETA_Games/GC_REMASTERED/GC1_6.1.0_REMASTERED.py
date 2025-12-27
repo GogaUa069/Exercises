@@ -1,7 +1,8 @@
-# Guess Code 1 v6.0.3 Remastered
+# Guess Code 1 v6.1.0 Remastered
 
 # Add CONTINUE MENU
 # Add channels for soundtracks
+# Make a few files
 
 # ***************************************************************************************************
 
@@ -34,16 +35,16 @@ class SystemPrompt:
         self.INPUT = self.communicate("<<< ", "LIGHTWHITE_EX")
         self.RULES = (self.communicate("Press ENTER to continue\n","LIGHTRED_EX"),
                       self.communicate(">>> Rules:","LIGHTRED_EX"),
-                      self.communicate(">>> Find the number the computer guessed.","BLUE"),
-                      self.communicate(">>> 1. Select a range (e.g. 5-200).","BLUE"),
-                      self.communicate(">>> 2. Start guessing.","BLUE"),
+                      self.communicate(">>> Find the number the computer guessed.","LIGHTBLUE_EX"),
+                      self.communicate(">>> 1. Select a range (e.g. 5-200).","LIGHTBLUE_EX"),
+                      self.communicate(">>> 2. Start guessing.","LIGHTBLUE_EX"),
                       self.communicate(">>> Your turn!","LIGHTRED_EX"))
         self.LVL_TYPES = {"COMMON": self.communicate("COMMON", "LIGHTBLUE_EX"),
                           "EPIC": self.communicate("EPIC", "LIGHTMAGENTA_EX"),
                           "LEGENDARY": self.communicate("LEGENDARY", "LIGHTYELLOW_EX")}
 
     @staticmethod
-    def del_ascii(text: str):
+    def del_color(text: str):
         """
         Deletes color from text.
         """
@@ -80,7 +81,7 @@ class SystemPrompt:
         """
         Quits the game.
         """
-        print(self.communicate("Goodbye :)", "LIGHTCYAN_EX"))
+        print(self.communicate("Goodbye! :)", "LIGHTCYAN_EX"))
         sleep(0.5)
 
     def get_ascii_text(self, text: str, color="LIGHTBLUE_EX", font="standard"):
@@ -130,7 +131,7 @@ class Soundtrack:
         print(system.communicate(">>> Music if turned Off", "LIGHTRED_EX"))
 
     def __call__(self):
-        pygame.mixer.music.load(f"Soundtracks/{self.NAME}")
+        pygame.mixer.music.load(system.resource_path(f"Soundtracks/{self.NAME}"))
         pygame.mixer.music.play(self.REPEATS)
 
 
@@ -145,8 +146,8 @@ class SoundPrompt:
     """
     Works with sounds.
     """
-    YOU_WIN_SOUND = pygame.mixer.Sound("Sounds/YouWinSound.wav")  # MAXTIME = 2350
-    YOU_LOST_SOUND = pygame.mixer.Sound("Sounds/YouLostSound.wav")  # MAXTIME = 2500
+    YOU_WIN_SOUND = pygame.mixer.Sound(system.resource_path("Sounds/YouWinSound.wav"))  # MAXTIME = 2350
+    YOU_LOST_SOUND = pygame.mixer.Sound(system.resource_path("Sounds/YouLostSound.wav"))  # MAXTIME = 2500
     ABLE_TO_PLAY = True
 
     def __call__(self):
@@ -257,7 +258,7 @@ class GameIntro:
     def __call__(self):
         intro_soundtrack()
         self.get_my_accounts()
-        self.show_game_banner("Guess Code v6.0.3\nRemastered")
+        self.show_game_banner("Guess Code v6.1.0\nRemastered")
         self.loading()
 
 
@@ -381,7 +382,7 @@ class BorderPattern:
 
     def __init__(self, levels: list):
         self.DATA = [self.HEADERS] + [lvl.DATA for lvl in levels]
-        self.WIDTHS = [max(len(system.del_ascii(item)) for item in col) for col in zip(*self.DATA)]
+        self.WIDTHS = [max(len(system.del_color(item)) for item in col) for col in zip(*self.DATA)]
 
     def __call__(self):
         for row in self.DATA:
@@ -436,6 +437,9 @@ main_menu = MenuPattern("Main Menu", main_menu_options)
 
 
 def game():
+    """
+    Main game func.
+    """
     game_intro()
     main_menu()
 
