@@ -1,6 +1,7 @@
 # v 5.2.0-beta
 
 # Add PLAY AGAIN menu
+# Add channels for soundtracks
 
 from pathlib import Path
 import shutil
@@ -157,7 +158,7 @@ class GameIntro:
                 color = choice([c for c in system.COLORS if c != "BLACK"])
                 pbar.set_description_str(system.get_colored_text("Loading", color))
                 pbar.update(1)
-                time.sleep(0.03)
+                time.sleep(0.04)
         print()
 
     @staticmethod
