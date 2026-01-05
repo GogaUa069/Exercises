@@ -4,7 +4,7 @@ from random import randint
 WIDTH = 175
 HEIGHT = 25
 
-border = [[Fore.WHITE + "*" + Style.RESET_ALL for _ in range(WIDTH)] for _ in range(HEIGHT)]
+border = [[Fore.WHITE + "." + Style.RESET_ALL for _ in range(WIDTH)] for _ in range(HEIGHT)]
 
 
 def get_border():
