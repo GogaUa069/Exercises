@@ -1,47 +1,59 @@
 from colorama import Fore, Style
 from random import randint
 
-WIDTH = 175
-HEIGHT = 25
 
-border = [[Fore.WHITE + "." + Style.RESET_ALL for _ in range(WIDTH)] for _ in range(HEIGHT)]
+class Border:
+    WIDTH = 175
+    HEIGHT = 25
+    fog = Fore.LIGHTBLACK_EX + "*" + Style.RESET_ALL
+
+    def __init__(self):
+        self.border = [[Fore.WHITE + "." + Style.RESET_ALL for _ in range(self.WIDTH)] for _ in range(self.HEIGHT)]
+        self()
+
+    def get_border(self):
+        for line in self.border:
+            print("".join(line))
+        print()
+
+    def set_forest(self):
+        for _ in range(150):
+            x = randint(0, self.WIDTH-1)
+            y = randint(0, self.HEIGHT-1)
+            self.border[y][x] = Fore.LIGHTGREEN_EX + "^" + Style.RESET_ALL
+
+    def set_river(self):
+        half_x = self.WIDTH//2
+        for indx, line in enumerate(self.border):
+            step = randint(-2, 2)
+            length = randint(5, 7)
+            for i in range(length):
+                self.border[indx][half_x+step+i] = Fore.LIGHTBLUE_EX + "=" + Style.RESET_ALL
+
+    def set_roads(self):
+        y1, y2 = randint(1, self.HEIGHT-2), randint(1, self.HEIGHT-2)
+        self.border[y1][1:6] = ("=", )*5
+        self.border[y2][-6:-1] = ("=", )*5
+
+    def set_lines(self):
+        for line in self.border:
+            line[0] = Fore.LIGHTGREEN_EX + "|" + Style.RESET_ALL
+            line[-1] = Fore.LIGHTRED_EX + "|" + Style.RESET_ALL
+
+    def get_fog_map(self):
+        border = [row[:] for row in self.border]
+        half_x = self.WIDTH//2
+        for line in border:
+            line[half_x:] = [self.fog]*(self.WIDTH-half_x)
+            print("".join(line))
+
+    def __call__(self, *args, **kwargs):
+        self.set_forest()
+        self.set_river()
+        self.set_roads()
+        self.set_lines()
 
 
-def get_border():
-    for line in border:
-        print("".join(line))
-
-
-def set_forest():
-    for _ in range(150):
-        x = randint(0, WIDTH-1)
-        y = randint(0, HEIGHT-1)
-        border[y][x] = Fore.LIGHTGREEN_EX + "^" + Style.RESET_ALL
-
-
-def set_river():
-    half_board = WIDTH//2
-    for indx, line in enumerate(border):
-        step = randint(-1, 1)
-        length = randint(3, 7)
-        for i in range(length):
-            border[indx][half_board+step+i] = Fore.LIGHTBLUE_EX + "=" + Style.RESET_ALL
-
-
-def set_roads():
-    y1, y2 = randint(1, HEIGHT-2), randint(1, HEIGHT-2)
-    border[y1][1:6] = ("=", )*5
-    border[y2][-6:-1] = ("=", )*5
-
-
-def set_lines():
-    for line in border:
-        line[0] = Fore.LIGHTGREEN_EX + "|" + Style.RESET_ALL
-        line[-1] = Fore.LIGHTRED_EX + "|" + Style.RESET_ALL
-
-
-set_forest()
-set_river()
-set_roads()
-set_lines()
-get_border()
+border1 = Border()
+# border1.get_border()
+# border1.get_fog_map()
