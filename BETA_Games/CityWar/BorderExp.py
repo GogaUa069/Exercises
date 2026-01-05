@@ -9,6 +9,7 @@ class Border:
 
     def __init__(self):
         self.border = [[Fore.WHITE + "." + Style.RESET_ALL for _ in range(self.WIDTH)] for _ in range(self.HEIGHT)]
+        self.fog_border = None
         self()
 
     def get_border(self):
@@ -40,20 +41,28 @@ class Border:
             line[0] = Fore.LIGHTGREEN_EX + "|" + Style.RESET_ALL
             line[-1] = Fore.LIGHTRED_EX + "|" + Style.RESET_ALL
 
-    def get_fog_map(self):
-        border = [row[:] for row in self.border]
+    def set_fog_border(self):
+        self.fog_border = [row[:] for row in self.border]
         half_x = self.WIDTH//2
-        for line in border:
+        for line in self.fog_border:
             line[half_x:] = [self.fog]*(self.WIDTH-half_x)
+
+    def get_fog_border(self):
+        for line in self.fog_border:
             print("".join(line))
+        print()
+
+    def set_drone_position(self):
+        x = int(input("X: "))
+        y = int(input("Y: "))
+        self.fog_border[y][x] = self.border[y][x]
 
     def __call__(self, *args, **kwargs):
         self.set_forest()
         self.set_river()
         self.set_roads()
         self.set_lines()
+        self.set_fog_border()
 
 
 border1 = Border()
-# border1.get_border()
-# border1.get_fog_map()
