@@ -1,4 +1,4 @@
-# Guess Code 1 v6.1.0 Remastered
+# Guess Code 1 v6.1.1 Remastered
 
 # Add CONTINUE MENU
 # Add channels for soundtracks
@@ -27,7 +27,7 @@ pygame.mixer.init()
 
 class SystemPrompt:
     """
-    Class for all basic things and patterns.
+    Class for all patterns.
     """
     COLORS = [attr for attr in dir(colorama.Fore) if not attr.startswith("_")]
 
@@ -54,7 +54,7 @@ class SystemPrompt:
     @staticmethod
     def resource_path(relative_path: str):
         """
-        Used to save soundtracks.
+        Saves soundtracks.
         """
         base_path = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
         return os.path.join(base_path, relative_path)
@@ -199,7 +199,7 @@ class WinStreakController:
 
     def get_win_streak(self, is_communicate=False):
         """
-        Returns your win streak.
+        Returns win streak.
         """
         with open(self.SAVE_PATH, "r", encoding=self.ENCODING) as file:
             streak = file.read()
@@ -224,9 +224,9 @@ class GameIntro:
     GitHub_URL = "https://github.com/GogaUa069"
     Instagram_URL = "https://www.instagram.com/gogaua096/"
 
-    def get_my_accounts(self):
+    def get_accounts(self):
         """
-        Showing my accounts.
+        Shows accounts.
         """
         print(system.communicate(f"Follow me on Instagram -> {self.Instagram_URL}", "CYAN"))
         print(system.communicate(f"Check my GitHub -> {self.GitHub_URL}\n", "CYAN"))
@@ -257,8 +257,8 @@ class GameIntro:
 
     def __call__(self):
         intro_soundtrack()
-        self.get_my_accounts()
-        self.show_game_banner("Guess Code v6.1.0\nRemastered")
+        self.get_accounts()
+        self.show_game_banner("Guess Code v6.1.1\nRemastered")
         self.loading()
 
 
