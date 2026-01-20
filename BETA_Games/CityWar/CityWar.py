@@ -1,21 +1,17 @@
+from SysConfig import system
 from random import randint
-from colorama import Fore, Style
-
-
-def color_text(text, color):
-    return getattr(Fore, color) + text + Style.RESET_ALL
 
 
 class Border:
     WIDTH = 1000
     HEIGHT = 100
 
-    left_border = color_text("|", "LIGHTGREEN_EX")
-    right_border = color_text("|", "LIGHTRED_EX")
-    water = color_text("≈", "LIGHTBLUE_EX")
-    tree = color_text("^", "LIGHTGREEN_EX")
-    fog = color_text("*", "LIGHTBLACK_EX")
-    space = color_text(".", "WHITE")
+    left_border = system.communicate("|", "LIGHTGREEN_EX")
+    right_border = system.communicate("|", "LIGHTRED_EX")
+    water = system.communicate("≈", "LIGHTBLUE_EX")
+    tree = system.communicate("^", "LIGHTGREEN_EX")
+    fog = system.communicate("*", "LIGHTBLACK_EX")
+    space = system.communicate(".", "WHITE")
     road = "="
 
     def __init__(self):
