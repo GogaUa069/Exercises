@@ -9,6 +9,10 @@ class SysConfig:
     def communicate(text, color):
         return getattr(Fore, color) + text + Style.RESET_ALL
 
+    @staticmethod
+    def underlined_text(text):
+        return "\033[4m" + text + "\033[0m"
+
     class Menu:
         def __init__(self, header, options):
             self.HEADER = header
@@ -20,7 +24,7 @@ class SysConfig:
                 print(system.communicate(f"{indx}. {option.NAME}", "GREEN"))
 
         def _check_answer(self, answer):
-            for indx, option in enumerate(self.OPTIONS):
+            for indx, option in enumerate(self.OPTIONS, 1):
                 if answer.upper() in (option.NAME.upper(), str(indx)):
                     option()
 
@@ -37,7 +41,6 @@ class SysConfig:
             self.FUNC = func
 
         def __call__(self):
-            print()
             self.FUNC()
 
 

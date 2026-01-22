@@ -21,9 +21,9 @@ class Border:
 
     @staticmethod
     def get_border(b):
+        print()
         for line in b:
             print("".join(line))
-        print()
 
     def set_forest(self, trees=3000):
         for _ in range(trees):
@@ -70,5 +70,24 @@ class Border:
 
 
 border = Border()
-border.get_border(border.BORDER)
-border.get_border(border.FOG_BORDER)
+fog_border = lambda: border.get_border(border.FOG_BORDER)
+ex_func = lambda: None
+
+# HEADQUARTER
+map_option = system.Option("MAP", fog_border)
+army_option = system.Option("ARMY", ex_func)  # ***
+logistics_option = system.Option("LOGISTICS", ex_func)  # ***
+from_hq_to_main_menu = system.Option(system.underlined_text("Back - Main Menu"), ex_func)  # ***
+
+headquarter_options = (map_option, army_option, logistics_option, from_hq_to_main_menu)
+headquarter_menu = system.Menu("Headquarter", headquarter_options)
+
+# MAIN MENU
+battle_option = system.Option("BATTLE", headquarter_menu)
+settings_option = system.Option("SETTINGS", ex_func)  # ***
+quit_option = system.Option(system.underlined_text("QUIT"), ex_func)  # ***
+
+main_menu_options = (battle_option, settings_option, quit_option)
+main_menu = system.Menu("Main Menu", main_menu_options)
+
+main_menu()
