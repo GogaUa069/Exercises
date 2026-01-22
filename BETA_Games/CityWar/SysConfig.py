@@ -27,6 +27,8 @@ class SysConfig:
             for indx, option in enumerate(self.OPTIONS, 1):
                 if answer.upper() in (option.NAME.upper(), str(indx)):
                     option()
+                    return
+            print(system.communicate("ERROR: Select one of the options shown above!", "LIGHTRED_EX"))
 
         def __call__(self):
             answer = str()
