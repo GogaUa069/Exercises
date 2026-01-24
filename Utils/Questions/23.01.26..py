@@ -5,6 +5,12 @@ colors = (Fore.LIGHTRED_EX, Fore.LIGHTYELLOW_EX, Fore.LIGHTGREEN_EX, Fore.LIGHTB
 
 
 class Question:
+    amount = 0
+
+    def __new__(cls, *args, **kwargs):
+        cls.amount += 1
+        return super().__new__(cls)
+
     def __init__(self, question: str, answers: dict):
         self.question = question
         self.answers = answers
@@ -27,7 +33,9 @@ q11 = Question("6 razy 8 ...", {"...wygra 48": 6, "...48": 6, "...68": 1, "nie w
 q12 = Question("'eaeaa' czy 'gadagadigada'?", {"eaeaa": 2, "gadagadigada": 5, "nie wiem": 24})
 q13 = Question("Jaki biznes byś wolał: zbieranie kasztanów czy zbieranie żołędzi?",
                {"Kasztany": 10, "Żołędzie": 1, "nie wiem": 20})
-q14 = Question("Czy jesteś 'tan'?", {"tak": 3, "nie": 8, "nie wiem": 20})
+q14 = Question("Czy jesteś 'ten'?", {"tak": 3, "nie": 8, "nie wiem": 20})
+
+questions_list = [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14]
 
 
 class Chart:
@@ -45,7 +53,7 @@ class Chart:
             self.list_values.append([j for j in range(value+1)])
 
     def get_question_and_legend(self):
-        print(f"\nPYTANIE: {self.question.question}\n")
+        print(f"\nLiczba uczestników: 31\nPYTANIE: {self.question.question}\n")
         for indx, item in enumerate(self.keys):
             line = colors[indx] + "|" + Style.RESET_ALL
             print(f"{item} - {line} ({self.question.answers[item]})")
@@ -59,5 +67,6 @@ class Chart:
         self.get_chart()
 
 
-chart = Chart(...)
-chart()
+for indx in range(Question.amount):
+    chart = Chart(questions_list[indx])
+    chart()
