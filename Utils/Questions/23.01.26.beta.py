@@ -26,15 +26,15 @@ q10 = Question("'OK, pa' czy 'Nie, cześć'?", {"'OK, pa'": 5, "'Nie, cześć'":
 q11 = Question("6 razy 8 ...", {"...wygra 48": 6, "...48": 6, "...68": 1, "nie wiem": 8})
 q12 = Question("'eaeaa' czy 'gadagadigada'?", {"eaeaa": 2, "gadagadigada": 5, "nie wiem": 24})
 q13 = Question("Jaki biznes byś wolał: zbieranie kasztanów czy zbieranie żołędzi?",
-               {"Kasztany": 10, "Żołędzie": 1, "nie wiem": 10})
-q14 = Question("Czy jesteś 'tan'?", {"tak": 3, "nie": 8, "nie wiem": 10})
+               {"Kasztany": 10, "Żołędzie": 1, "nie wiem": 20})
+q14 = Question("Czy jesteś 'tan'?", {"tak": 3, "nie": 8, "nie wiem": 20})
 
 
 class Chart:
     def __init__(self, question: Question):
         self.question = question
+        self.values = sorted(list(self.question.answers.values()), reverse=True)
         self.keys = list(self.question.answers.keys())
-        self.values = list(self.question.answers.values())
         self.config = {"colors": [ac.lightred, ac.lightyellow, ac.lightgreen, ac.lightblue, ac.cyan, ac.magenta],
                        "min": 0, "max": 31}
         self.list_values = []
@@ -59,5 +59,5 @@ class Chart:
         self.get_chart()
 
 
-chart = Chart(q1)
+chart = Chart(q14)
 chart()
