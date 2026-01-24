@@ -36,7 +36,7 @@ class Chart:
         self.values = sorted(list(self.question.answers.values()), reverse=True)
         self.keys = sorted(list(self.question.answers.keys()), reverse=True, key=lambda x: self.question.answers[x])
         self.config = {"colors": [ac.lightred, ac.lightyellow, ac.lightgreen, ac.lightblue, ac.cyan, ac.magenta],
-                       "min": 0, "max": 31}
+                       "min": 0, "max": max(self.values)}
         self.list_values = list()
         self.set_list_values()
 
@@ -59,5 +59,5 @@ class Chart:
         self.get_chart()
 
 
-chart = Chart(q4)
+chart = Chart(...)
 chart()
