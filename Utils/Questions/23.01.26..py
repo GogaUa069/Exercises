@@ -34,10 +34,10 @@ class Chart:
     def __init__(self, question: Question):
         self.question = question
         self.values = sorted(list(self.question.answers.values()), reverse=True)
-        self.keys = list(self.question.answers.keys())
+        self.keys = sorted(list(self.question.answers.keys()), reverse=True, key=lambda x: self.question.answers[x])
         self.config = {"colors": [ac.lightred, ac.lightyellow, ac.lightgreen, ac.lightblue, ac.cyan, ac.magenta],
                        "min": 0, "max": 31}
-        self.list_values = []
+        self.list_values = list()
         self.set_list_values()
 
     def set_list_values(self):
@@ -48,7 +48,7 @@ class Chart:
         print(f"\nPYTANIE: {self.question.question}\n")
         for indx, item in enumerate(self.keys):
             line = colors[indx] + "|" + Style.RESET_ALL
-            print(f"{item} - {line}")
+            print(f"{item} - {line} ({self.question.answers[item]})")
         print()
 
     def get_chart(self):
@@ -59,5 +59,5 @@ class Chart:
         self.get_chart()
 
 
-chart = Chart(q14)
+chart = Chart(q4)
 chart()
