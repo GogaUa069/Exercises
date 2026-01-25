@@ -67,6 +67,10 @@ class Chart:
         self.get_chart()
 
 
-for indx in range(Question.amount):
-    chart = Chart(questions_list[indx])
-    chart()
+def get_charts():
+    for indx in range(Question.amount):
+        chart = Chart(questions_list[indx])
+        chart()
+
+
+get_charts()
