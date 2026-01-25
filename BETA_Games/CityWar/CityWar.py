@@ -74,6 +74,14 @@ fog_border = lambda: border.get_border(border.FOG_BORDER)
 pass_func = lambda: None
 coming_soon = lambda: print(system.communicate("COMING SOON...", "LIGHTWHITE_EX"))
 
+# URBANISATION
+mines_option = system.Option("MINES", coming_soon)  # ***
+fabrics_option = system.Option("FABRICS", coming_soon)  # ***
+from_urbanisation_to_logistics = system.Option("BACK - LOGISTICS", pass_func)
+
+urbanisation_options = (mines_option, fabrics_option, from_urbanisation_to_logistics)
+urbanisation_menu = system.Menu("URBANISATION", urbanisation_options)
+
 # ECONOMY
 income_option = system.Option("INCOME", coming_soon)  # ***
 budget_option = system.Option("BUDGET", coming_soon)  # ***
@@ -105,7 +113,7 @@ soldiers_menu = system.Menu("SOLDIERS", soldiers_options)
 
 # LOGISTICS
 economy_option = system.Option("ECONOMY", economy_menu)
-urbanisation_option = system.Option("URBANISATION", coming_soon)  # ***
+urbanisation_option = system.Option("URBANISATION", urbanisation_menu)
 logistics_transport_option = system.Option("TRANSPORT", coming_soon)  # ***
 from_logistics_to_hq = system.Option(system.underlined_text("BACK - HEADQUARTER"), pass_func)
 
