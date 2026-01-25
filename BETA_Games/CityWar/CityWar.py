@@ -73,6 +73,15 @@ border = Border()
 fog_border = lambda: border.get_border(border.FOG_BORDER)
 ex_func = lambda: None
 
+# ARMY_TRANSPORT
+arc_options = system.Option("ARC", ex_func)  # ***
+troop_transport_option = system.Option("TROOP TRANSPORT", ex_func)  # ***
+aircraft_option = system.Option("AIRCRAFT", ex_func)  # ***
+from_army_transport_to_army = system.Option(system.underlined_text("BACK - ARMY"), ex_func)
+
+army_transport_options = (arc_options, troop_transport_option, aircraft_option, from_army_transport_to_army)
+army_transport_menu = system.Menu("ARMY TRANSPORT", army_transport_options)
+
 # SOLDIERS
 psychology_option = system.Option("PSYCHOLOGY", ex_func)  # ***
 equipment_option = system.Option("EQUIPMENT", ex_func)  # ***
@@ -95,7 +104,7 @@ logistics_menu = system.Menu("LOGISTICS", logistics_options)
 
 # ARMY
 soldiers_option = system.Option("SOLDIERS", soldiers_menu)
-army_transport_option = system.Option("TRANSPORT", ex_func)  # ***
+army_transport_option = system.Option("TRANSPORT", army_transport_menu)
 from_army_to_hq = system.Option(system.underlined_text("BACK - HEADQUARTER"), ex_func)
 
 army_options = (soldiers_option, army_transport_option, from_army_to_hq)
