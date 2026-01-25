@@ -19,7 +19,7 @@ class SysConfig:
             self.OPTIONS = options
 
         def get_menu(self):
-            print(system.communicate(f"\n>>> {self.HEADER}", "LIGHTRED_EX"))
+            print(system.communicate(f"\n[ {self.HEADER} ]", "LIGHTRED_EX"))
             for indx, option in enumerate(self.OPTIONS, 1):
                 print(system.communicate(f"{indx}. {option.NAME}", "GREEN"))
 
