@@ -73,6 +73,17 @@ border = Border()
 fog_border = lambda: border.get_border(border.FOG_BORDER)
 ex_func = lambda: None
 
+# SOLDIERS
+psychology_option = system.Option("PSYCHOLOGY", ex_func)  # ***
+equipment_option = system.Option("EQUIPMENT", ex_func)  # ***
+dislocation_option = system.Option("DISLOCATION", ex_func)  # ***
+habits_option = system.Option("HABITS", ex_func)  # ***
+sections_option = system.Option("SECTIONS", ex_func)  # ***
+from_soldiers_to_army = system.Option(system.underlined_text("BACK - ARMY"), ex_func)
+
+soldiers_options = (psychology_option, equipment_option, dislocation_option, habits_option, sections_option, from_soldiers_to_army)
+soldiers_menu = system.Menu("SOLDIERS", soldiers_options)
+
 # LOGISTICS
 economy_option = system.Option("ECONOMY", ex_func)  # ***
 urbanisation_option = system.Option("URBANISATION", ex_func)  # ***
@@ -83,7 +94,7 @@ logistics_options = (economy_option, urbanisation_option, logistics_transport_op
 logistics_menu = system.Menu("LOGISTICS", logistics_options)
 
 # ARMY
-soldiers_option = system.Option("SOLDIERS", ex_func)  # ***
+soldiers_option = system.Option("SOLDIERS", soldiers_menu)
 army_transport_option = system.Option("TRANSPORT", ex_func)  # ***
 from_army_to_hq = system.Option(system.underlined_text("BACK - HEADQUARTER"), ex_func)
 
