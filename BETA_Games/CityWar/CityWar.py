@@ -73,18 +73,27 @@ border = Border()
 fog_border = lambda: border.get_border(border.FOG_BORDER)
 ex_func = lambda: None
 
+# LOGISTICS
+economy_option = system.Option("ECONOMY", ex_func)  # ***
+urbanisation_option = system.Option("URBANISATION", ex_func)  # ***
+logistics_transport_option = system.Option("TRANSPORT", ex_func)  # ***
+from_logistics_to_hq = system.Option(system.underlined_text("BACK - HEADQUARTER"), ex_func)
+
+logistics_options = (economy_option, urbanisation_option, logistics_transport_option, from_logistics_to_hq)
+logistics_menu = system.Menu("LOGISTICS", logistics_options)
+
 # ARMY
-soldiers_option = system.Option("SOLDIERS", ex_func)
-transport_option = system.Option("TRANSPORT", ex_func)
+soldiers_option = system.Option("SOLDIERS", ex_func)  # ***
+army_transport_option = system.Option("TRANSPORT", ex_func)  # ***
 from_army_to_hq = system.Option(system.underlined_text("BACK - HEADQUARTER"), ex_func)
 
-army_options = (soldiers_option, transport_option, from_army_to_hq)
+army_options = (soldiers_option, army_transport_option, from_army_to_hq)
 army_menu = system.Menu("ARMY", army_options)
 
 # HEADQUARTER
 map_option = system.Option("MAP", fog_border)
 army_option = system.Option("ARMY", army_menu)
-logistics_option = system.Option("LOGISTICS", ex_func)  # ***
+logistics_option = system.Option("LOGISTICS", logistics_menu)
 from_hq_to_main_menu = system.Option(system.underlined_text("BACK - MAIN MENU"), ex_func)
 
 headquarter_options = (map_option, army_option, logistics_option, from_hq_to_main_menu)
