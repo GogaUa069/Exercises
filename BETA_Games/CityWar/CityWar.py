@@ -139,11 +139,12 @@ army_menu = system.Menu("ARMY", army_options)
 
 # HEADQUARTER
 map_option = system.Option("MAP", fog_border)
+reports_option = system.Option("REPORTS", coming_soon)  # ***
 army_option = system.Option("ARMY", army_menu)
 logistics_option = system.Option("LOGISTICS", logistics_menu)
 from_hq_to_main_menu = system.Option(system.underlined_text("BACK - MAIN MENU"), pass_func)
 
-headquarter_options = (map_option, army_option, logistics_option, from_hq_to_main_menu)
+headquarter_options = (map_option, reports_option, army_option, logistics_option, from_hq_to_main_menu)
 headquarter_menu = system.Menu("HEADQUARTER", headquarter_options)
 
 # MAIN MENU
