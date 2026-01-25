@@ -71,33 +71,43 @@ class Border:
 
 border = Border()
 fog_border = lambda: border.get_border(border.FOG_BORDER)
-ex_func = lambda: None
+pass_func = lambda: None
+coming_soon = lambda: print(system.communicate("COMING SOON...", "LIGHTWHITE_EX"))
+
+# ECONOMY
+income_option = system.Option("INCOME", coming_soon)  # ***
+budget_option = system.Option("BUDGET", coming_soon)  # ***
+loan_option = system.Option("LOAN", coming_soon)  # ***
+from_economy_to_logistics = system.Option(system.underlined_text("BACK - LOGISTICS"), pass_func)
+
+economy_options = (income_option, budget_option, loan_option, from_economy_to_logistics)
+economy_menu = system.Menu("ECONOMY", economy_options)
 
 # ARMY_TRANSPORT
-arc_options = system.Option("ARC", ex_func)  # ***
-troop_transport_option = system.Option("TROOP TRANSPORT", ex_func)  # ***
-aircraft_option = system.Option("AIRCRAFT", ex_func)  # ***
-from_army_transport_to_army = system.Option(system.underlined_text("BACK - ARMY"), ex_func)
+arc_options = system.Option("ARC", coming_soon)  # ***
+troop_transport_option = system.Option("TROOP TRANSPORT", coming_soon)  # ***
+aircraft_option = system.Option("AIRCRAFT", coming_soon)  # ***
+from_army_transport_to_army = system.Option(system.underlined_text("BACK - ARMY"), pass_func)
 
 army_transport_options = (arc_options, troop_transport_option, aircraft_option, from_army_transport_to_army)
 army_transport_menu = system.Menu("ARMY TRANSPORT", army_transport_options)
 
 # SOLDIERS
-psychology_option = system.Option("PSYCHOLOGY", ex_func)  # ***
-equipment_option = system.Option("EQUIPMENT", ex_func)  # ***
-dislocation_option = system.Option("DISLOCATION", ex_func)  # ***
-habits_option = system.Option("HABITS", ex_func)  # ***
-sections_option = system.Option("SECTIONS", ex_func)  # ***
-from_soldiers_to_army = system.Option(system.underlined_text("BACK - ARMY"), ex_func)
+psychology_option = system.Option("PSYCHOLOGY", coming_soon)  # ***
+equipment_option = system.Option("EQUIPMENT", coming_soon)  # ***
+dislocation_option = system.Option("DISLOCATION", coming_soon)  # ***
+habits_option = system.Option("HABITS", coming_soon)  # ***
+sections_option = system.Option("SECTIONS", coming_soon)  # ***
+from_soldiers_to_army = system.Option(system.underlined_text("BACK - ARMY"), pass_func)
 
 soldiers_options = (psychology_option, equipment_option, dislocation_option, habits_option, sections_option, from_soldiers_to_army)
 soldiers_menu = system.Menu("SOLDIERS", soldiers_options)
 
 # LOGISTICS
-economy_option = system.Option("ECONOMY", ex_func)  # ***
-urbanisation_option = system.Option("URBANISATION", ex_func)  # ***
-logistics_transport_option = system.Option("TRANSPORT", ex_func)  # ***
-from_logistics_to_hq = system.Option(system.underlined_text("BACK - HEADQUARTER"), ex_func)
+economy_option = system.Option("ECONOMY", economy_menu)
+urbanisation_option = system.Option("URBANISATION", coming_soon)  # ***
+logistics_transport_option = system.Option("TRANSPORT", coming_soon)  # ***
+from_logistics_to_hq = system.Option(system.underlined_text("BACK - HEADQUARTER"), pass_func)
 
 logistics_options = (economy_option, urbanisation_option, logistics_transport_option, from_logistics_to_hq)
 logistics_menu = system.Menu("LOGISTICS", logistics_options)
@@ -105,7 +115,7 @@ logistics_menu = system.Menu("LOGISTICS", logistics_options)
 # ARMY
 soldiers_option = system.Option("SOLDIERS", soldiers_menu)
 army_transport_option = system.Option("TRANSPORT", army_transport_menu)
-from_army_to_hq = system.Option(system.underlined_text("BACK - HEADQUARTER"), ex_func)
+from_army_to_hq = system.Option(system.underlined_text("BACK - HEADQUARTER"), pass_func)
 
 army_options = (soldiers_option, army_transport_option, from_army_to_hq)
 army_menu = system.Menu("ARMY", army_options)
@@ -114,15 +124,15 @@ army_menu = system.Menu("ARMY", army_options)
 map_option = system.Option("MAP", fog_border)
 army_option = system.Option("ARMY", army_menu)
 logistics_option = system.Option("LOGISTICS", logistics_menu)
-from_hq_to_main_menu = system.Option(system.underlined_text("BACK - MAIN MENU"), ex_func)
+from_hq_to_main_menu = system.Option(system.underlined_text("BACK - MAIN MENU"), pass_func)
 
 headquarter_options = (map_option, army_option, logistics_option, from_hq_to_main_menu)
 headquarter_menu = system.Menu("HEADQUARTER", headquarter_options)
 
 # MAIN MENU
 battle_option = system.Option("BATTLE", headquarter_menu)
-settings_option = system.Option("SETTINGS", ex_func)  # ***
-quit_option = system.Option(system.underlined_text("QUIT"), ex_func)
+settings_option = system.Option("SETTINGS", coming_soon)  # ***
+quit_option = system.Option(system.underlined_text("QUIT"), pass_func)
 
 main_menu_options = (battle_option, settings_option, quit_option)
 main_menu = system.Menu("MAIN MENU", main_menu_options)
