@@ -1,22 +1,24 @@
-class NewList:
-    def __init__(self, *args):
-        self.__data_list = list(*args)
+class Track:
+    def __init__(self, start_x, start_y):
+        self.start_x = start_x
+        self.start_y = start_y
+        self.coords = list()
 
-    def get_list(self):
-        return self.__data_list
+    def add_point(self, x, y, speed):
+        data = [(x, y), speed]
+        self.coords.append(data)
 
-    def __sub__(self, other):
-        other_list = other.get_list() if isinstance(other, NewList) else other
-        for other_data in other_list:
-            for data in self.__data_list:
-                if other_data is data:
-                    self.__data_list.remove(data)
-                    other_list.remove(data)
-        return NewList(self.__data_list)
+    def __validate_indx(self, indx):
+        return isinstance(indx, int) and indx in range(len(self.coords))
 
+    def __getitem__(self, item):
+        if self.__validate_indx(item):
+            return self.coords[item]
+        else:
+            raise IndexError("некорректный индекс")
 
-list1 = NewList([0, 1, 2, 3])
-list2 = NewList([0, False, True])
-
-res1 = list1 - list2
-print(res1.get_list())  # [1, 2, 3]
+    def __setitem__(self, key, value):
+        if self.__validate_indx(key):
+            self.coords[key][1] = value
+        else:
+            raise IndexError("некорректный индекс")
