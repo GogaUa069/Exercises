@@ -1,8 +1,11 @@
 MAIN MENU
 ├── BATTLE
 │   └── HEADQUARTER
-│       ├── REPORTS
-│       ├── MAP
+│       ├── OPERATIONS
+│       │   ├── REPORTS
+│       │   ├── MAP
+│       │   ├── MOVE
+│       │   └── BACK
 │       ├── ARMY
 │       │   ├── SOLDIERS
 │       │   │   ├── PSYCHOLOGY
