@@ -1,6 +1,7 @@
 from SysConfig import system
 from Border import fog_border
-from BETA_Games.GlobalWarFrontline.FILES.Income import income
+from BETA_Games.GlobalWarFrontline.FILES.ECONOMY_FILES.Income import income
+from BETA_Games.GlobalWarFrontline.FILES.ECONOMY_FILES.Budget import budget
 
 pass_func = lambda: None
 coming_soon = lambda: print(system.communicate("COMING SOON...", "LIGHTWHITE_EX"))
@@ -24,7 +25,7 @@ urbanisation_menu = system.Menu("URBANISATION", urbanisation_options)
 
 # ECONOMY
 income_option = system.Option("INCOME", income)
-budget_option = system.Option("BUDGET", coming_soon)  # ***
+budget_option = system.Option("BUDGET", budget)
 loan_option = system.Option("LOAN", coming_soon)  # ***
 from_economy_to_logistics = system.Option(system.underlined_text("BACK - LOGISTICS"), pass_func)
 
