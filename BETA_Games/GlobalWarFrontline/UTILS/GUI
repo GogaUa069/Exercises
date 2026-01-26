@@ -1,0 +1,38 @@
+MAIN MENU
+├── BATTLE
+│   └── HEADQUARTER
+│       ├── REPORTS
+│       ├── MAP
+│       ├── ARMY
+│       │   ├── SOLDIERS
+│       │   │   ├── PSYCHOLOGY
+│       │   │   ├── EQUIPMENT
+│       │   │   ├── DISLOCATION
+│       │   │   ├── HABITS
+│       │   │   ├── SECTIONS
+│       │   │   └── BACK
+│       │   ├── COMBAT TRANSPORT
+│       │   │   ├── ARC
+│       │   │   ├── TROOP TRANSPORT
+│       │   │   ├── COMBAT AIRCRAFT
+│       │   │   └── BACK
+│       │   └── BACK
+│       ├── LOGISTICS
+│       │   ├── ECONOMY
+│       │   │   ├── INCOME
+│       │   │   ├── BUDGET
+│       │   │   ├── LOAN
+│       │   │   └── BACK
+│       │   ├── URBANISATION
+│       │   │   ├── MINES
+│       │   │   ├── FABRICS
+│       │   │   └── BACK
+│       │   ├── CARGO TRANSPORT
+│       │   │   ├── TRUCKS
+│       │   │   ├── TRAINS
+│       │   │   ├── COMBAT AIRCRAFT
+│       │   │   └── BACK
+│       │   └── BACK
+│       └── BACK
+├── SETTINGS
+└── QUIT
