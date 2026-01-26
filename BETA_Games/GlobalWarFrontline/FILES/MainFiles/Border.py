@@ -21,7 +21,6 @@ class Border:
 
     @staticmethod
     def get_border(b):
-        print()
         for line in b:
             print("".join(line))
 
