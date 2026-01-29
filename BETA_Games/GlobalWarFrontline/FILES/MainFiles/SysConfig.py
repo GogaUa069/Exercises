@@ -4,6 +4,8 @@ from colorama import Fore, Style
 class SysConfig:
     def __init__(self):
         self.INPUT = self.communicate("<<< ", "LIGHTWHITE_EX")
+        self.pass_func = lambda: None
+        self.coming_soon = lambda: print(system.communicate("COMING SOON...", "LIGHTWHITE_EX"))
 
     @staticmethod
     def communicate(text, color):
