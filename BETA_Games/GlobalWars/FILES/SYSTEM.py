@@ -1,4 +1,4 @@
-# v2.2.0
+# v2.2.1
 
 from colorama import Fore, Style
 
@@ -7,7 +7,7 @@ class System:
     def __init__(self):
         self.INPUT = self.communicate("<<< ", "LIGHTWHITE_EX")
         self.pass_func = lambda: None
-        self.coming_soon = lambda: print(self.communicate("COMING SOON...", "LIGHTWHITE_EX"))
+        self.coming_soon = lambda: print(self.communicate("\nCOMING SOON...", "LIGHTWHITE_EX"))
 
     @staticmethod
     def communicate(text, color=None, is_underlined=False):
