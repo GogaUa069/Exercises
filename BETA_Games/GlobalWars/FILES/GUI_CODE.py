@@ -1,10 +1,19 @@
 from SYSTEM import system
 from BORDER import fog_border
 
+# HEADQUARTER
+operations_option = system.Option("operations", system.coming_soon)  # ***
+army_option = system.Option("army", system.coming_soon)  # ***
+logistics = system.Option("logistics", system.coming_soon)  # ***
+from_hq_to_main_menu = system.Option(system.communicate("LEAVE BATTLE", is_underlined=True), system.pass_func)
+
+hq_options = (operations_option, army_option, logistics, from_hq_to_main_menu)
+hq_menu = system.Menu("HEADQUARTER", hq_options)
+
 # BATTLE
-frontline_option = system.Option("frontline", system.coming_soon)  # ***
-sectors_option = system.Option("sectors", system.coming_soon)  # ***
-citadel_option = system.Option("citadel", system.coming_soon)  # ***
+frontline_option = system.Option("frontline", hq_menu)
+sectors_option = system.Option("sectors", hq_menu)
+citadel_option = system.Option("citadel", hq_menu)
 from_battle_to_main_menu = system.Option(system.communicate("BACK - MAIN MENU", is_underlined=True), system.pass_func)
 
 battle_options = (frontline_option, sectors_option, citadel_option, from_battle_to_main_menu)
