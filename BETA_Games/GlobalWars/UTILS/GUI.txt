@@ -3,7 +3,7 @@ MAIN MENU
 │   ├── FRONTLINE
 │   ├── SECTORS
 │   ├── CITADEL
-│   └── BACK
+│   └── BACK - MAIN MENU
 ├── SETTINGS
 └── QUIT
 
@@ -12,7 +12,7 @@ HEADQUARTER (After choosing any game mode)
 │   ├── REPORTS
 │   ├── MAP
 │   ├── MOVE
-│   └── BACK
+│   └── BACK - HEADQUARTER
 ├── ARMY
 │   ├── SOLDIERS
 │   │   ├── PSYCHOLOGY
@@ -20,27 +20,27 @@ HEADQUARTER (After choosing any game mode)
 │   │   ├── DISLOCATION
 │   │   ├── HABITS
 │   │   ├── SECTIONS
-│   │   └── BACK
+│   │   └── BACK - ARMY
 │   ├── COMBAT TRANSPORT
 │   │   ├── ARC
 │   │   ├── TROOP TRANSPORT
 │   │   ├── COMBAT AIRCRAFT
-│   │   └── BACK
-│   └── BACK
+│   │   └── BACK - ARMY
+│   └── BACK - HEADQUARTER
 ├── LOGISTICS
 │   ├── ECONOMY
 │   │   ├── INCOME
 │   │   ├── BUDGET
 │   │   ├── LOAN
-│   │   └── BACK
-│   ├── URBANISATION
+│   │   └── BACK - LOGISTICS
+│   ├── INDUSTRIALIZATION
 │   │   ├── MINES
 │   │   ├── FABRICS
-│   │   └── BACK
+│   │   └── BACK - LOGISTICS
 │   ├── CARGO TRANSPORT
 │   │   ├── TRUCKS
 │   │   ├── TRAINS
 │   │   ├── COMBAT AIRCRAFT
-│   │   └── BACK
-│   └── BACK
+│   │   └── BACK - LOGISTICS
+│   └── BACK - HEADQUARTER
 └── LEAVE BATTLE
