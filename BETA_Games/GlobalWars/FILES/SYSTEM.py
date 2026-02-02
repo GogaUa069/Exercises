@@ -1,4 +1,4 @@
-# 2.1
+# v2.2.0
 
 from colorama import Fore, Style
 
@@ -10,8 +10,8 @@ class System:
         self.coming_soon = lambda: print(self.communicate("COMING SOON...", "LIGHTWHITE_EX"))
 
     @staticmethod
-    def communicate(text, color, is_underlined=False):
-        text = getattr(Fore, color) + text + Style.RESET_ALL
+    def communicate(text, color=None, is_underlined=False):
+        text = getattr(Fore, color) + text + Style.RESET_ALL if color is not None else text
         text = "\033[4m" + text + "\033[0m" if is_underlined else text
         return text
 
@@ -28,7 +28,6 @@ class System:
         def _check_answer(self, answer):
             for indx, option in enumerate(self.OPTIONS, 1):
                 if answer.upper() in (option.NAME.upper(), str(indx)):
-                    print()
                     option()
                     return
             print(system.communicate("ERROR: Select one of the options shown above!", "LIGHTRED_EX"))
