@@ -1,3 +1,5 @@
+# 2.1
+
 from colorama import Fore, Style
 
 
@@ -5,7 +7,7 @@ class System:
     def __init__(self):
         self.INPUT = self.communicate("<<< ", "LIGHTWHITE_EX")
         self.pass_func = lambda: None
-        self.coming_soon = lambda: self.communicate("COMING SOON...", "LIGHTWHITE_EX")
+        self.coming_soon = lambda: print(self.communicate("COMING SOON...", "LIGHTWHITE_EX"))
 
     @staticmethod
     def communicate(text, color, is_underlined=False):
@@ -15,7 +17,7 @@ class System:
 
     class Menu:
         def __init__(self, header, options):
-            self.HEADER = header
+            self.HEADER = header.upper()
             self.OPTIONS = options
 
         def get_menu(self):
@@ -40,7 +42,7 @@ class System:
 
     class Option:
         def __init__(self, name, func):
-            self.NAME = name
+            self.NAME = name.upper()
             self.FUNC = func
 
         def __call__(self):
