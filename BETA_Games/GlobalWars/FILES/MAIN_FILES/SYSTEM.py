@@ -1,4 +1,4 @@
-# v2.2.1
+# v2.3
 
 from colorama import Fore, Style
 
@@ -7,12 +7,11 @@ class System:
     def __init__(self):
         self.INPUT = self.communicate("<<< ", "LIGHTWHITE_EX")
         self.pass_func = lambda: None
-        self.coming_soon = lambda: print(self.communicate("\nCOMING SOON...", "LIGHTWHITE_EX"))
+        self.coming_soon = lambda: print(self.communicate("COMING SOON...", "LIGHTWHITE_EX"))
 
     @staticmethod
-    def communicate(text, color=None, is_underlined=False):
+    def communicate(text, color):
         text = getattr(Fore, color) + text + Style.RESET_ALL if color is not None else text
-        text = "\033[4m" + text + "\033[0m" if is_underlined else text
         return text
 
     class Menu:
