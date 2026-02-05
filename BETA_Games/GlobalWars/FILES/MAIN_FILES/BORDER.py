@@ -3,9 +3,6 @@ from random import randint
 
 
 class Border:
-    WIDTH = 1000
-    HEIGHT = 100
-
     left_border = system.communicate("|", "LIGHTGREEN_EX")
     right_border = system.communicate("|", "LIGHTRED_EX")
     water = system.communicate("≈", "LIGHTBLUE_EX")
@@ -14,7 +11,9 @@ class Border:
     space = system.communicate(".", "WHITE")
     road = "="
 
-    def __init__(self):
+    def __init__(self, width, height):
+        self.WIDTH = width
+        self.HEIGHT = height
         self.BORDER = [[self.space for _ in range(self.WIDTH)] for _ in range(self.HEIGHT)]
         self.FOG_BORDER = None
         self()
