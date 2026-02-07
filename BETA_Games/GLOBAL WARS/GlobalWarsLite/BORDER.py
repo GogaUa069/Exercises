@@ -15,10 +15,24 @@ class Border:
         self.HEIGHT = height
         self.BORDER = [[self.land for _ in range(self.WIDTH)] for _ in range(self.HEIGHT)]
 
-    @staticmethod
-    def get_border(b):
+    def __set_x_indexes(self, is_reversed=False):
+        length = [str(num) for num in range(1, self.WIDTH-1)]
+        spaces = (" ", )*(len(str(self.WIDTH))+1)
+        ones = tuple(num[0] for num in length)
+        tens = tuple(num[1] if len(num) >= 2 else " " for num in length)
+        hundreds = tuple(num[2] if len(num) >= 3 else " " for num in length)
+        thousands = tuple(num[3] if len(num) >= 4 else " " for num in length)
+        indexes = (thousands, hundreds, tens, ones)
+        if is_reversed:
+            indexes = indexes[::-1]
+        for indx in indexes:
+            print("".join(spaces + indx))
+
+    def get_border(self, b):
+        self.__set_x_indexes()
         for indx, row in enumerate(b, 1):
-            print(f"{indx}".rjust(3, " "), "".join(row))
+            print(f"{indx}".rjust(3, " "), "".join(row), indx)
+        self.__set_x_indexes(True)
         print()
 
     def set_forest(self):
