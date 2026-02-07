@@ -17,8 +17,8 @@ class Border:
 
     @staticmethod
     def get_border(b):
-        for row in b:
-            print("".join(row))
+        for indx, row in enumerate(b, 1):
+            print(f"{indx}".rjust(3, " "), "".join(row))
         print()
 
     def set_forest(self):
