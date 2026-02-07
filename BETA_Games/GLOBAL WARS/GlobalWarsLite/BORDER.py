@@ -17,7 +17,7 @@ class Border:
 
     def __set_x_indexes(self, is_reversed=False):
         length = [str(num) for num in range(1, self.WIDTH-1)]
-        spaces = (" ", )*(len(str(self.WIDTH))+1)
+        spaces = (" ", )*(len(str(self.HEIGHT))+2)
         ones = tuple(num[0] for num in length)
         tens = tuple(num[1] if len(num) >= 2 else " " for num in length)
         hundreds = tuple(num[2] if len(num) >= 3 else " " for num in length)
@@ -84,5 +84,5 @@ class Border:
         self.get_border(self.BORDER)
 
 
-border = Border(1000, 100)
+border = Border(500, 100)
 border()
