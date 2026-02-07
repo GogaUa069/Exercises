@@ -16,8 +16,8 @@ class Border:
         self.BORDER = [[self.land for _ in range(self.WIDTH)] for _ in range(self.HEIGHT)]
 
     def __set_x_indexes(self, is_reversed=False):
-        length = [str(num) for num in range(1, self.WIDTH-1)]
-        spaces = (" ", )*(len(str(self.HEIGHT))+2)
+        length = tuple(str(num) for num in range(1, self.WIDTH-1))
+        spaces = (" ", )*6
         ones = tuple(num[0] for num in length)
         tens = tuple(num[1] if len(num) >= 2 else " " for num in length)
         hundreds = tuple(num[2] if len(num) >= 3 else " " for num in length)
@@ -31,7 +31,7 @@ class Border:
     def get_border(self, b):
         self.__set_x_indexes()
         for indx, row in enumerate(b, 1):
-            print(f"{indx}".rjust(3, " "), "".join(row), indx)
+            print(f"{indx}".rjust(4, " "), "".join(row), indx)
         self.__set_x_indexes(True)
         print()
 
@@ -60,8 +60,9 @@ class Border:
                 for i in range(length):
                     self.BORDER[indx][point+step+i] = self.water
 
-    def set_roads(self, length=5):
+    def set_roads(self):
         amount = int(self.HEIGHT*0.1)
+        length = int(self.WIDTH*0.005)
         for _ in range(amount):
             while True:
                 y1, y2 = randint(1, self.HEIGHT-2), randint(1, self.HEIGHT-2)
@@ -84,5 +85,5 @@ class Border:
         self.get_border(self.BORDER)
 
 
-border = Border(500, 100)
+border = Border(1000, 100)
 border()
