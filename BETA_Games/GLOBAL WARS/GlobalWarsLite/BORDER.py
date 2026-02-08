@@ -14,6 +14,7 @@ class Border:
         self.WIDTH = width + 2
         self.HEIGHT = height
         self.BORDER = [[self.land for _ in range(self.WIDTH)] for _ in range(self.HEIGHT)]
+        self.FOG_BORDER = None
 
     def __set_x_indexes(self, is_reversed=False):
         length = tuple(str(num) for num in range(1, self.WIDTH-1))
@@ -34,6 +35,12 @@ class Border:
             print(f"{indx}".rjust(4, " "), "".join(row), indx)
         self.__set_x_indexes(True)
         print()
+
+    def set_fog_border(self):
+        self.FOG_BORDER = [row[:] for row in self.BORDER]
+        half_x = self.WIDTH//2
+        for row in self.FOG_BORDER:
+            row[half_x:-1] = self.fog * (half_x-1)
 
     def set_forest(self):
         amount = int((self.WIDTH * self.HEIGHT) / 26.66)
@@ -82,7 +89,8 @@ class Border:
         self.set_rivers()
         self.set_roads()
         self.set_borders()
-        self.get_border(self.BORDER)
+        self.set_fog_border()
+        self.get_border(self.FOG_BORDER)
 
 
 border = Border(1000, 100)
