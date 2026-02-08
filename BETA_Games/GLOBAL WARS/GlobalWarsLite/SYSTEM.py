@@ -7,7 +7,7 @@ class System:
     move_energy = 1000
 
     def __init__(self):
-        self.INPUT = self.communicate("<<<", "LIGHTWHITE_EX")
+        self.INPUT = self.communicate("<<< ", "LIGHTWHITE_EX")
         self.coming_soon = lambda: print(self.communicate("COMING SOON...", "LIGHTWHITE_EX"))
         self.pass_func = lambda: None
 
@@ -39,7 +39,7 @@ class Menu:
         self.options = options
 
     def get_menu(self):
-        print(system.communicate(f"[ {self.header} ]", "LIGHTRED_EX"))
+        print(system.communicate(f"\n[ {self.header} ]", "LIGHTRED_EX"))
         for indx, option in enumerate(self.options, 1):
             if indx == len(self.options):
                 option.name = f"\033[4m{option.name}\033[0m"
