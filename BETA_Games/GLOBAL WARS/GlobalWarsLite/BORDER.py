@@ -94,4 +94,4 @@ class Border:
 
 
 border = Border(1000, 100)
-border()
+fog_border = lambda: border.get_border(border.FOG_BORDER)
