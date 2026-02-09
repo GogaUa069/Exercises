@@ -29,4 +29,6 @@ main_menu_options = (battle_option, settings_option, quit_option)
 main_menu = Menu("main menu", main_menu_options)
 
 
+# *************************
+game_intro()
 main_menu()
