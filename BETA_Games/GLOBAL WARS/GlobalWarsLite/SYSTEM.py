@@ -1,5 +1,7 @@
 from colorama import Fore, Style
-
+from tqdm import tqdm
+import time
+import pyfiglet
 
 class System:
     basic_income = 100_000
@@ -15,8 +17,41 @@ class System:
     def communicate(text, color):
         return getattr(Fore, color) + text + Style.RESET_ALL
 
+    def get_ascii_text(self, text, color="LIGHTGREEN_EX", font="standard"):
+        f = pyfiglet.Figlet(font=font)
+        ascii_text = f.renderText(text)
+        for line in ascii_text.splitlines():
+            print(self.communicate(line, color))
+            time.sleep(0.25)
+
 
 system = System()
+
+
+class Intro:
+
+    @staticmethod
+    def loading():
+        with tqdm(total=100) as pbar:
+            for i in range(100):
+                pbar.set_description_str(system.communicate("LOADING", "LIGHTRED_EX"))
+                pbar.update(1)
+                time.sleep(0.04)
+
+    @staticmethod
+    def show_game_banner(banner: str):
+        time.sleep(0.5)
+        print(system.communicate("Welcome to:", "RED"))
+        time.sleep(1.5)
+        system.get_ascii_text(banner)
+        time.sleep(1)
+
+    def __call__(self):
+        self.show_game_banner("Global wars: Frontline")
+        self.loading()
+
+
+game_intro = Intro()
 
 
 class Error:
@@ -29,7 +64,7 @@ class Error:
 
 
 error1 = Error(1, "Select one of the options shown above!")
-error2 = Error(2, "Enter an integer!")
+...
 error3 = Error(3, "Enter total in the given range!")
 
 
