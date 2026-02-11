@@ -20,6 +20,7 @@ settings_options = (guide_option, audio_option, credits_option, from_settings_to
 settings_menu = Menu("settings", settings_options)
 
 # *************************
+
 # MAIN MENU
 battle_option = Option("battle", battle_menu)
 settings_option = Option("settings", settings_menu)
@@ -27,7 +28,6 @@ quit_option = Option("quit", system.pass_func)
 
 main_menu_options = (battle_option, settings_option, quit_option)
 main_menu = Menu("main menu", main_menu_options)
-
 
 # *************************
 game_intro()
