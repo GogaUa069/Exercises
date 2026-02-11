@@ -2,6 +2,9 @@ from colorama import Fore, Style
 from tqdm import tqdm
 import time
 import pyfiglet
+import pygame
+
+pygame.init()
 
 class System:
     basic_income = 100_000
@@ -26,6 +29,18 @@ class System:
 
 
 system = System()
+
+
+def play_soundtrack(path, is_infinite=False):
+    pygame.mixer.music.load(path)
+    if is_infinite:
+        pygame.mixer.music.play(-1)
+    else:
+        pygame.mixer.music.play()
+
+
+def stop_soundtrack():
+    pygame.mixer.music.stop()
 
 
 class Intro:
@@ -69,9 +84,11 @@ error3 = Error(3, "Enter total in the given range!")
 
 
 class Menu:
-    def __init__(self, header: str, options: tuple):
+    def __init__(self, header: str, options: tuple, soundtrack=None, is_infinite=False):
         self.header = header.upper()
         self.options = options
+        self.soundtrack = soundtrack
+        self.is_infinite = is_infinite
 
     def get_menu(self):
         print(system.communicate(f"\n[ {self.header} ]", "LIGHTRED_EX"))
@@ -88,6 +105,8 @@ class Menu:
         print(error1())
 
     def __call__(self):
+        if self.soundtrack is not None:
+            play_soundtrack(self.soundtrack, self.is_infinite)
         answer = str()
         while answer != str(len(self.options)):
             self.get_menu()
