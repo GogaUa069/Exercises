@@ -27,7 +27,7 @@ settings_option = Option("settings", settings_menu)
 quit_option = Option("quit", system.pass_func)
 
 main_menu_options = (battle_option, settings_option, quit_option)
-main_menu = Menu("main menu", main_menu_options)
+main_menu = Menu("main menu", main_menu_options, r"D:\PythonProjects\MySqlConnector\pythonProject1\BETA_Games\GLOBAL WARS\GlobalWarsLite\audio\soundtracks\main_menu_soundtrack.mp3", True)
 
 # *************************
 game_intro()
