@@ -47,7 +47,7 @@ record_data = RecordData()
 
 class WordsChecker:
     def __init__(self):
-        self.bad_answers_limit_for_record = 4
+        self.bad_answers_limit_for_record = 2
         self.good_answers_counter = self.bad_answers_counter = self.round_time = self.difference_time = self.bad_answers_difference = 0.0
         self.start_time = self.stop_time = 0
         self.current_answer_timing = dict()
