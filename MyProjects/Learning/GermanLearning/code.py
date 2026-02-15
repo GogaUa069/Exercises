@@ -37,6 +37,7 @@ class RecordData:
             self.answers_timing = self.record_data["answers_timing"]
             self.the_best_time = self.record_data["record_time"]
             self.win_streak = self.record_data["win_streak"]
+            self.average_time_for_answer = self.record_data["average_time_for_answer"]
 
     def save_new_data(self, data):
         with open("the_best_time.yaml", "w", encoding=self.encoding) as file:
@@ -49,8 +50,8 @@ record_data = RecordData()
 class WordsChecker:
     def __init__(self):
         self.bad_answers_limit_for_record = 2
-        self.good_answers_counter = self.bad_answers_counter = self.round_time = self.difference_time = self.bad_answers_difference = 0.0
-        self.start_time = self.stop_time = 0
+        self.good_answers_counter = self.round_time = self.difference_time = self.average_time_difference = 0.0
+        self.start_time = self.stop_time = self.average_time_for_answer = self.bad_answers_counter = self.bad_answers_difference = 0
         self.current_answer_timing = dict()
 
     @staticmethod
@@ -69,6 +70,13 @@ class WordsChecker:
             return communicate(str(win_streak), "LIGHTRED_EX")
         else:
             return communicate(str(win_streak), "LIGHTGREEN_EX")
+
+    def set_average_time_for_answer(self):
+        timings = list()
+        for timing in self.current_answer_timing.items():
+            timings.append(timing[1]["time_for_answer"])
+        self.average_time_for_answer = round(sum(timings) / len(timings), 3)
+        self.average_time_difference = round(self.average_time_for_answer - record_data.average_time_for_answer, 3)
 
     def __get_time_in_minutes(self):
         minutes = (self.round_time % 3600) // 60
@@ -90,28 +98,28 @@ class WordsChecker:
 
     def __validate_bad_answers_counter(self):
         if self.bad_answers_counter > self.bad_answers_limit_for_record:
-            record_data.win_streak = 0
             print(communicate("Rekord nie został zaliczony", "LIGHTRED_EX"))
             print(communicate(f"Limit błędów: {communicate(self.bad_answers_limit_for_record, "LIGHTWHITE_EX")}", "LIGHTRED_EX"))
             print(communicate(f"Zrobiono błędów: {communicate(self.bad_answers_counter, "LIGHTWHITE_EX")}", "LIGHTRED_EX"))
             print(communicate(f"Różnica: +{self.bad_answers_difference}", "LIGHTRED_EX"))
             return False
         else:
-            record_data.win_streak += 1
             return True
 
     def is_saving_data(self):
         if self.__validate_bad_answers_counter():
-            new_data = {"win_streak": record_data.win_streak, "record_time": self.round_time, "answers_timing": self.current_answer_timing}
+            new_data = {"average_time_for_answer": self.average_time_for_answer, "win_streak": record_data.win_streak, "record_time": self.round_time, "answers_timing": self.current_answer_timing}
             record_data.save_new_data(new_data)
 
     def is_new_record(self):
         if self.round_time < record_data.the_best_time:
+            record_data.win_streak += 1
             print(communicate("Nowy rekord!", "LIGHTCYAN_EX"))
             print(communicate(f"Poprzedni rekord: {record_data.the_best_time}", "LIGHTCYAN_EX"))
             print(communicate(f"Różnica czasów: {self.__set_num_colors(self.difference_time)}", "LIGHTCYAN_EX"))
             self.is_saving_data()
         else:
+            record_data.win_streak = 0
             print(communicate(f"Rekord: {record_data.the_best_time}", "LIGHTCYAN_EX"))
             print(communicate(f"Różnica czasów: {self.__set_num_colors(self.difference_time)}", "LIGHTCYAN_EX"))
 
@@ -119,9 +127,11 @@ class WordsChecker:
         print(communicate("\nWYNIKI", "LIGHTWHITE_EX"))
         print(communicate(f"Punkty: {self.good_answers_counter}/{float(words.words_len)}", "LIGHTWHITE_EX"))
         print(communicate(f"Czas: {self.__get_time_in_seconds()} / {self.__get_time_in_minutes()}", "LIGHTWHITE_EX"))
-        print(communicate(f"Błędy: {int(self.bad_answers_counter)}", "LIGHTWHITE_EX"))
+        print(communicate(f"Błędy: {self.bad_answers_counter}", "LIGHTWHITE_EX"))
         self.is_new_record()
         print(communicate(f"Seria zwycięstw: {self.color_win_streak(record_data.win_streak)}", "LIGHTWHITE_EX"))
+        print(communicate(f"Średni czas na odpowiedź: {self.average_time_for_answer}", "LIGHTWHITE_EX"))
+        print(communicate(f"Różnica średnich czasów: {self.__set_num_colors(self.average_time_difference)}", "LIGHTWHITE_EX"))
 
     def validate_answer(self, word, part_order, part):
         is_bad = bad_counter = 0
@@ -177,6 +187,7 @@ class WordsChecker:
         self.difference_time = round(self.round_time - record_data.the_best_time, 3)
         self.bad_answers_difference = self.bad_answers_counter - self.bad_answers_limit_for_record
 
+        self.set_average_time_for_answer()
         self.results()
 
 
