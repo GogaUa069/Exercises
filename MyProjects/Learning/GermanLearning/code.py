@@ -1,4 +1,4 @@
-# v 3.3.0
+# v 3.3.1
 
 from random import shuffle
 import time
@@ -69,8 +69,8 @@ class WordsChecker:
     @staticmethod
     def caution():
         print(communicate("UWAGA!", "LIGHTRED_EX"))
-        print(communicate("Niektóre znaki diakrytyczne zostały zmienione dla wygody.", "LIGHTRED_EX"))
-        print(communicate("ü - u; ä - a; ö - o; ß - ss\n", "LIGHTRED_EX"))
+        print(communicate("- Podstawowe wymiki były wybrane jako mój ostatni rekord.", "LIGHTRED_EX"))
+        print(communicate("- Niektóre znaki diakrytyczne zostały zmienione dla wygody: ü - u; ä - a; ö - o; ß - ss\n", "LIGHTRED_EX"))
 
     @staticmethod
     def __set_num_colors(num):
@@ -200,7 +200,7 @@ class WordsChecker:
     def __call__(self):
         self.caution()
 
-        input(communicate("Naciśnij ENTER, aby rozpocząć", "LIGHTRED_EX"))
+        input(communicate("Naciśnij ENTER, aby rozpocząć.", "LIGHTRED_EX"))
 
         self.start_time = time.time()
         self.get_words()
@@ -213,7 +213,7 @@ class WordsChecker:
         self.set_average_time_for_answer()
         self.results()
 
-        input(communicate("Naciśnij ENTER, aby skończyć", "LIGHTRED_EX"))
+        input(communicate("Naciśnij ENTER, aby zakończyć.", "LIGHTRED_EX"))
 
 
 word_checker = WordsChecker()
