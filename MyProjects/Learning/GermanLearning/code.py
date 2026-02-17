@@ -1,4 +1,4 @@
-# v 3.3.1
+# v 3.3.2
 
 from random import shuffle
 import time
@@ -69,7 +69,7 @@ class WordsChecker:
     @staticmethod
     def caution():
         print(communicate("UWAGA!", "LIGHTRED_EX"))
-        print(communicate("- Podstawowe wymiki były wybrane jako mój ostatni rekord.", "LIGHTRED_EX"))
+        print(communicate("- Podstawowe wyniki zostały wybrane jako mój ostatni rekord.", "LIGHTRED_EX"))
         print(communicate("- Niektóre znaki diakrytyczne zostały zmienione dla wygody: ü - u; ä - a; ö - o; ß - ss\n", "LIGHTRED_EX"))
 
     @staticmethod
