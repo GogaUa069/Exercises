@@ -1,8 +1,20 @@
+# v 3.3.0
+
 from random import shuffle
 import time
+import sys
+import os
 
 from colorama import Fore, Style
 import yaml
+
+def __resource_path(relative_path):
+    if hasattr(sys, "_MEIPASS"):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+
+
+yaml_path = __resource_path("the_best_time.yaml")
 
 
 def communicate(text, color):
@@ -32,7 +44,7 @@ class RecordData:
     encoding = "utf-8"
 
     def __init__(self):
-        with open("the_best_time.yaml", "r", encoding=self.encoding) as file:
+        with open(yaml_path, "r", encoding=self.encoding) as file:
             self.record_data = yaml.safe_load(file)
             self.answers_timing = self.record_data["answers_timing"]
             self.the_best_time = self.record_data["record_time"]
@@ -40,7 +52,7 @@ class RecordData:
             self.average_time_for_answer = self.record_data["average_time_for_answer"]
 
     def save_new_data(self, data):
-        with open("the_best_time.yaml", "w", encoding=self.encoding) as file:
+        with open(yaml_path, "w", encoding=self.encoding) as file:
             yaml.dump(data, file, sort_keys=False)
 
 
@@ -53,6 +65,12 @@ class WordsChecker:
         self.good_answers_counter = self.round_time = self.difference_time = self.average_time_difference = 0.0
         self.start_time = self.stop_time = self.average_time_for_answer = self.bad_answers_counter = self.bad_answers_difference = 0
         self.current_answer_timing = dict()
+
+    @staticmethod
+    def caution():
+        print(communicate("UWAGA!", "LIGHTRED_EX"))
+        print(communicate("Niektóre znaki diakrytyczne zostały zmienione dla wygody.", "LIGHTRED_EX"))
+        print(communicate("ü - u; ä - a; ö - o; ß - ss\n", "LIGHTRED_EX"))
 
     @staticmethod
     def __set_num_colors(num):
@@ -135,7 +153,6 @@ class WordsChecker:
         print(communicate(f"\nŚredni czas na odpowiedź: {self.average_time_for_answer}", "LIGHTWHITE_EX"))
         print(communicate(f"Różnica średnich czasów: {self.__set_num_colors(self.average_time_difference)}", "LIGHTWHITE_EX"))
         print(communicate(f"\nSeria zwycięstw: {self.color_win_streak(record_data.win_streak)}\n", "LIGHTWHITE_EX"))
-        input(communicate("Kliknij ENTER, aby zamknąć program", "LIGHTRED_EX"))
 
     def validate_answer(self, word, part_order, part):
         is_bad = bad_counter = 0
@@ -181,6 +198,8 @@ class WordsChecker:
             self.set_timing_data(start_time_for_answer, stop_time_for_answer, order)
 
     def __call__(self):
+        self.caution()
+
         input(communicate("Naciśnij ENTER, aby rozpocząć", "LIGHTRED_EX"))
 
         self.start_time = time.time()
@@ -193,6 +212,8 @@ class WordsChecker:
 
         self.set_average_time_for_answer()
         self.results()
+
+        input(communicate("Naciśnij ENTER, aby skończyć", "LIGHTRED_EX"))
 
 
 word_checker = WordsChecker()
