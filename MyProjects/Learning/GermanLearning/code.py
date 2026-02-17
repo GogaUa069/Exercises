@@ -108,30 +108,34 @@ class WordsChecker:
             record_data.win_streak += 1
             return True
 
-    def is_saving_data(self):
-        if self.__validate_bad_answers_counter():
+    def is_saving_data(self, is_saving):
+        if is_saving:
             new_data = {"average_time_for_answer": self.average_time_for_answer, "win_streak": record_data.win_streak, "record_time": self.round_time, "answers_timing": self.current_answer_timing}
-            record_data.save_new_data(new_data)
+        else:
+            new_data = {"average_time_for_answer": record_data.average_time_for_answer, "win_streak": record_data.win_streak, "record_time": record_data.the_best_time, "answers_timing": record_data.answers_timing}
+        record_data.save_new_data(new_data)
 
     def is_new_record(self):
         if self.round_time < record_data.the_best_time:
             print(communicate("Nowy rekord!", "LIGHTCYAN_EX"))
             print(communicate(f"Poprzedni rekord: {record_data.the_best_time}", "LIGHTCYAN_EX"))
             print(communicate(f"Różnica czasów: {self.__set_num_colors(self.difference_time)}", "LIGHTCYAN_EX"))
-            self.is_saving_data()
+            self.is_saving_data(self.__validate_bad_answers_counter())
         else:
             record_data.win_streak = 0
             print(communicate(f"Rekord: {record_data.the_best_time}", "LIGHTCYAN_EX"))
             print(communicate(f"Różnica czasów: {self.__set_num_colors(self.difference_time)}", "LIGHTCYAN_EX"))
+            self.is_saving_data(False)
 
     def results(self):
-        print(communicate("\nWYNIKI:\n", "LIGHTWHITE_EX"))
+        print(communicate("\n\nWYNIKI:\n", "LIGHTWHITE_EX"))
         print(communicate(f"Punkty: {self.good_answers_counter}/{float(words.words_len)}", "LIGHTWHITE_EX"))
         print(communicate(f"Czas: {self.__get_time_in_seconds()} / {self.__get_time_in_minutes()}\n", "LIGHTWHITE_EX"))
         self.is_new_record()
         print(communicate(f"\nŚredni czas na odpowiedź: {self.average_time_for_answer}", "LIGHTWHITE_EX"))
         print(communicate(f"Różnica średnich czasów: {self.__set_num_colors(self.average_time_difference)}", "LIGHTWHITE_EX"))
-        print(communicate(f"\nSeria zwycięstw: {self.color_win_streak(record_data.win_streak)}", "LIGHTWHITE_EX"))
+        print(communicate(f"\nSeria zwycięstw: {self.color_win_streak(record_data.win_streak)}\n", "LIGHTWHITE_EX"))
+        input(communicate("Kliknij ENTER, aby zamknąć program", "LIGHTRED_EX"))
 
     def validate_answer(self, word, part_order, part):
         is_bad = bad_counter = 0
