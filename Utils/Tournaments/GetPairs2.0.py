@@ -6,7 +6,7 @@ border = PrettyTable()
 border.field_names = ("PARA", "OSOBA 1", "OSOBA 2", "OSOBA 3")
 
 
-class GetPairs:
+class PairsGenerator:
 
     def __init__(self):
         self.amount = 0
@@ -19,11 +19,11 @@ class GetPairs:
         return getattr(Fore, color) + text + Style.RESET_ALL
 
     def set_players(self):
-        print(self.communicate("- Wpisz każdego uczestnika: (imię-nazwisko-klasa)", "LIGHTWHITE_EX"))
+        print(self.communicate("- Wpisz uczestników: ", "LIGHTWHITE_EX"))
         for indx in range(self.amount):
             player = input(self.communicate(f"{indx+1}. ", "LIGHTWHITE_EX"))
             self.players.append(player)
-        self.symbols = "-"*max(len(player) for player in self.players)
+        self.symbols = "-" * max(len(player) for player in self.players)
         print()
 
     def set_pairs(self):
@@ -50,5 +50,5 @@ class GetPairs:
         print(border)
 
 
-get_pairs = GetPairs()
-get_pairs()
+pairs_generator = PairsGenerator()
+pairs_generator()
