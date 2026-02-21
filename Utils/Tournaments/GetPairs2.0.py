@@ -3,7 +3,12 @@ from random import sample
 from prettytable import PrettyTable
 
 border = PrettyTable()
-border.field_names = ("PARA", "OSOBA 1", "OSOBA 2", "OSOBA 3")
+headers = ("PARA", "OSOBA 1", "OSOBA 2", "OSOBA 3")
+border.field_names = headers
+border.align["PARA"] = "l"
+border.align["OSOBA 1"] = "l"
+border.align["OSOBA 2"] = "l"
+border.align["OSOBA 3"] = "l"
 
 
 class PairsGenerator:
@@ -21,9 +26,9 @@ class PairsGenerator:
     def set_players(self):
         print(self.communicate("- Wpisz uczestników: ", "LIGHTWHITE_EX"))
         for indx in range(self.amount):
-            player = input(self.communicate(f"{indx+1}. ", "LIGHTWHITE_EX"))
+            player = input(self.communicate(f"{indx+1}. ".rjust(4, " "), "LIGHTWHITE_EX"))
             self.players.append(player)
-        self.symbols = "-" * max(len(player) for player in self.players)
+        self.symbols = "-" * max(len(header) for header in headers+tuple(self.players))
         print()
 
     def set_pairs(self):
