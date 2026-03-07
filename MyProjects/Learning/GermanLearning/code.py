@@ -1,4 +1,4 @@
-# v 3.3.2
+# v 3.3.3
 
 from random import shuffle
 import time
@@ -8,13 +8,15 @@ import os
 from colorama import Fore, Style
 import yaml
 
+from utils.words_directory.words_part_3 import words as words_dict
+
 def __resource_path(relative_path):
     if hasattr(sys, "_MEIPASS"):
         return os.path.join(sys._MEIPASS, relative_path)
     return os.path.join(os.path.abspath("."), relative_path)
 
 
-yaml_path = __resource_path("the_best_time.yaml")
+yaml_path = __resource_path("utils/the_best_time.yaml")
 
 
 def communicate(text, color):
@@ -22,14 +24,7 @@ def communicate(text, color):
 
 
 class Words:
-    words = {"wygrywać": ("gewinnen", "gewonnen"), "mieć": ("haben", "gehabt"), "pochodić": ("kommen", "gekommen"),
-         "biegać": ("laufen", "gelaufen"), "czytać": ("lesen", "gelesen"), "leżeć": ("liegen", "gelegen"),
-         "musieć": ("mussen", "gemusst"), "spać": ("schlafen", "geschlafen"), "wisieć": ("hangen", "gehangen"),
-         "lubić": ("mogen", "gemacht"), "iść": ("gehen", "gegangen"), "ładować": ("laden", "geladen"),
-         "umieć": ("konnen", "gekonnt"), "trzymać": ("halten", "gehalten"), "brać": ("nehmen", "genommen"),
-         "nazywać": ("nennen", "genannt"), "nazywać się": ("heissen", "geheissen"), "znać": ("kennen", "gekannt"),
-         "pomagać": ("helfen", "geholfen"), "pisać": ("schreiben", "geschrieben"), "wołać": ("rufen", "gerufen"),
-         "kroić": ("schneiden", "geschnitten")}
+    words = words_dict
 
     def __init__(self):
         self.words = list(self.words.items())
