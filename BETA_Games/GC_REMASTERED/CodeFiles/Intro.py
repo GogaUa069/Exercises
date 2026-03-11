@@ -31,7 +31,7 @@ class GameIntro:
     def __call__(self):
         intro_soundtrack()
         self.get_accounts()
-        self.show_game_banner("Guess Code v.7.0.0")
+        self.show_game_banner("Guess Code v.7.1.0")
         self.loading()
 
 

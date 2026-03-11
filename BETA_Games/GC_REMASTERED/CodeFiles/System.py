@@ -11,6 +11,7 @@ from colorama import Fore, Style
 from tqdm import tqdm
 import pyfiglet
 import pygame
+import yaml
 
 pygame.init()
 
@@ -23,7 +24,7 @@ class System:
         self.RULES = (self.communicate("Press ENTER to continue.\n", "LIGHTRED_EX"),
                       self.communicate("Rules:", "LIGHTRED_EX"),
                       self.communicate("Task: Find the number the computer guessed with the specified conditions.", "LIGHTBLUE_EX"),
-                      self.communicate("1. Choose a difficulty level. each with its own conditions.", "LIGHTBLUE_EX"),
+                      self.communicate("1. Choose a difficulty level. Each with its own conditions.", "LIGHTBLUE_EX"),
                       self.communicate("2. Set the range in which you will search for the number", "LIGHTBLUE_EX"),
                       self.communicate("3. Start guessing.", "LIGHTBLUE_EX"),
                       self.communicate("Your turn!", "LIGHTRED_EX"))

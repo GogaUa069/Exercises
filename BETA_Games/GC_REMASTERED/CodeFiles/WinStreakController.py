@@ -1,4 +1,4 @@
-from System import system, os, shutil
+from System import system, os, shutil, yaml
 
 
 class WinStreakController:
@@ -27,9 +27,10 @@ class WinStreakController:
                     return f"Your win streak: {win_streak}"
 
     def __call__(self, is_defeat=False):
+
         new_streak = 0 if is_defeat else int(self.get_win_streak()) + 1
         with open(self.SAVE_PATH, "w", encoding=self.ENCODING) as file:
-            file.write(str(new_streak))
+            yaml.dump(data, file, sort_keys=False)
 
 
 win_streak_controller = WinStreakController()

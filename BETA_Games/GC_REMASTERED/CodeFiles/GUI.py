@@ -2,8 +2,10 @@ from Soundtracks import *
 from SoundPrompt import *
 from Options import *
 from Menues import *
-from GameIntro import *
+from Intro import *
 from Credits import *
+
+coming_soon = lambda: print(system.communicate("Coming soon...", "LIGHTWHITE_EX"))
 
 # SOUNDTRACKS
 jazz1_option = Option("Jazz1", jazz1)
@@ -40,7 +42,7 @@ settings_options = (rules_option, audio_option, credits_option, from_settings_to
 settings_menu = MenuPattern("Settings", settings_options)
 
 # MAIN MENU
-play_option = Option("Play", system.communicate)
+play_option = Option("Play", coming_soon)
 settings_option = Option("Settings", settings_menu)
 quit_option = Option("Quit", system.quit_game)
 

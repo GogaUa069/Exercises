@@ -1,0 +1,10 @@
+# Guess Code 1 v7.1.0
+
+# Add CONTINUE MENU.
+# Add channels for soundtracks.
+# Say, if you entered this num before.
+# Use yaml file.
+# add time.
+# add duels.
+# show range in which you should look for number. (eg. 37-56)
+# if player set same number more than one time - communicate "You have entered this num before.(, try another.)" + not -1 live.
