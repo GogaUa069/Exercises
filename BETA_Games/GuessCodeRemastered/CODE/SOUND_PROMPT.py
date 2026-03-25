@@ -6,7 +6,7 @@ class SoundPrompt:
     DEFEAT_SOUND = pygame.mixer.Sound("../AUDIO/SOUNDS/DEFEAT_SOUND.wav")    # MAXTIME: 2500
     ABLE_TO_PLAY = True
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self):
         self.ABLE_TO_PLAY = not self.ABLE_TO_PLAY
         match self.ABLE_TO_PLAY:
             case True:
