@@ -28,12 +28,12 @@ class SystemPrompt:
                       self.communicate("Your turn!", "LIGHTRED_EX"))
 
     @staticmethod
-    def _del_color(text):
+    def del_color(text):
         ansi_escape = re.compile(r"\x1B[@-_][0-?]*[ -/]*[@-~]")
         return ansi_escape.sub("", text)
 
     @staticmethod
-    def _resource_path(relative_path):
+    def resource_path(relative_path):
         base_path = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
         return os.path.join(base_path, relative_path)
 
