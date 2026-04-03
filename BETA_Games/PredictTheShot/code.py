@@ -1,7 +1,7 @@
 import os
 from abc import ABC, abstractmethod
 from time import sleep
-from random import randint, choice
+from random import randint, choice, choices
 from colorama import Fore, Style
 
 
@@ -132,13 +132,25 @@ class Human(Player):
             case _:
                 print(system.communicate("ERROR: Select one of the options shown above!\n", "LIGHTRED_EX"))
 
+    def random_move(self):
+        while self.option is None:
+            option = choice((shot, load, block, deflect))
+            self.option = option if option.validate_profile(self, False) else None
+        print(system.communicate(f">>> Too many wrong answers. Your answer is {self.option.NAME}.", "LIGHTRED_EX"))
+        sleep(1.5)
+
     def move(self):
+        wrong_counter = 0
         print(system.communicate(">>> Your move...\n", "LIGHTRED_EX"))
         print(self)
         while self.option is None:
-            print(system.communicate("Select one of the options shown below:", "CYAN"))
-            print(system.communicate("1. Shot\n2. Load\n3. Block\n4. Deflect", "LIGHTWHITE_EX"))
-            self.validate_option(input(system.communicate("<<< ", "LIGHTWHITE_EX")))
+            wrong_counter += 1
+            if wrong_counter < 4:
+                print(system.communicate(f"Select one of the options shown below: ({wrong_counter}/3)", "CYAN"))
+                print(system.communicate("1. Shot\n2. Load\n3. Block\n4. Deflect", "LIGHTWHITE_EX"))
+                self.validate_option(input(system.communicate("<<< ", "LIGHTWHITE_EX")))
+            else:
+                self.random_move()
         self.option(self)
 
     def reset(self):
@@ -158,13 +170,79 @@ class Human(Player):
 
 
 class Bot(Player):
+    def __init__(self, name):
+        super().__init__(name)
+        self.move_counter = 0
+        self.last_moves = list()
+
     def move(self):
         print(system.communicate("\n>>> Dealer's move...\n", "LIGHTRED_EX"))
         sleep(randint(1, 3))
+
+        self.move_counter += 1
+        weights = [25, 25, 25, 25]
+
         while self.option is None:
-            option = choice((shot, load, block, deflect))
+            options = (shot, load, block, deflect)
+            weights = [[25, 25, 25, 25]]
+
+            if self.move_counter == 1:
+                weights.append([0, 100, 0, 0])
+                weights.remove([25, 25, 25, 25])
+            else:
+                if self.energy == 0:
+                    if self.bullets == 0:
+                        weights.append([0, 100, 0, 0])
+                    else:
+                        weights.append([50, 50, 0, 0])
+                if human.energy == 0:
+                    if human.bullets == 1:
+                        weights.append([90, 5, 3, 2])
+                    else:
+                        weights.append([65, 5, 15, 15])
+                else:
+                    if human.bullets > 0:
+                        weights.append([15, 10, 35, 40])
+                    else:
+                        weights.append([40, 10, 50, 0])
+                if (self.energy >= 3 or self.bullets == 0) and human.bullets > 1:
+                    weights.append([0, 10, 40, 50])
+                if self.bullets != 0 and human.bullets != 0:
+                    weights.append([40, 10, 25, 25])
+                if self.lives == 1:
+                    weights.append([10, 10, 40, 40])
+                if self.lives == 2:
+                    weights.append([25, 25, 25, 25])
+                if self.lives == 3:
+                    weights.append([35, 35, 15, 15])
+                if human.lives == 1:
+                    weights.append([25, 30, 25, 20])
+                if human.lives == 2:
+                    weights.append([25, 25, 25, 25])
+                if human.lives == 3:
+                    weights.append([30, 30, 20, 20])
+                if self.bullets >= 2:
+                    weights.append([50, 10, 20, 20])
+                if self.move_counter > 1 and self.last_moves[-2:] == [("shot", "shot"), ("shot", "shot")]:
+                    weights.append([5, 5, 45, 45])
+                if self.move_counter > 1 and self.last_moves[-2:] == [("load", "load"), ("load", "load")]:
+                    weights.append([45, 5, 5, 45])
+                if self.move_counter > 1 and self.last_moves[-1] != ("shot", "shot") and "shot" in self.last_moves[-1]:
+                    weights.append([5, 5, 45, 45])
+                if self.move_counter > 1 and self.last_moves[-1] == ("shot", "shot"):
+                    weights.append([15, 5, 35, 45])
+                if self.move_counter > 1 and self.last_moves[-2:] == [("shot", "shot"), ("shot", "shot")]:
+                    weights.append([0, 5, 45, 50])
+                if self.move_counter > 2 and "shot" not in (self.last_moves[-1], self.last_moves[-2]):
+                    weights.append([45, 5, 5, 45])
+                if self.move_counter > 2 and "shot" in self.last_moves[-1] and "shot" in self.last_moves[-2]:
+                    weights.append([15, 10, 40, 35])
+
+            option = choices(options, weights=choice(weights))[0]
             self.option = option if option.validate_profile(self, False) else None
         self.option(self)
+        print(weights)  # weights
+        print(self.last_moves)
 
     def reset(self):
         self.lives = system.MAX_LIVES
@@ -172,6 +250,9 @@ class Bot(Player):
         self.bullets = 0
         self.shield = False
         self.option = None
+
+        self.move_counter = 0
+        self.last_moves = list()
 
     def __repr__(self):
         return (f"Dealer __repr__:\n"
@@ -222,13 +303,14 @@ class Game:
 
         if not flag:
             os.system("cls")
-            print(system.communicate("\n*** MOVE INFO ***\n", "LIGHTWHITE_EX"))
+            print(system.communicate(f"\n*** MOVE #{bot.move_counter} INFO ***\n", "LIGHTWHITE_EX"))
             print(system.communicate(f"- {pl1.name}: {pl1.option.NAME}\n- {pl2.name}: {pl2.option.NAME}","LIGHTWHITE_EX"))
             print(system.communicate(communicate, "LIGHTWHITE_EX"))
 
         return flag
 
     def __call__(self):
+        os.system("cls")
         print(system.communicate("The duel has begun.\n", "LIGHTRED_EX"))
 
         human.reset()
@@ -237,6 +319,11 @@ class Game:
         while not self.is_end():
             human.move()
             bot.move()
+
+            bot.last_moves.append((human.option.NAME, bot.option.NAME))
+            if len(bot.last_moves) >= 5:
+                del bot.last_moves[-1]
+
             if self.validate_move(human, bot):
                 self.validate_move(bot, human)
             human.option = bot.option = None
