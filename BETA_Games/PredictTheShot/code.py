@@ -34,7 +34,7 @@ class Shot(Option):
             return True
         else:
             if is_human:
-                print(system.communicate("ERROR: You have 0 bullets!\n", "LIGHTRED_EX"))
+                print(system.communicate("ERROR: No bullets remaining.\n", "LIGHTRED_EX"))
             return False
 
     def __call__(self, player):
@@ -47,11 +47,11 @@ class Load(Option):
     def validate_profile(self, player, is_human=True):
         if player.bullets != system.MAX_BULLETS:
             if is_human:
-                print(system.communicate(f">>> +1 bullet. Now you have {player.bullets+1} bullet(s).", "CYAN"))
+                print(system.communicate(f">>> +1 bullet. You now have {player.bullets + 1} bullet(s).", "CYAN"))
             return True
         else:
             if is_human:
-                print(system.communicate("ERROR: You have maximum amount of bullets!\n", "LIGHTRED_EX"))
+                print(system.communicate("ERROR: Ammo is already full.\n", "LIGHTRED_EX"))
             return False
 
     def __call__(self, player):
@@ -64,11 +64,11 @@ class Block(Option):
     def validate_profile(self, player, is_human=True):
         if player.energy in range(1, 7):
             if is_human:
-                print(system.communicate(">>> Shield is activated.", "CYAN"))
+                print(system.communicate(">>> Shield activated.", "CYAN"))
             return True
         else:
             if is_human:
-                print(system.communicate("ERROR: You don not have enough energy!\n", "LIGHTRED_EX"))
+                print(system.communicate("ERROR: You do not have enough energy! Required: 2.\n", "LIGHTRED_EX"))
             return False
 
     def __call__(self, player):
@@ -81,11 +81,11 @@ class Deflect(Option):
     def validate_profile(self, player, is_human=True):
         if player.energy in range(3, 7):
             if is_human:
-                print(system.communicate(">>> Shield is activated.", "CYAN"))
+                print(system.communicate(">>> Shield activated.", "CYAN"))
             return True
         else:
             if is_human:
-                print(system.communicate("ERROR: You do not have enough energy!\n", "LIGHTRED_EX"))
+                print(system.communicate("ERROR: You do not have enough energy! Required: 3.\n", "LIGHTRED_EX"))
             return False
 
     def __call__(self, player):
@@ -126,10 +126,10 @@ class Human(Player):
             case "4" | "deflect":
                     self.option = deflect if deflect.validate_profile(self) else None
             case _:
-                print(system.communicate("ERROR: Select one of the options show above!\n", "LIGHTRED_EX"))
+                print(system.communicate("ERROR: Select one of the options shown above!\n", "LIGHTRED_EX"))
 
     def move(self):
-        print(system.communicate(">>> Your move\n", "LIGHTRED_EX"))
+        print(system.communicate(">>> Your move...\n", "LIGHTRED_EX"))
         print(self)
         while self.option is None:
             print(system.communicate("Select one of the options shown below:", "CYAN"))
@@ -168,11 +168,11 @@ class Game:
     @staticmethod
     def is_end():
         if human.lives == 0:
-            print(system.communicate(">>> You have 0 lives. You lost!\n", "LIGHTRED_EX"))
+            print(system.communicate(">>> You have 0 lives. You lost.\n", "LIGHTRED_EX"))
             input(system.communicate("Press ENTER to quit", "LIGHTRED_EX"))
             return True
         elif bot.lives == 0:
-            print(system.communicate(">>> Dealer has 0 lives. You won!\n", "LIGHTGREEN_EX"))
+            print(system.communicate(">>> Dealer has 0 lives. You won.\n", "LIGHTGREEN_EX"))
             input(system.communicate("Press ENTER to quit", "LIGHTRED_EX"))
             return True
         return False
@@ -180,7 +180,7 @@ class Game:
     @staticmethod
     def validate_move(pl1, pl2):
         flag = False
-        communicates = (">>> Nothing happened.\n", f">>> {pl2.name} -1HP.\n", f">>> {pl2.name} blocked shot.\n", f">>> {pl2.name} deflected shot. {pl1.name} -1HP.\n")
+        communicates = (">>> Nothing happened.\n", f">>> {pl2.name} -1HP.\n", f">>> {pl2.name} blocked the shot.\n", f">>> {pl2.name} deflected the shot. {pl1.name} -1 HP.\n")
         communicate = None
 
         if pl1.option == shot and pl2.option == shot:
