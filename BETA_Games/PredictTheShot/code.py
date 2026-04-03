@@ -1,3 +1,4 @@
+import os
 from time import sleep
 from random import randint, choice
 from colorama import Fore, Style
@@ -197,7 +198,8 @@ class Game:
             flag = True
 
         if not flag:
-            print(system.communicate("*** MOVE INFO ***\n", "LIGHTWHITE_EX"))
+            os.system("cls")
+            print(system.communicate("\n*** MOVE INFO ***\n", "LIGHTWHITE_EX"))
             print(system.communicate(f"- {pl1.name}: {pl1.option.NAME}\n- {pl2.name}: {pl2.option.NAME}","LIGHTWHITE_EX"))
             print(system.communicate(communicate, "LIGHTWHITE_EX"))
 
