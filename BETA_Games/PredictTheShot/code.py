@@ -26,41 +26,46 @@ class Option:
 
 
 class Shot(Option):
-    def validate_profile(self, player):
+    def validate_profile(self, player, is_human=True):
         if player.bullets != 0:
             return True
         else:
-            print(system.communicate("ERROR: You have 0 bullets!\n", "LIGHTRED_EX"))
+            if is_human:
+                print(system.communicate("ERROR: You have 0 bullets!\n", "LIGHTRED_EX"))
             return False
 
     def __call__(self, player):
         player.option = shot
-        player.energy += player.option.ENERGY
+        player.energy += player.option.ENERGY if player.energy + player.option.ENERGY <= system.MAX_ENERGY else 0
         player.bullets -= 1
 
 
 class Load(Option):
-    def validate_profile(self, player):
+    def validate_profile(self, player, is_human=True):
         if player.bullets != system.MAX_BULLETS:
-            print(system.communicate(f">>> +1 bullet. Now you have {player.bullets+1} bullet(s).\n", "CYAN"))
+            if is_human:
+                print(system.communicate(f">>> +1 bullet. Now you have {player.bullets+1} bullet(s).", "CYAN"))
             return True
         else:
-            print(system.communicate("ERROR: You have maximum amount of bullets!\n", "LIGHTRED_EX"))
+            if is_human:
+                print(system.communicate("ERROR: You have maximum amount of bullets!\n", "LIGHTRED_EX"))
             return False
 
     def __call__(self, player):
         player.option = load
-        player.energy += player.option.ENERGY
+        player.energy += player.option.ENERGY if player.energy + player.option.ENERGY <= system.MAX_ENERGY else 0
         player.bullets += 1
 
 
 class Block(Option):
-    def validate_profile(self, player):
+    def validate_profile(self, player, is_human=True):
         if player.energy in range(1, 7):
-            print(system.communicate(">>> Shield is activated.", "CYAN"))
+            if is_human:
+                print(system.communicate(">>> Shield is activated.", "CYAN"))
             return True
         else:
-            print(system.communicate("ERROR: You don not have enough energy!\n", "LIGHTRED_EX"))
+            if is_human:
+                print(system.communicate("ERROR: You don not have enough energy!\n", "LIGHTRED_EX"))
             return False
 
     def __call__(self, player):
@@ -70,12 +75,14 @@ class Block(Option):
 
 
 class Deflect(Option):
-    def validate_profile(self, player):
+    def validate_profile(self, player, is_human=True):
         if player.energy in range(3, 7):
-            print(system.communicate(">>> Shield is activated.\n", "CYAN"))
+            if is_human:
+                print(system.communicate(">>> Shield is activated.", "CYAN"))
             return True
         else:
-            print(system.communicate("ERROR: You do not have enough energy!\n", "LIGHTRED_EX"))
+            if is_human:
+                print(system.communicate("ERROR: You do not have enough energy!\n", "LIGHTRED_EX"))
             return False
 
     def __call__(self, player):
@@ -84,10 +91,10 @@ class Deflect(Option):
         player.shield = True
 
 
-shot = Shot(name="shot", energy=1)
-load = Load(name="load", energy=1)
-block = Block(name="block", energy=-1)
-deflect = Deflect(name="deflect", energy=-3)
+shot = Shot(name="SHOT", energy=1)
+load = Load(name="LOAD", energy=1)
+block = Block(name="BLOCK", energy=-2)
+deflect = Deflect(name="DEFLECT", energy=-3)
 
 
 class Player:
@@ -104,7 +111,7 @@ class Player:
 
 
 class Human(Player):
-    def __match_option(self, option):
+    def validate_option(self, option):
         match option.lower():
             case "1" | "shot":
                     self.option = shot if shot.validate_profile(self) else None
@@ -118,27 +125,92 @@ class Human(Player):
                 print(system.communicate("ERROR: Select one of the options show above!\n", "LIGHTRED_EX"))
 
     def move(self):
-        print(system.communicate("Your move:\n", "CYAN"))
+        print(system.communicate(">>> Your move\n", "LIGHTRED_EX"))
         print(self)
         while self.option is None:
-            print(system.communicate("Select one of the options:", "CYAN"))
+            print(system.communicate("Select one of the options shown below:", "CYAN"))
             print(system.communicate("1. Shot\n2. Load\n3. Block\n4. Deflect", "LIGHTWHITE_EX"))
-            self.__match_option(input(system.communicate("<<< ", "LIGHTWHITE_EX")))
+            self.validate_option(input(system.communicate("<<< ", "LIGHTWHITE_EX")))
         self.option(self)
 
     def __str__(self):
         return system.communicate(f"*** INFO ***\n"
-                                  f"- Your lives: {self.lives}\n"
-                                  f"- Your energy: {self.energy}\n"
-                                  f"- Your bullets: {self.bullets}\n"
-                                  f"* Dealer lives: {bot.lives}\n",
+                                  f"- Lives: {self.lives}/{system.MAX_LIVES}\n"
+                                  f"- Energy: {self.energy}\n"
+                                  f"- Bullets: {self.bullets}\n"
+                                  f"* Dealer lives: {bot.lives}/{system.MAX_LIVES}\n",
                                   "LIGHTWHITE_EX")
 
 
 class Bot(Player):
     def move(self):
-        ...
+        print(system.communicate("\n>>> Dealer's move...\n", "LIGHTRED_EX"))
+        sleep(randint(1, 3))
+        while self.option is None:
+            option = choice((shot, load, block, deflect))
+            self.option = option if option.validate_profile(self, False) else None
+        self.option(self)
+
+    def __repr__(self):
+        return (f"Dealer __repr__:\n"
+                f"lives: {self.lives}, energy: {self.energy}, bullets: {self.bullets}, option: {self.option.NAME}\n")
 
 
 human = Human("You")
 bot = Bot("Dealer")
+
+
+class Game:
+    @staticmethod
+    def is_end():
+        if human.lives == 0:
+            print(system.communicate(">>> You have 0 lives. You lost!\n", "LIGHTRED_EX"))
+            input(system.communicate("Press ENTER to quit", "LIGHTRED_EX"))
+            return True
+        elif bot.lives == 0:
+            print(system.communicate(">>> Dealer has 0 lives. You won!\n", "LIGHTGREEN_EX"))
+            input(system.communicate("Press ENTER to quit", "LIGHTRED_EX"))
+            return True
+        return False
+
+    @staticmethod
+    def validate_move(pl1, pl2):
+        flag = False
+        communicates = (">>> Nothing happened.\n", f">>> {pl2.name} -1HP.\n", f">>> {pl2.name} blocked shot.\n", f">>> {pl2.name} deflected shot. {pl1.name} -1HP.\n")
+        communicate = None
+
+        if pl1.option == shot and pl2.option == shot:
+            pl1.bullets += 1
+            pl2.bullets += 1
+            communicate = communicates[0]
+        elif pl1.option == shot and pl2.option == load:
+            pl2.lives -= 1
+            communicate = communicates[1]
+        elif pl1.option == shot and pl2.option == block:
+            communicate = communicates[2]
+        elif pl1.option == shot and pl2.option == deflect:
+            pl1.lives -= 1
+            communicate = communicates[3]
+        elif pl1.option in (load, block, deflect) and pl2.option != shot:
+            communicate = communicates[0]
+        else:
+            flag = True
+
+        if not flag:
+            print(system.communicate("*** MOVE INFO ***\n", "LIGHTWHITE_EX"))
+            print(system.communicate(f"- {pl1.name}: {pl1.option.NAME}\n- {pl2.name}: {pl2.option.NAME}","LIGHTWHITE_EX"))
+            print(system.communicate(communicate, "LIGHTWHITE_EX"))
+
+        return flag
+
+    def __call__(self):
+        while not self.is_end():
+            human.move()
+            bot.move()
+            if self.validate_move(human, bot):
+                self.validate_move(bot, human)
+            human.option = bot.option = None
+
+
+game = Game()
+game()
