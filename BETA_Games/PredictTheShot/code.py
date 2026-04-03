@@ -1,4 +1,5 @@
 import os
+from abc import ABC, abstractmethod
 from time import sleep
 from random import randint, choice
 from colorama import Fore, Style
@@ -17,13 +18,14 @@ class System:
 system = System()
 
 
-class Option:
+class Option(ABC):
     def __init__(self, name, energy):
         self.NAME = name
         self.ENERGY = energy
 
+    @abstractmethod
     def validate_profile(self, player):
-        raise NotImplementedError("No method 'validate_profile' in the class.")
+        pass
 
 
 class Shot(Option):
@@ -98,7 +100,7 @@ block = Block(name="BLOCK", energy=-2)
 deflect = Deflect(name="DEFLECT", energy=-3)
 
 
-class Player:
+class Player(ABC):
     def __init__(self, name):
         self.name = name
         self.lives = system.MAX_LIVES
@@ -107,8 +109,9 @@ class Player:
         self.shield = False
         self.option = None
 
+    @abstractmethod
     def move(self):
-        raise NotImplementedError("No method 'move' in the class.")
+        pass
 
 
 class Human(Player):
