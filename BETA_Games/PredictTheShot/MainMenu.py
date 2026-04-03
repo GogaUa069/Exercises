@@ -7,6 +7,7 @@ class Menu:
         self.OPTIONS = options
 
     def show_menu(self):
+        os.system("cls")
         print(system.communicate(f"\n[ {self.HEADER.upper()} ]", "LIGHTRED_EX"))
         for indx, option in enumerate(self.OPTIONS, 1):
             print(system.communicate(f"{indx}. {option.name.upper()}", "GREEN"))
@@ -16,7 +17,6 @@ class Menu:
             if answer.upper() in (option.name.upper(), str(indx)):
                 option()
                 return
-        print(system.communicate("ERROR: Select one of the options shown above!", "LIGHTRED_EX"))
 
     def __call__(self):
         answer = str()
@@ -40,7 +40,7 @@ def tutorial():
     input()
     print(system.communicate("Tutorial:", "LIGHTCYAN_EX"), end="")
     input()
-    print(system.communicate("1.1 You have 4 options to choose: 'shot', 'load', 'block' and 'deflect'.", "LIGHTCYAN_EX"), end="")
+    print(system.communicate("\n1.1 You have 4 options to choose: 'shot', 'load', 'block' and 'deflect'.", "LIGHTCYAN_EX"), end="")
     input()
     print(system.communicate("1.2 Shot (0 energy) - You shot at your enemy. If you both select shot, nothing will happen.", "LIGHTCYAN_EX"), end="")
     input()
@@ -50,14 +50,18 @@ def tutorial():
     input()
     print(system.communicate("1.5 Deflect (3 energy) - Enemy bullet deflects and hurts him. (disables after move.)", "LIGHTCYAN_EX"), end="")
     input()
-    print(system.communicate("2.1 Tip #1: Use 'load' as a first move, your opponent does not have bullets.", "LIGHTCYAN_EX"), end="")
+    print(system.communicate("\n2.1 Tip #1: Use 'load' as a first move, your opponent does not have bullets.", "LIGHTCYAN_EX"), end="")
+    input()
+    print(system.communicate("2.2 Tip #2: If you will input 3 wrong answer you will get random option.", "LIGHTCYAN_EX"), end="")
+    input()
+    print(system.communicate("\nI think you are ready. Next tips will be in the future.", "LIGHTCYAN_EX"), end="")
     input()
 
 
 def update_log():
     print()
     print("02.04.26 - alpha version")
-    print("03.04.26 - v1.0 BETA, v1.1 BETA, v1.2 BETA")
+    print("03.04.26 - v1.0 BETA, v1.1 BETA, v1.2 BETA, v2.0")
 
 
 coming_soon = lambda: print(system.communicate("Coming soon...", "LIGHTWHITE_EX"))
