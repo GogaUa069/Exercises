@@ -62,7 +62,7 @@ class Load(Option):
 
 class Block(Option):
     def validate_profile(self, player, is_human=True):
-        if player.energy in range(1, 7):
+        if player.energy - abs(self.ENERGY) >= 0:
             if is_human:
                 print(system.communicate(">>> Shield activated.", "CYAN"))
             return True
@@ -79,7 +79,7 @@ class Block(Option):
 
 class Deflect(Option):
     def validate_profile(self, player, is_human=True):
-        if player.energy in range(3, 7):
+        if player.energy - abs(self.ENERGY) >= 0:
             if is_human:
                 print(system.communicate(">>> Shield activated.", "CYAN"))
             return True
@@ -113,6 +113,10 @@ class Player(ABC):
     def move(self):
         pass
 
+    @abstractmethod
+    def reset(self):
+        pass
+
 
 class Human(Player):
     def validate_option(self, option):
@@ -137,6 +141,13 @@ class Human(Player):
             self.validate_option(input(system.communicate("<<< ", "LIGHTWHITE_EX")))
         self.option(self)
 
+    def reset(self):
+        self.lives = system.MAX_LIVES
+        self.energy = system.MAX_ENERGY
+        self.bullets = 0
+        self.shield = False
+        self.option = None
+
     def __str__(self):
         return system.communicate(f"*** INFO ***\n"
                                   f"- Lives: {self.lives}/{system.MAX_LIVES}\n"
@@ -155,6 +166,13 @@ class Bot(Player):
             self.option = option if option.validate_profile(self, False) else None
         self.option(self)
 
+    def reset(self):
+        self.lives = system.MAX_LIVES
+        self.energy = system.MAX_ENERGY
+        self.bullets = 0
+        self.shield = False
+        self.option = None
+
     def __repr__(self):
         return (f"Dealer __repr__:\n"
                 f"lives: {self.lives}, energy: {self.energy}, bullets: {self.bullets}, option: {self.option.NAME}\n")
@@ -170,10 +188,12 @@ class Game:
         if human.lives == 0:
             print(system.communicate(">>> You have 0 lives. You lost.\n", "LIGHTRED_EX"))
             input(system.communicate("Press ENTER to quit", "LIGHTRED_EX"))
+            sleep(0.5)
             return True
         elif bot.lives == 0:
             print(system.communicate(">>> Dealer has 0 lives. You won.\n", "LIGHTGREEN_EX"))
             input(system.communicate("Press ENTER to quit", "LIGHTRED_EX"))
+            sleep(0.5)
             return True
         return False
 
@@ -209,6 +229,11 @@ class Game:
         return flag
 
     def __call__(self):
+        print(system.communicate("The duel has begun.\n", "LIGHTRED_EX"))
+
+        human.reset()
+        bot.reset()
+
         while not self.is_end():
             human.move()
             bot.move()
@@ -218,4 +243,3 @@ class Game:
 
 
 game = Game()
-game()
