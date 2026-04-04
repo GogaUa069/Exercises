@@ -60,17 +60,23 @@ def tutorial():
 
 def update_log():
     print()
-    print("02.04.26 - alpha version")
-    print("03.04.26 - v1.0 BETA, v1.1 BETA, v1.2 BETA, v2.0")
+    print("02.04.26. - v1.0 ALPHA")
+    print("03.04.26. - v1.0 BETA, v1.1 BETA, v1.2 BETA, v2.0")
+    print("04.04.26. - v2.1, v2.2")
+    input()
 
 
-coming_soon = lambda: print(system.communicate("Coming soon...", "LIGHTWHITE_EX"))
+def coming_soon():
+    print(system.communicate("Coming soon...", "LIGHTWHITE_EX"))
+    input()
+
+
 pass_func = lambda: None
 
 # SETTINGS:
 tutorial_option = Option("tutorial", tutorial)
 audio_option = Option("audio", coming_soon)
-update_log_option = Option("update Log", update_log)
+update_log_option = Option("update log", update_log)
 credits_option = Option("credits", coming_soon)
 from_settings_to_mm = Option("leave - main menu", pass_func)
 
