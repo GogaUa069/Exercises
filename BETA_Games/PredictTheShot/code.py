@@ -155,7 +155,7 @@ class Human(Player):
             wrong_counter += 1
             if wrong_counter < 4:
                 print(system.communicate(f"Select one of the options shown below: ({wrong_counter}/3)", "CYAN"))
-                print(system.communicate("1. Shot\n2. Load\n3. Block\n4. Deflect", "LIGHTWHITE_EX"))
+                print(system.communicate("1. SHOT\n2. LOAD\n3. BLOCK\n4. DEFLECT", "LIGHTWHITE_EX"))
                 self.validate_option(input(system.communicate("<<< ", "LIGHTWHITE_EX")))
             else:
                 self.random_move()
@@ -184,6 +184,13 @@ class Bot(Player):
         self.move_counter = 0
         self.last_moves = list()
 
+        self.human_moves = {
+            "shot": 0,
+            "load": 0,
+            "block": 0,
+            "deflect": 0
+        }
+
     def move(self):
         print(system.communicate("\n>>> Dealer's move...\n", "LIGHTRED_EX"))
         sleep(randint(1, 3))
@@ -199,7 +206,7 @@ class Bot(Player):
                 weights.append([0, 100, 0, 0])
                 weights.remove([25, 25, 25, 25])
             else:
-                if self.energy == 0:
+                if self.energy in (0, 1):
                     if self.bullets == 0:
                         weights.append([0, 100, 0, 0])
                     else:
@@ -244,12 +251,26 @@ class Bot(Player):
                     weights.append([45, 5, 5, 45])
                 if self.move_counter > 2 and "shot" in self.last_moves[-1] and "shot" in self.last_moves[-2]:
                     weights.append([15, 10, 40, 35])
+                if self.move_counter > 2 and self.last_moves[-1][1] == "block" and self.last_moves[-2][1] == "block":
+                    weights.append([25, 25, 25, 0])
+                most_commonly_used = max(self.human_moves, key=lambda x: self.human_moves[x])
+                print(most_commonly_used)  # for debugging
+                match most_commonly_used:
+                    case "shot":
+                        weights.append([20, 20, 30, 30])
+                    case "load":
+                        weights.append([40, 20, 20, 20])
+                    case "block" | "deflect":
+                        weights.append([20, 40, 20, 20])
+                    case _:  # not used
+                        weights.append([25, 25, 25, 25])
 
             option = choices(options, weights=choice(weights))[0]
             self.option = option if option.validate_profile(self, False) else None
         self.option(self)
         # print(weights)  # for debugging
         # print(self.last_moves)  # for debugging
+        # print(self.human_moves)  # for debugging
 
     def reset(self):
         self.lives = system.MAX_LIVES
@@ -260,6 +281,12 @@ class Bot(Player):
 
         self.move_counter = 0
         self.last_moves = list()
+        self.human_moves = {
+            "shot": 0,
+            "load": 0,
+            "block": 0,
+            "deflect": 0
+        }
 
     def __repr__(self):
         return (f"Dealer __repr__:\n"
@@ -328,8 +355,9 @@ class Game:
             bot.move()
 
             bot.last_moves.append((human.option.NAME, bot.option.NAME))
-            if len(bot.last_moves) >= 5:
-                del bot.last_moves[-1]
+            bot.human_moves[bot.last_moves[-1][0].lower()] += 1
+            if len(bot.last_moves) == 5:
+                del bot.last_moves[0]
 
             if self.validate_move(human, bot):
                 self.validate_move(bot, human)
