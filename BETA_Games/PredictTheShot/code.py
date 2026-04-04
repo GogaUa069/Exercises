@@ -135,6 +135,8 @@ class Human(Player):
             case "096":
                 print(system.communicate("Promotion code is activated.\n", "LIGHTYELLOW_EX"))
                 system.promo_flag = True
+            case "l":
+                quit()
             case _:
                 print(system.communicate("ERROR: Select one of the options shown above!\n", "LIGHTRED_EX"))
 
