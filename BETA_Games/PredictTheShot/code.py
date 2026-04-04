@@ -189,7 +189,7 @@ class Bot(Player):
         sleep(randint(1, 3))
 
         self.move_counter += 1
-        weights = [25, 25, 25, 25]
+        # weights = [25, 25, 25, 25]  # for debugging
 
         while self.option is None:
             options = (shot, load, block, deflect)
@@ -248,8 +248,8 @@ class Bot(Player):
             option = choices(options, weights=choice(weights))[0]
             self.option = option if option.validate_profile(self, False) else None
         self.option(self)
-        # print(weights)  # weights
-        # print(self.last_moves)
+        # print(weights)  # for debugging
+        # print(self.last_moves)  # for debugging
 
     def reset(self):
         self.lives = system.MAX_LIVES
@@ -288,7 +288,7 @@ class Game:
     @staticmethod
     def validate_move(pl1, pl2):
         flag = False
-        communicates = (">>> Nothing happened.\n", f">>> {pl2.name} -1HP.\n", f">>> {pl2.name} blocked the shot.\n", f">>> {pl2.name} deflected the shot. {pl1.name} -1 HP.\n")
+        communicates = (">>> Nothing happened.\n", f">>> {pl2.name} -1HP.\n", f">>> {pl2.name} blocked the shot.\n", f">>> {pl2.name} deflected the shot. {pl1.name} -1HP.\n")
         communicate = None
 
         if pl1.option == shot and pl2.option == shot:
