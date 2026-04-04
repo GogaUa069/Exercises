@@ -62,7 +62,7 @@ def update_log():
     print()
     print("02.04.26. - v1.0 ALPHA")
     print("03.04.26. - v1.0 BETA, v1.1 BETA, v1.2 BETA, v2.0")
-    print("04.04.26. - v2.1, v2.2")
+    print("04.04.26. - v2.1, v2.2, v2.2.1, v2.3")
     input()
 
 
