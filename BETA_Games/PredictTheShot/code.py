@@ -10,6 +10,9 @@ class System:
     MAX_ENERGY = 6
     MAX_LIVES = 3
 
+    def __init__(self):
+        self.promo_flag = False
+
     @staticmethod
     def communicate(text, color):
         return getattr(Fore, color) + text + Style.RESET_ALL
@@ -129,6 +132,9 @@ class Human(Player):
                     self.option = block if block.validate_profile(self) else None
             case "4" | "deflect":
                     self.option = deflect if deflect.validate_profile(self) else None
+            case "096":
+                print(system.communicate("Promotion code is activated.\n", "LIGHTYELLOW_EX"))
+                system.promo_flag = True
             case _:
                 print(system.communicate("ERROR: Select one of the options shown above!\n", "LIGHTRED_EX"))
 
@@ -161,12 +167,13 @@ class Human(Player):
         self.option = None
 
     def __str__(self):
-        return system.communicate(f"*** INFO ***\n"
+        info = system.communicate(f"*** INFO ***\n"
                                   f"- Lives: {self.lives}/{system.MAX_LIVES}\n"
                                   f"- Energy: {self.energy}\n"
                                   f"- Bullets: {self.bullets}\n"
                                   f"* Dealer lives: {bot.lives}/{system.MAX_LIVES}\n",
                                   "LIGHTWHITE_EX")
+        return info if not system.promo_flag else info + f"* Dealer energy: {bot.energy}\n* Dealer bullets: {bot.bullets}\n"
 
 
 class Bot(Player):
@@ -231,8 +238,6 @@ class Bot(Player):
                     weights.append([5, 5, 45, 45])
                 if self.move_counter > 1 and self.last_moves[-1] == ("shot", "shot"):
                     weights.append([15, 5, 35, 45])
-                if self.move_counter > 1 and self.last_moves[-2:] == [("shot", "shot"), ("shot", "shot")]:
-                    weights.append([0, 5, 45, 50])
                 if self.move_counter > 2 and "shot" not in (self.last_moves[-1], self.last_moves[-2]):
                     weights.append([45, 5, 5, 45])
                 if self.move_counter > 2 and "shot" in self.last_moves[-1] and "shot" in self.last_moves[-2]:
@@ -241,8 +246,8 @@ class Bot(Player):
             option = choices(options, weights=choice(weights))[0]
             self.option = option if option.validate_profile(self, False) else None
         self.option(self)
-        print(weights)  # weights
-        print(self.last_moves)
+        # print(weights)  # weights
+        # print(self.last_moves)
 
     def reset(self):
         self.lives = system.MAX_LIVES
