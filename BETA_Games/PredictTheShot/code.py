@@ -239,9 +239,11 @@ class Bot(Player):
                     weights.append([30, 30, 20, 20])
                 if self.bullets >= 2:
                     weights.append([50, 10, 20, 20])
-                if self.move_counter > 1 and self.last_moves[-2:] == [("shot", "shot"), ("shot", "shot")]:
+                if self.move_counter > 2 and self.last_moves[-2:] == [("shot", "shot"), ("shot", "shot")]:
                     weights.append([5, 5, 45, 45])
-                if self.move_counter > 1 and self.last_moves[-2:] == [("load", "load"), ("load", "load")]:
+                if self.move_counter > 2 and "load" in self.last_moves[-1] and "load" in self.last_moves[-2]:  # EXP
+                    weights.append([45, 5, 5, 45])
+                if self.move_counter > 2 and self.last_moves[-2:] == [("load", "load"), ("load", "load")]:
                     weights.append([45, 5, 5, 45])
                 if self.move_counter > 1 and self.last_moves[-1] != ("shot", "shot") and "shot" in self.last_moves[-1]:
                     weights.append([5, 5, 45, 45])
@@ -254,7 +256,7 @@ class Bot(Player):
                 if self.move_counter > 2 and self.last_moves[-1][1] == "block" and self.last_moves[-2][1] == "block":
                     weights.append([25, 25, 25, 0])
                 most_commonly_used = max(self.human_moves, key=lambda x: self.human_moves[x])
-                print(most_commonly_used)  # for debugging
+                # print(most_commonly_used)  # for debugging
                 match most_commonly_used:
                     case "shot":
                         weights.append([20, 20, 30, 30])
