@@ -1,4 +1,5 @@
 from system import *
+from game_v1 import *
 
 # SETTINGS
 
@@ -12,7 +13,7 @@ settings_menu = Menu("settings", settings_options)
 
 # MAIN MENU
 
-play_option = GUIOption("play", system.coming_soon)
+play_option = GUIOption("play", game)
 settings_option = GUIOption("settings", settings_menu)
 quit_option = GUIOption("quit", system.pass_func)
 
