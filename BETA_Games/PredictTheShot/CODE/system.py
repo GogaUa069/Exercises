@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from random import randint, choice
+from random import randint, choice, choices
 from time import sleep
 import os
 from colorama import Fore, Style
@@ -22,7 +22,6 @@ class System:
         self.pass_func = lambda: None
 
         self.INPUT = self.communicate("<<< ", "LIGHTWHITE_EX")
-        self.CODES = {"096": False}
         self.TUTORIAL = (self.communicate("[ENTER] to continue", "LIGHTRED_EX"),
                          self.communicate("\nTutorial:", "LIGHTCYAN_EX"),
                          self.communicate("\n1.1 You have 4 options to choose: 'shot', 'load', 'block' and 'deflect'.", "LIGHTCYAN_EX"),
@@ -31,7 +30,6 @@ class System:
                          self.communicate("1.4 Block (2 energy) - You block one enemy bullet. (disables after move.)", "LIGHTCYAN_EX"),
                          self.communicate("1.5 Deflect (3 energy) - Enemy bullet deflects and hurts him. (disables after move.)", "LIGHTCYAN_EX"),
                          self.communicate("\n2.1 Tip #1: Use 'load' as a first move, your opponent does not have bullets.", "LIGHTCYAN_EX"),
-                         self.communicate("2.2 Tip #2: If you will input 3 wrong answer you will get random option.", "LIGHTCYAN_EX"),
                          self.communicate("\nI think you are ready. Next tips will be in the future.", "LIGHTCYAN_EX"))
 
     @staticmethod
@@ -47,8 +45,7 @@ class System:
         input()
 
     def error(self, text: str):
-        print(self.communicate(f"\nERROR: {text}", "LIGHTRED_EX"))
-        input()
+        print(self.communicate(f"ERROR: {text}", "LIGHTRED_EX"))
 
     def get_tutorial(self):
         for row in self.TUTORIAL:
