@@ -4,6 +4,8 @@ from time import sleep
 import os
 from colorama import Fore, Style
 
+version = "v3.1.2"
+
 
 class System:
     __instance = None
@@ -72,7 +74,7 @@ class Menu:
 
     def show_menu(self):
         system.clear_console()
-        print(system.communicate(f"\n[ {self.HEADER} ]", "LIGHTRED_EX"))
+        print(system.communicate(f"\n[ {self.HEADER} ] [{version}]", "LIGHTRED_EX"))
         for index, option in enumerate(self.OPTIONS, 1):
             print(system.communicate(f"{index}. {option.NAME}", "GREEN"))
 
