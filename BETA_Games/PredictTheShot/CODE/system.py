@@ -81,7 +81,7 @@ class Menu:
             if answer in (option.NAME, str(index)):
                 option()
                 return
-        system.error("Select one of the options shown above!")
+        # system.error("Select one of the options shown above!")
 
     def __call__(self):
         answer = None
