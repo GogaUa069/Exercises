@@ -137,7 +137,7 @@ class Human(Player):
         self.OPTION = None
 
     def __str__(self):
-        return system.communicate(f"*** INFO ***\n\n"
+        return system.communicate(f"*** INFO ***\n"
                                   f"- LIVES: {self.LIVES}/{system.MAX_LIVES}\n"
                                   f"- ENERGY: {self.ENERGY}/{system.MAX_ENERGY}\n"
                                   f"- BULLETS: {self.BULLETS}/{system.MAX_BULLETS}\n"
