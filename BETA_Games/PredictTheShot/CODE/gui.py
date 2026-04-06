@@ -4,8 +4,8 @@ from game_v1 import *
 # SETTINGS
 
 tutorial_option = GUIOption("tutorial", system.get_tutorial)
-credits_option = GUIOption("credits", system.coming_soon)
-audio_option = GUIOption("audio", system.coming_soon)
+credits_option = GUIOption("credits", system.pass_func)
+audio_option = GUIOption("audio", system.pass_func)
 from_settings_to_mm = GUIOption("leave - main menu", system.pass_func)
 
 settings_options = (tutorial_option, credits_option, audio_option, from_settings_to_mm)
