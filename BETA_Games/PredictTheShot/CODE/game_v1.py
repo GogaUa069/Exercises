@@ -209,7 +209,7 @@ class Bot(Player):
         return weights
 
     def move(self):
-        print(system.communicate(f"\n>>> {self.NAME} move...", "LIGHTRED_EX"))
+        print(system.communicate(f"\n>>> {self.NAME}'s move...", "LIGHTRED_EX"))
         sleep(randint(1, 3))
 
         options = [shot, load, block, deflect]
@@ -251,11 +251,12 @@ class Game:
     def is_end():
         if human.LIVES == 0:
             print(system.communicate("\n>>> You have 0 lives. You lost.", "LIGHTRED_EX"))
-            input(system.communicate("[ENTER] to quit", "LIGHTRED_EX"))
+            input(system.communicate("\n[ENTER] to quit", "LIGHTRED_EX"))
             return True
         elif bot.LIVES == 0:
             print(system.communicate("\n>>> Dealer has 0 lives. You won.", "LIGHTGREEN_EX"))
-            input(system.communicate("[ENTER] to quit", "LIGHTRED_EX"))
+            print(system.communicate("* PTS 2D?! *", "WHITE"))
+            input(system.communicate("\n[ENTER] to quit", "LIGHTRED_EX"))
             return True
         return False
 
