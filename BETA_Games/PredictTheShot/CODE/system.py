@@ -4,7 +4,7 @@ from time import sleep
 import os
 from colorama import Fore, Style
 
-version = "v3.1.2"
+version = "v3.1.3"
 
 
 class System:
