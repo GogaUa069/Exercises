@@ -2,7 +2,7 @@ import os
 import yaml
 from colorama import Fore, Style
 
-version = "v4.2.0 BETA"
+version = "v4.3.0"
 
 
 class System:
@@ -97,6 +97,7 @@ class DataRemote:
         self.is_victory = None
         self.lives = self.moves = 0
         self.local_options_rate = dict().fromkeys(("shot", "load", "block", "deflect"), 0)
+        self.local_options_utility = dict().fromkeys(("shot", "load", "block", "deflect"), 0)
 
     def load_data(self):
         with open("../UTILS/data.yaml", "r", encoding="utf-8") as file:
@@ -117,13 +118,13 @@ class DataRemote:
 
         self.DATA["average_lives"]["all"] += 1
         self.DATA["average_lives"]["lives"] += self.lives
-        self.DATA["average_lives"]["average"] = round(self.DATA["average_lives"]["lives"] / self.DATA["average_lives"]["all"], 2)
+        self.DATA["average_lives"]["average"] = round(self.DATA["average_lives"]["lives"] / self.DATA["average_lives"]["all"], 3)
 
         self.DATA["average_moves"]["all"] += 1
         self.DATA["average_moves"]["moves"] += self.moves
-        self.DATA["average_moves"]["average"] = round(self.DATA["average_moves"]["moves"] / self.DATA["average_moves"]["all"], 2)
+        self.DATA["average_moves"]["average"] = round(self.DATA["average_moves"]["moves"] / self.DATA["average_moves"]["all"], 3)
 
-        self.DATA["win_rate"] = round(self.DATA["victories"] / self.DATA["all_games"], 2) * 100
+        self.DATA["win_rate"] = round(self.DATA["victories"] / self.DATA["all_games"], 3) * 100
 
         self.DATA["options_rate"]["all"] += self.moves
 
@@ -132,10 +133,24 @@ class DataRemote:
         self.DATA["options_rate"]["block"]["normal"] += self.local_options_rate["block"]
         self.DATA["options_rate"]["deflect"]["normal"] += self.local_options_rate["deflect"]
 
-        self.DATA["options_rate"]["shot"]["percent"] = round(self.DATA["options_rate"]["shot"]["normal"] / self.DATA["options_rate"]["all"] * 100, 2)
-        self.DATA["options_rate"]["load"]["percent"] = round(self.DATA["options_rate"]["load"]["normal"] / self.DATA["options_rate"]["all"] * 100, 2)
-        self.DATA["options_rate"]["block"]["percent"] = round(self.DATA["options_rate"]["block"]["normal"] / self.DATA["options_rate"]["all"] * 100, 2)
-        self.DATA["options_rate"]["deflect"]["percent"] = round(self.DATA["options_rate"]["deflect"]["normal"] / self.DATA["options_rate"]["all"] * 100, 2)
+        self.DATA["options_rate"]["shot"]["percent"] = round(self.DATA["options_rate"]["shot"]["normal"] / self.DATA["options_rate"]["all"] * 100, 3)
+        self.DATA["options_rate"]["load"]["percent"] = round(self.DATA["options_rate"]["load"]["normal"] / self.DATA["options_rate"]["all"] * 100, 3)
+        self.DATA["options_rate"]["block"]["percent"] = round(self.DATA["options_rate"]["block"]["normal"] / self.DATA["options_rate"]["all"] * 100, 3)
+        self.DATA["options_rate"]["deflect"]["percent"] = round(self.DATA["options_rate"]["deflect"]["normal"] / self.DATA["options_rate"]["all"] * 100, 3)
+
+        self.DATA["options_rate"]["shot"]["useful"] += self.local_options_utility["shot"]
+        self.DATA["options_rate"]["load"]["useful"] += self.local_options_utility["load"]
+        self.DATA["options_rate"]["block"]["useful"] += self.local_options_utility["block"]
+        self.DATA["options_rate"]["deflect"]["useful"] += self.local_options_utility["deflect"]
+
+        if self.DATA["options_rate"]["shot"]["normal"] != 0:
+            self.DATA["options_rate"]["shot"]["useful_percent"] = round(self.DATA["options_rate"]["shot"]["useful"] / self.DATA["options_rate"]["shot"]["normal"] * 100, 3)
+        if self.DATA["options_rate"]["load"]["normal"] != 0:
+            self.DATA["options_rate"]["load"]["useful_percent"] = round(self.DATA["options_rate"]["load"]["useful"] / self.DATA["options_rate"]["load"]["normal"] * 100, 3)
+        if self.DATA["options_rate"]["block"]["normal"] != 0:
+            self.DATA["options_rate"]["block"]["useful_percent"] = round(self.DATA["options_rate"]["block"]["useful"] / self.DATA["options_rate"]["block"]["normal"] * 100, 3)
+        if self.DATA["options_rate"]["deflect"]["normal"] != 0:
+            self.DATA["options_rate"]["deflect"]["useful_percent"] = round(self.DATA["options_rate"]["deflect"]["useful"] / self.DATA["options_rate"]["deflect"]["normal"] * 100, 3)
 
     def save_data(self):
         with open("../UTILS/data.yaml", "w", encoding="utf-8") as file:
@@ -153,10 +168,10 @@ class DataRemote:
               f"- Average moves per game: {self.DATA["average_moves"]["average"]}\n\n"
               f"- Action distribution:\n"
               f"    - Total moves: {self.DATA["options_rate"]["all"]}\n"
-              f"    - SHOT: {self.DATA["options_rate"]["shot"]["percent"]}% ({self.DATA["options_rate"]["shot"]["normal"]})\n"
-              f"    - LOAD: {self.DATA["options_rate"]["load"]["percent"]}% ({self.DATA["options_rate"]["load"]["normal"]})\n"
-              f"    - BLOCK: {self.DATA["options_rate"]["block"]["percent"]}% ({self.DATA["options_rate"]["block"]["normal"]})\n"
-              f"    - DEFLECT: {self.DATA["options_rate"]["deflect"]["percent"]}% ({self.DATA["options_rate"]["deflect"]["normal"]})\n")
+              f"    - SHOT: {self.DATA["options_rate"]["shot"]["percent"]}% ({self.DATA["options_rate"]["shot"]["normal"]}) (utility: {self.DATA["options_rate"]["shot"]["useful_percent"]}%)\n"
+              f"    - LOAD: {self.DATA["options_rate"]["load"]["percent"]}% ({self.DATA["options_rate"]["load"]["normal"]}) (utility: {self.DATA["options_rate"]["load"]["useful_percent"]}%)\n"
+              f"    - BLOCK: {self.DATA["options_rate"]["block"]["percent"]}% ({self.DATA["options_rate"]["block"]["normal"]}) (utility: {self.DATA["options_rate"]["block"]["useful_percent"]}%)\n"
+              f"    - DEFLECT: {self.DATA["options_rate"]["deflect"]["percent"]}% ({self.DATA["options_rate"]["deflect"]["normal"]}) (utility: {self.DATA["options_rate"]["deflect"]["useful_percent"]}%)\n")
 
     def __call__(self):
         self.load_data()
