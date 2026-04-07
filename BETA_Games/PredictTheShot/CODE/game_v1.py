@@ -62,7 +62,6 @@ class Block(Option):
     def __call__(self, player):
         player.OPTION = block
         player.ENERGY += player.OPTION.ENERGY
-        player.SHIELD = True
 
 
 class Deflect(Option):
@@ -79,7 +78,6 @@ class Deflect(Option):
     def __call__(self, player):
         player.OPTION = deflect
         player.ENERGY += player.OPTION.ENERGY
-        player.SHIELD = True
 
 
 shot = Shot(name="shot", energy=1)
@@ -94,7 +92,6 @@ class Player(ABC):
         self.LIVES = system.MAX_LIVES
         self.ENERGY = system.MAX_ENERGY
         self.BULLETS = 0
-        self.SHIELD = False
         self.OPTION = None
 
     @abstractmethod
@@ -133,7 +130,6 @@ class Human(Player):
         self.LIVES = system.MAX_LIVES
         self.ENERGY = system.MAX_ENERGY
         self.BULLETS = 0
-        self.SHIELD = False
         self.OPTION = None
 
     def __str__(self):
@@ -227,7 +223,6 @@ class Bot(Player):
         self.LIVES = system.MAX_LIVES
         self.ENERGY = system.MAX_ENERGY
         self.BULLETS = 0
-        self.SHIELD = False
         self.OPTION = None
 
         self.move_counter = 0
