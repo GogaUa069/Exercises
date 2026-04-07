@@ -1,6 +1,3 @@
-# Rewatch SHIELD in human and bot.
-# Errors to SYSTEM
-
 from system import *
 
 
@@ -245,10 +242,20 @@ class Game:
     @staticmethod
     def is_end():
         if human.LIVES == 0:
+            data_remote.is_victory = False
+            data_remote.moves = bot.move_counter
+            data_remote.lives = human.LIVES
+            data_remote.local_options_rate = bot.human_moves
+
             print(system.communicate("\n>>> You have 0 lives. You lost.", "LIGHTRED_EX"))
             input(system.communicate("\n[ENTER] to quit", "LIGHTRED_EX"))
             return True
         elif bot.LIVES == 0:
+            data_remote.is_victory = True
+            data_remote.moves = bot.move_counter
+            data_remote.lives = human.LIVES
+            data_remote.local_options_rate = bot.human_moves
+
             print(system.communicate("\n>>> Dealer has 0 lives. You won.", "LIGHTGREEN_EX"))
             print(system.communicate("* PTS 2D?! *", "WHITE"))
             input(system.communicate("\n[ENTER] to quit", "LIGHTRED_EX"))
@@ -307,6 +314,8 @@ class Game:
                 self.validate_move(bot, human)
 
             human.OPTION = bot.OPTION = None
+
+        data_remote.get_account_info()
 
 
 game = Game()
