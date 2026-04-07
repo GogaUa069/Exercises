@@ -1,3 +1,7 @@
+from abc import ABC, abstractmethod
+from random import choice, choices
+from time import sleep
+
 from system import *
 
 
@@ -145,14 +149,13 @@ class Bot(Player):
         self.human_moves = dict().fromkeys(("SHOT", "LOAD", "BLOCK", "DEFLECT"), 0)
 
     def set_weights(self):
-        self.move_counter += 1
         weights = [(25, 25, 25, 25)]
 
-        if self.move_counter == 1:
+        if self.move_counter == 0 or (human.ENERGY == 0 and human.BULLETS == 0 and self.BULLETS == 0):
             weights = [(0, 100, 0, 0)]
+        elif human.ENERGY == 0 and human.BULLETS == 0 and self.BULLETS != 0:
+            weights.append((100, 0, 0, 0))
         else:
-            if human.ENERGY == 0 and human.BULLETS == 0:
-                weights.append((80, 10, 5, 5))
             if human.ENERGY == 0 and human.BULLETS > 0:
                 weights.append((40, 10, 25, 25))
             if human.ENERGY > 0 and human.BULLETS == 0:
@@ -203,7 +206,7 @@ class Bot(Player):
 
     def move(self):
         print(system.communicate(f"\n>>> {self.NAME}'s move...", "LIGHTRED_EX"))
-        sleep(randint(1, 3))
+        sleep(1)
 
         options = [shot, load, block, deflect]
 
@@ -213,6 +216,7 @@ class Bot(Player):
             self.OPTION = option if option.validate_player(self, False) else None
 
         self.OPTION(self)
+        self.move_counter += 1
 
         # print(self)  # Debugging.
 
