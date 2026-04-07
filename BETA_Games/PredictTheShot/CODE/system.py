@@ -4,9 +4,8 @@ from time import sleep
 import os
 import yaml
 from colorama import Fore, Style
-from lxml.objectify import deannotate
 
-version = "v3.1.3"
+version = "v4.0.1 BETA"
 
 
 class System:
@@ -170,6 +169,7 @@ class DataRemote:
     def get_account_info(self):
         self()
         print(self)
+        input(system.communicate("[ENTER] to continue", "LIGHTRED_EX"))
 
 
 data_remote = DataRemote()
