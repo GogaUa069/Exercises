@@ -1,11 +1,8 @@
-from abc import ABC, abstractmethod
-from random import randint, choice, choices
-from time import sleep
 import os
 import yaml
 from colorama import Fore, Style
 
-version = "v4.0.1 BETA"
+version = "v4.2.0 BETA"
 
 
 class System:
@@ -145,17 +142,17 @@ class DataRemote:
             yaml.safe_dump(self.DATA, file, sort_keys=False)
 
     def __str__(self):
-        return (f"\n*** ACCOUNT INFO ***\n"
+        return (f"\n*** ACCOUNT INFO ***\n\n"
               f"- Games played: {self.DATA["all_games"]}\n"
-              f"- Win rate: {self.DATA["win_rate"]}%\n"
+              f"- Win rate: {self.DATA["win_rate"]}%\n\n"
               f"- Victories: {self.DATA["victories"]}\n"
-              f"- Defeats: {self.DATA["defeats"]}\n"
+              f"- Defeats: {self.DATA["defeats"]}\n\n"
               f"- Win streak: {self.DATA["win_streak"]}\n"
-              f"- Lose streak: {self.DATA["defeat_streak"]}\n"
-              f"- Average lives in game: {self.DATA["average_lives"]["average"]}\n"
-              f"- Average moves in game: {self.DATA["average_moves"]["average"]}\n"
-              f"- Options percentage:\n"
-              f"    - moves made: {self.DATA["options_rate"]["all"]}\n"
+              f"- Lose streak: {self.DATA["defeat_streak"]}\n\n"
+              f"- Average lives per game: {self.DATA["average_lives"]["average"]}\n"
+              f"- Average moves per game: {self.DATA["average_moves"]["average"]}\n\n"
+              f"- Action distribution:\n"
+              f"    - Total moves: {self.DATA["options_rate"]["all"]}\n"
               f"    - SHOT: {self.DATA["options_rate"]["shot"]["percent"]}% ({self.DATA["options_rate"]["shot"]["normal"]})\n"
               f"    - LOAD: {self.DATA["options_rate"]["load"]["percent"]}% ({self.DATA["options_rate"]["load"]["normal"]})\n"
               f"    - BLOCK: {self.DATA["options_rate"]["block"]["percent"]}% ({self.DATA["options_rate"]["block"]["normal"]})\n"
