@@ -2,7 +2,9 @@ from abc import ABC, abstractmethod
 from random import randint, choice, choices
 from time import sleep
 import os
+import yaml
 from colorama import Fore, Style
+from lxml.objectify import deannotate
 
 version = "v3.1.3"
 
@@ -91,3 +93,83 @@ class Menu:
             self.show_menu()
             answer = input(system.INPUT).upper()
             self.__check_answer(answer)
+
+
+class DataRemote:
+    def __init__(self):
+        self.DATA = None
+        self.is_victory = None
+        self.lives = self.moves = 0
+        self.local_options_rate = dict().fromkeys(("shot", "load", "block", "deflect"), 0)
+
+    def load_data(self):
+        with open("../UTILS/data.yaml", "r", encoding="utf-8") as file:
+            self.DATA = yaml.safe_load(file)
+
+    def set_params(self):
+        self.DATA["all_games"] += 1
+
+        match self.is_victory:
+            case True:
+                self.DATA["victories"] += 1
+                self.DATA["win_streak"] += 1
+                self.DATA["defeat_streak"] = 0
+            case False:
+                self.DATA["defeats"] += 1
+                self.DATA["win_streak"] = 0
+                self.DATA["defeat_streak"] += 1
+
+        self.DATA["average_lives"]["all"] += 1
+        self.DATA["average_lives"]["lives"] += self.lives
+        self.DATA["average_lives"]["average"] = round(self.DATA["average_lives"]["lives"] / self.DATA["average_lives"]["all"], 2)
+
+        self.DATA["average_moves"]["all"] += 1
+        self.DATA["average_moves"]["moves"] += self.moves
+        self.DATA["average_moves"]["average"] = round(self.DATA["average_moves"]["moves"] / self.DATA["average_moves"]["all"], 2)
+
+        self.DATA["win_rate"] = round(self.DATA["victories"] / self.DATA["all_games"], 2) * 100
+
+        self.DATA["options_rate"]["all"] += self.moves
+
+        self.DATA["options_rate"]["shot"]["normal"] += self.local_options_rate["shot"]
+        self.DATA["options_rate"]["load"]["normal"] += self.local_options_rate["load"]
+        self.DATA["options_rate"]["block"]["normal"] += self.local_options_rate["block"]
+        self.DATA["options_rate"]["deflect"]["normal"] += self.local_options_rate["deflect"]
+
+        self.DATA["options_rate"]["shot"]["percent"] = round(self.DATA["options_rate"]["shot"]["normal"] / self.DATA["options_rate"]["all"] * 100, 2)
+        self.DATA["options_rate"]["load"]["percent"] = round(self.DATA["options_rate"]["load"]["normal"] / self.DATA["options_rate"]["all"] * 100, 2)
+        self.DATA["options_rate"]["block"]["percent"] = round(self.DATA["options_rate"]["block"]["normal"] / self.DATA["options_rate"]["all"] * 100, 2)
+        self.DATA["options_rate"]["deflect"]["percent"] = round(self.DATA["options_rate"]["deflect"]["normal"] / self.DATA["options_rate"]["all"] * 100, 2)
+
+    def save_data(self):
+        with open("../UTILS/data.yaml", "w", encoding="utf-8") as file:
+            yaml.safe_dump(self.DATA, file, sort_keys=False)
+
+    def __str__(self):
+        return (f"\n*** ACCOUNT INFO ***\n"
+              f"- Games played: {self.DATA["all_games"]}\n"
+              f"- Win rate: {self.DATA["win_rate"]}%\n"
+              f"- Victories: {self.DATA["victories"]}\n"
+              f"- Defeats: {self.DATA["defeats"]}\n"
+              f"- Win streak: {self.DATA["win_streak"]}\n"
+              f"- Lose streak: {self.DATA["defeat_streak"]}\n"
+              f"- Average lives in game: {self.DATA["average_lives"]["average"]}\n"
+              f"- Average moves in game: {self.DATA["average_moves"]["average"]}\n"
+              f"- Options percentage:\n"
+              f"    - moves made: {self.DATA["options_rate"]["all"]}\n"
+              f"    - SHOT: {self.DATA["options_rate"]["shot"]["percent"]}% ({self.DATA["options_rate"]["shot"]["normal"]})\n"
+              f"    - LOAD: {self.DATA["options_rate"]["load"]["percent"]}% ({self.DATA["options_rate"]["load"]["normal"]})\n"
+              f"    - BLOCK: {self.DATA["options_rate"]["block"]["percent"]}% ({self.DATA["options_rate"]["block"]["normal"]})\n"
+              f"    - DEFLECT: {self.DATA["options_rate"]["deflect"]["percent"]}% ({self.DATA["options_rate"]["deflect"]["normal"]})\n")
+
+    def __call__(self):
+        self.load_data()
+        self.set_params()
+        self.save_data()
+
+    def get_account_info(self):
+        self()
+        print(self)
+
+
+data_remote = DataRemote()
