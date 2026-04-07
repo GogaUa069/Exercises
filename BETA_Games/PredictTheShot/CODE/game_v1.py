@@ -278,13 +278,21 @@ class Game:
             communicate = communicates[0]
         elif pl1.OPTION == shot and pl2.OPTION == load:
             pl2.LIVES -= 1
+            if pl1 == human:
+                data_remote.local_options_utility["shot"] += 1
             communicate = communicates[1]
         elif pl1.OPTION == shot and pl2.OPTION == block:
+            if pl2 == human:
+                data_remote.local_options_utility["block"] += 1
             communicate = communicates[2]
         elif pl1.OPTION == shot and pl2.OPTION == deflect:
+            if pl2 == human:
+                data_remote.local_options_utility["deflect"] += 1
             pl1.LIVES -= 1
             communicate = communicates[3]
         elif pl1.OPTION in (load, block, deflect) and pl2.OPTION != shot:
+            if pl1 == human and pl1.OPTION == load:
+                data_remote.local_options_utility["load"] += 1
             communicate = communicates[0]
         else:
             flag = True
