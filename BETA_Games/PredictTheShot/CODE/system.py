@@ -1,8 +1,9 @@
 import os
 import yaml
 from colorama import Fore, Style
+from prettytable import PrettyTable
 
-version = "v4.3.0"
+version = "v5.0.0"
 
 
 class System:
@@ -152,36 +153,50 @@ class DataRemote:
         if self.DATA["options_rate"]["deflect"]["normal"] != 0:
             self.DATA["options_rate"]["deflect"]["useful_percent"] = round(self.DATA["options_rate"]["deflect"]["useful"] / self.DATA["options_rate"]["deflect"]["normal"] * 100, 3)
 
+        self.DATA["move_accuracy"] = round((self.DATA["options_rate"]["shot"]["useful"] + self.DATA["options_rate"]["load"]["useful"] + self.DATA["options_rate"]["block"]["useful"] + self.DATA["options_rate"]["deflect"]["useful"]) / self.DATA["options_rate"]["all"] * 100, 3)
+
     def save_data(self):
         with open("../UTILS/data.yaml", "w", encoding="utf-8") as file:
             yaml.safe_dump(self.DATA, file, sort_keys=False)
 
+    def get_action_distribution_table(self):
+        table = PrettyTable()
+        table.field_names = ["OPTION", "USED", "USED %", "UTILITY %"]
+
+        table.add_row(["SHOT", self.DATA["options_rate"]["shot"]["normal"], str(self.DATA["options_rate"]["shot"]["percent"])+"%", str(self.DATA["options_rate"]["shot"]["useful_percent"])+"%"])
+        table.add_row(["LOAD", self.DATA["options_rate"]["load"]["normal"], str(self.DATA["options_rate"]["load"]["percent"])+"%", str(self.DATA["options_rate"]["load"]["useful_percent"])+"%"])
+        table.add_row(["BLOCK", self.DATA["options_rate"]["block"]["normal"], str(self.DATA["options_rate"]["block"]["percent"])+"%", str(self.DATA["options_rate"]["block"]["useful_percent"])+"%"])
+        table.add_row(["DEFLECT", self.DATA["options_rate"]["deflect"]["normal"], str(self.DATA["options_rate"]["deflect"]["percent"])+"%", str(self.DATA["options_rate"]["deflect"]["useful_percent"])+"%"])
+
+        table.align = "l"
+
+        print(table, end="\n\n")
+
+    def get_account_info(self):
+        self()
+        print(self)
+        self.get_action_distribution_table()
+        input(system.communicate("[ENTER] to continue", "LIGHTRED_EX"))
+
     def __str__(self):
+        system.clear_console()
         return (f"\n*** ACCOUNT INFO ***\n\n"
-              f"- Games played: {self.DATA["all_games"]}\n"
-              f"- Win rate: {self.DATA["win_rate"]}%\n\n"
-              f"- Victories: {self.DATA["victories"]}\n"
-              f"- Defeats: {self.DATA["defeats"]}\n\n"
-              f"- Win streak: {self.DATA["win_streak"]}\n"
-              f"- Lose streak: {self.DATA["defeat_streak"]}\n\n"
-              f"- Average lives per game: {self.DATA["average_lives"]["average"]}\n"
-              f"- Average moves per game: {self.DATA["average_moves"]["average"]}\n\n"
-              f"- Action distribution:\n"
-              f"    - Total moves: {self.DATA["options_rate"]["all"]}\n"
-              f"    - SHOT: {self.DATA["options_rate"]["shot"]["percent"]}% ({self.DATA["options_rate"]["shot"]["normal"]}) (utility: {self.DATA["options_rate"]["shot"]["useful_percent"]}%)\n"
-              f"    - LOAD: {self.DATA["options_rate"]["load"]["percent"]}% ({self.DATA["options_rate"]["load"]["normal"]}) (utility: {self.DATA["options_rate"]["load"]["useful_percent"]}%)\n"
-              f"    - BLOCK: {self.DATA["options_rate"]["block"]["percent"]}% ({self.DATA["options_rate"]["block"]["normal"]}) (utility: {self.DATA["options_rate"]["block"]["useful_percent"]}%)\n"
-              f"    - DEFLECT: {self.DATA["options_rate"]["deflect"]["percent"]}% ({self.DATA["options_rate"]["deflect"]["normal"]}) (utility: {self.DATA["options_rate"]["deflect"]["useful_percent"]}%)\n")
+                f"- Games played: {self.DATA["all_games"]}\n"
+                f"- Win rate: {self.DATA["win_rate"]}%\n\n"
+                f"- Victories: {self.DATA["victories"]}\n"
+                f"- Defeats: {self.DATA["defeats"]}\n\n"
+                f"- Win streak: {self.DATA["win_streak"]}\n"
+                f"- Lose streak: {self.DATA["defeat_streak"]}\n\n"
+                f"- Average lives per game: {self.DATA["average_lives"]["average"]}\n"
+                f"- Average moves per game: {self.DATA["average_moves"]["average"]}\n\n"
+                f"- Total moves: {self.DATA["options_rate"]["all"]}\n"
+                f"- Move accuracy: {self.DATA["move_accuracy"]}%\n\n"
+                f"- Action distribution:")
 
     def __call__(self):
         self.load_data()
         self.set_params()
         self.save_data()
-
-    def get_account_info(self):
-        self()
-        print(self)
-        input(system.communicate("[ENTER] to continue", "LIGHTRED_EX"))
 
 
 data_remote = DataRemote()
