@@ -75,12 +75,13 @@ class TimeControl:
                            f"- Days left: {data.DATA["days_before_holidays"]} / {data.DATA["days_needed"]}\n"
                            f"- Day streak: {data.DATA["day_streak"]}\n\n"
                            f"- Days attended: {data.DATA["days_attended"]}\n"
-                           f"- Days missed: {data.DATA["days_missed"]}", "LIGHTWHITE_EX")
+                           f"- Days missed: {data.DATA["days_missed"]}\n", "LIGHTWHITE_EX")
 
     def __call__(self):
         self.set_today_answer()
         self.set_data()
         print(self)
+        input(communicate("[ENTER] to quit", "LIGHTRED_EX"))
 
 
 time_control = TimeControl()
