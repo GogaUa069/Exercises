@@ -6,7 +6,7 @@ class System:
     def __init__(self):
         self.INPUT = self.communicate("<<< ", "LIGHTWHITE_EX")
         self.pass_func = lambda: None
-        self.coming_soon = lambda: print(self.communicate("COMING SOON...", "LIGHTWHITE_EX"))
+        self.coming_soon = lambda: print(self.communicate("COMING SOON...", "LIGHTWHITE_EX"))  # FOR DEBUGGING ONLY
 
     @staticmethod
     def communicate(text, color):
@@ -21,12 +21,21 @@ class System:
 system = System()
 
 
+class Data:
+    def __init__(self):
+        self.is_round_started = False
+
+
+data = Data()
+
+
 class Menu:
     def __init__(self, header, options):
         self.HEADER = header.upper()
         self.OPTIONS = options
 
     def get_menu(self):
+        system.clear_console()
         print(system.communicate(f"\n[ {self.HEADER} ]", "LIGHTRED_EX"))
         for indx, option in enumerate(self.OPTIONS, 1):
             print(system.communicate(f"{indx}. {option.NAME}", "GREEN"))
