@@ -1,7 +1,17 @@
 from system import *
 
+# OPERATIONS
+info_option = Option("info", system.coming_soon)  # COMING SOON
+reports_option = Option("reports", system.coming_soon)  # COMING SOON
+map_option = Option("map", system.coming_soon)  # COMING SOON
+move_option = Option("move", system.coming_soon)  # COMING SOON
+from_operations_to_hq = Option("back - headquarter", system.pass_func)  # COMING SOON
+
+operations_options = (info_option, reports_option, map_option, move_option, from_operations_to_hq)
+operations_menu = Menu("operations", operations_options)
+
 # HEADQUARTER
-operations_option = Option("operations", system.coming_soon)  # COMING SOON
+operations_option = Option("operations", operations_menu)
 army_option = Option("army", system.coming_soon)  # COMING SOON
 logistics_option = Option("logistics", system.coming_soon)  # COMING SOON
 from_hq_to_battle_modes = Option("leave battle", system.pass_func)
