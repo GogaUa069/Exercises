@@ -43,9 +43,17 @@ from_modes_to_mm = Option("back - main menu", system.pass_func)
 combat_modes_options = (frontline_mode_option, from_modes_to_mm)
 combat_modes_menu = Menu("combat modes", combat_modes_options)
 
+# SETTINGS
+credits_option = Option("credits", system.coming_soon)  # COMING SOON
+gui_tree_option = Option("gui tree", system.coming_soon)  # COMING SOON
+from_settings_to_mm = Option("back - main menu", system.pass_func)
+
+settings_options = (credits_option, gui_tree_option, from_settings_to_mm)
+settings_menu = Menu("settings", settings_options)
+
 # MAIN MENU
 combat_modes_option = Option("combat modes", combat_modes_menu)
-settings_option = Option("settings", system.coming_soon)  # COMING SOON
+settings_option = Option("settings", settings_menu)
 quit_game = Option("quit", system.pass_func)
 
 main_menu_options = (combat_modes_option, settings_option, quit_game)
