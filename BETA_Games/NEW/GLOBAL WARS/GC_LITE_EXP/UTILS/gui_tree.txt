@@ -1,5 +1,5 @@
 MAIN MENU
-├── BATTLE
+├── COMBAT MODES
 │   ├── FRONTLINE
 │   ├── SECTORS
 │   ├── CITADEL
@@ -9,6 +9,7 @@ MAIN MENU
 
 HEADQUARTER (After choosing any game mode)
 ├── OPERATIONS
+│   ├── INFO
 │   ├── REPORTS
 │   ├── MAP
 │   ├── MOVE
