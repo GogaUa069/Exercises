@@ -1,3 +1,4 @@
+import os
 from colorama import Fore, Style
 
 
@@ -11,6 +12,10 @@ class System:
     def communicate(text, color):
         text = getattr(Fore, color) + text + Style.RESET_ALL if color is not None else text
         return text
+
+    @staticmethod
+    def clear_console():
+        os.system("cls")
 
 
 system = System()
