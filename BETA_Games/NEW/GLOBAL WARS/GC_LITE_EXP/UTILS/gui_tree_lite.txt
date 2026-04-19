@@ -24,6 +24,12 @@ HEADQUARTER (After choosing any game mode)
 │   │   ├── ARC
 │   │   ├── TROOP TRANSPORT
 │   │   └── BACK - ARMY
+│   ├── INFRASTRUCTURE
+│   │   ├── TRENCHES
+│   │   ├── STORAGES
+│   │   ├── BUNKERS
+│   │   ├── PILLBOXES
+│   │   └── BACK - ARMY
 │   └── BACK - HEADQUARTER
 ├── LOGISTICS
 │   ├── ECONOMY
