@@ -50,4 +50,7 @@ HEADQUARTER (After choosing any game mode)
 │   │   ├── CARGO AIRCRAFT
 │   │   └── BACK - LOGISTICS
 │   └── BACK - HEADQUARTER
+├── MEDICAL SERVICE
+│   ...
+│   └── BACK - HEADQUARTER
 └── LEAVE BATTLE
