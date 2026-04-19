@@ -23,7 +23,9 @@ class Border:
         for line in b:
             print("".join(line))
 
-    def set_forest(self, trees=7000):
+    def set_forest(self, percentage=10):
+        cells_amount = self.WIDTH * self.HEIGHT
+        trees = cells_amount // 100 * percentage
         for _ in range(trees):
             x = randint(2, self.WIDTH-3)
             y = randint(0, self.HEIGHT-1)
