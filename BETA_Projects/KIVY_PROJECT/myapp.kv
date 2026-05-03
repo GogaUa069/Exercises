@@ -1,11 +1,52 @@
-<MainWidget>:
-    orientation: "vertical"
-    spacing: 10
-    padding: 10
+<MainMenu>:
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 10
+        padding: 10
 
-    Label:
-        text: "Kivy example"
+        Label:
+            text: "MAIN MENU"
+            font_size: 48
+            color: 1, 0, 0, 1
 
-    Button:
-        text: "PLAY"
-        on_press: root.play_btn()
+        Button:
+            text: "PLAY"
+            font_size: 30
+            on_press: root.play()
+
+        Button:
+            text: "SETTINGS"
+            font_size: 30
+            on_press: root.settings()
+
+        Button:
+            text: "QUIT"
+            font_size: 30
+            on_press: root.quit()
+
+
+<Settings>:
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 10
+        padding: 10
+
+        Label:
+            text: "SETTINGS"
+            font_size: 48
+            color: 1, 0, 0, 1
+
+        Button:
+            text: "TUTORIAL"
+            font_size: 30
+            on_press: root.tutorial()
+
+        Button:
+            text: "AUDIO"
+            font_size: 30
+            on_press: root.audio()
+
+        Button:
+            text: "BACK - MAIN MENU"
+            font_size: 30
+            on_press: root.from_settings_to_mm()
