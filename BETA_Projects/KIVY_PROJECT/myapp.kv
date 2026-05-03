@@ -1,28 +1,41 @@
 <MainMenu>:
-    BoxLayout:
-        orientation: "vertical"
-        spacing: 10
-        padding: 10
-
-        Label:
-            text: "MAIN MENU"
-            font_size: 48
-            color: 1, 0, 0, 1
+    FloatLayout:
 
         Button:
-            text: "PLAY"
-            font_size: 30
-            on_press: root.play()
+            background_normal: "D:/PythonProjects/MySqlConnector/pythonProject1/BETA_Projects/KIVY_PROJECT/images/heart_cut.png"
+            background_down: "D:/PythonProjects/MySqlConnector/pythonProject1/BETA_Projects/KIVY_PROJECT/images/heart_cut.png"
+            border: 0, 0, 0, 0
+            size_hint: None, None
+            size: 100, 100
+            pos: 100, root.height - 150
+            on_press: ...
 
-        Button:
-            text: "SETTINGS"
-            font_size: 30
-            on_press: root.settings()
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 10
+            padding: 10
+            size_hint: 1, 1
+            pos_hint: {"x": 0, "y": 0}
 
-        Button:
-            text: "QUIT"
-            font_size: 30
-            on_press: root.quit()
+            Label:
+                text: "MAIN MENU"
+                font_size: 50
+                color: 1, 0, 0, 1
+
+            Button:
+                text: "PLAY"
+                font_size: 30
+                on_press: root.play()
+
+            Button:
+                text: "SETTINGS"
+                font_size: 30
+                on_press: root.settings()
+
+            Button:
+                text: "QUIT"
+                font_size: 30
+                on_press: root.quit()
 
 
 <Settings>:
