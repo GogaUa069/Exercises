@@ -18,6 +18,12 @@ class MainMenu(Screen):
         app.root.current = "settings"
 
     @staticmethod
+    def credits():
+        app = App.get_running_app()
+        app.root.transition.direction = "down"
+        app.root.current = "credits"
+
+    @staticmethod
     def quit():
         App.get_running_app().stop()
 
@@ -26,10 +32,6 @@ class Settings(Screen):
 
     @staticmethod
     def tutorial():
-        pass
-
-    @staticmethod
-    def credits():
         pass
 
     @staticmethod
@@ -43,6 +45,15 @@ class Settings(Screen):
         app.root.current = "main_menu"
 
 
+class Credits(Screen):
+
+    @staticmethod
+    def from_credits_to_mm():
+        app = App.get_running_app()
+        app.root.transition.direction = "up"
+        app.root.current = "main_menu"
+
+
 class MyApp(App):
     title = "Predict the Shot 2D"
 
@@ -50,6 +61,7 @@ class MyApp(App):
     def build():
         sm = ScreenManager(transition=SlideTransition())
         sm.add_widget(MainMenu(name="main_menu"))
+        sm.add_widget(Credits(name="credits"))
         sm.add_widget(Settings(name="settings"))
         return sm
 
