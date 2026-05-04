@@ -1,8 +1,27 @@
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
 from kivy.core.window import Window
+from kivy.core.audio import SoundLoader
+from kivy.uix.button import Button
 
 Window.maximize()
+
+# vvv SOUNDS vvv
+
+click_sound = SoundLoader.load("audio/click.mp3")
+
+_old_on_press = Button.on_press
+
+
+def _new_on_press(self):
+    if click_sound:
+        click_sound.play()
+    _old_on_press(self)
+
+
+Button.on_press = _new_on_press
+
+# ^^^ SOUNDS ^^^
 
 
 class MainMenu(Screen):
@@ -57,8 +76,13 @@ class Credits(Screen):
 class MyApp(App):
     title = "Predict the Shot 2D"
 
-    @staticmethod
-    def build():
+    def build(self):
+        self.music = SoundLoader.load("audio/soundtrack1.wav")
+        if self.music:
+            self.music.loop = True
+            self.music.volume = 0.5
+            self.music.play()
+
         sm = ScreenManager(transition=SlideTransition())
         sm.add_widget(MainMenu(name="main_menu"))
         sm.add_widget(Credits(name="credits"))
