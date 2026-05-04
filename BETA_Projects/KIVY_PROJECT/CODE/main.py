@@ -8,7 +8,7 @@ Window.maximize()
 
 # vvv SOUNDS vvv
 
-click_sound = SoundLoader.load("audio/click.mp3")
+click_sound = SoundLoader.load("../UTILS/AUDIO/SOUNDS/click.mp3")
 
 _old_on_press = Button.on_press
 
@@ -77,7 +77,7 @@ class MyApp(App):
     title = "Predict the Shot 2D"
 
     def build(self):
-        self.music = SoundLoader.load("audio/soundtrack1.wav")
+        self.music = SoundLoader.load("../UTILS/AUDIO/SOUNDTRACKS/background_soundtrack_main.wav")
         if self.music:
             self.music.loop = True
             self.music.volume = 0.5
