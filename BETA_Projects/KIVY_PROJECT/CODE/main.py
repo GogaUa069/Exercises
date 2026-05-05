@@ -1,3 +1,12 @@
+import sys, os
+
+
+def resource_path(path):
+    if hasattr(sys, "_MEIPASS"):
+        return os.path.join(sys._MEIPASS, path)
+    return path
+
+
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
 from kivy.core.window import Window
@@ -6,22 +15,13 @@ from kivy.uix.button import Button
 
 Window.maximize()
 
-# vvv SOUNDS vvv
 
-click_sound = SoundLoader.load("../UTILS/AUDIO/SOUNDS/click.mp3")
-
-_old_on_press = Button.on_press
-
-
-def _new_on_press(self):
-    if click_sound:
-        click_sound.play()
-    _old_on_press(self)
-
-
-Button.on_press = _new_on_press
-
-# ^^^ SOUNDS ^^^
+class ClickButton(Button):
+    def on_press(self):
+        app = App.get_running_app()
+        if app.click_sound:
+            app.click_sound.play()
+        return super().on_press()
 
 
 class MainMenu(Screen):
@@ -76,8 +76,14 @@ class Credits(Screen):
 class MyApp(App):
     title = "Predict the Shot 2D"
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.assets_images = resource_path("../UTILS/IMAGES/")
+
     def build(self):
-        self.music = SoundLoader.load("../UTILS/AUDIO/SOUNDTRACKS/background_soundtrack_main.wav")
+        self.click_sound = SoundLoader.load(resource_path("../UTILS/AUDIO/SOUNDS/click.mp3"))
+        self.music = SoundLoader.load(resource_path("../UTILS/AUDIO/SOUNDTRACKS/background_soundtrack_main.wav"))
+
         if self.music:
             self.music.loop = True
             self.music.volume = 0.5
@@ -88,6 +94,10 @@ class MyApp(App):
         sm.add_widget(Credits(name="credits"))
         sm.add_widget(Settings(name="settings"))
         return sm
+
+    def play_click(self):
+        if self.click_sound:
+            self.click_sound.play()
 
 
 if __name__ == "__main__":
