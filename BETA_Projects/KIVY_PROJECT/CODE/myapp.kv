@@ -1,9 +1,9 @@
 <MainMenu>:
     FloatLayout:
 
-        Button:
-            background_normal: "../UTILS/IMAGES/heart.png"
-            background_down: "../UTILS/IMAGES/heart.png"
+        ClickButton:
+            background_normal: app.assets_images + "heart.png"
+            background_down: app.assets_images + "heart.png"
             border: 0, 0, 0, 0
             size_hint: None, None
             size: 100, 100
@@ -22,12 +22,12 @@
                 font_size: 50
                 color: 1, 0, 0, 1
 
-            Button:
+            ClickButton:
                 text: "PLAY"
                 font_size: 30
                 on_press: root.play()
 
-            Button:
+            ClickButton:
                 text: "SETTINGS"
                 font_size: 30
                 on_press: root.settings()
@@ -49,17 +49,17 @@
             font_size: 50
             color: 1, 0, 0, 1
 
-        Button:
+        ClickButton:
             text: "TUTORIAL"
             font_size: 30
             on_press: root.tutorial()
 
-        Button:
+        ClickButton:
             text: "AUDIO"
             font_size: 30
             on_press: root.audio()
 
-        Button:
+        ClickButton:
             text: "BACK - MAIN MENU"
             font_size: 30
             on_press: root.from_settings_to_mm()
@@ -81,7 +81,7 @@
             font_size: 35
             color: 1, 1, 1, 1
 
-        Button:
+        ClickButton:
             text: "BACK - MAIN MENU"
             font_size: 30
             on_press: root.from_credits_to_mm()
