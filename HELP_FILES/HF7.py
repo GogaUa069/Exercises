@@ -48,7 +48,7 @@ class LinkedGraph:
         self.add_vertex(link.v1)
         self.add_vertex(link.v2)
 
-    def start_path(self, start_v, stop_v):
+    def find_path(self, start_v, stop_v):
         ...
 
 
