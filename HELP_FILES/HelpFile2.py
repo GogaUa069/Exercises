@@ -48,7 +48,7 @@ class LinkedGraph:
         self.add_vertex(link.v1)
         self.add_vertex(link.v2)
 
-    def start_path(self, start_v, stop_v):
+    def find_path(self, start_v, stop_v):
         ...
 
 
@@ -71,6 +71,7 @@ class LinkMetro(Link):
 
 
 map_metro = LinkedGraph()
+
 v1 = Station("Сретенский бульвар")
 v2 = Station("Тургеневская")
 v3 = Station("Чистые пруды")
@@ -89,9 +90,3 @@ map_metro.add_link(LinkMetro(v6, v7, 1))
 map_metro.add_link(LinkMetro(v2, v7, 5))
 map_metro.add_link(LinkMetro(v3, v4, 3))
 map_metro.add_link(LinkMetro(v5, v6, 3))
-
-print(len(map_metro._links))
-print(len(map_metro._vertex))
-path = map_metro.find_path(v1, v6)  # от сретенского бульвара до китай-город 1
-print(path[0])    # [Сретенский бульвар, Тургеневская, Китай-город 2, Китай-город 1]
-print(sum([x.dist for x in path[1]]))  # 7
