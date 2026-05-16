@@ -48,6 +48,16 @@ class LinkedGraph:
         self.add_vertex(link.v1)
         self.add_vertex(link.v2)
 
+        self.set_links_for_vertexes()
+
+    def set_links_for_vertexes(self):
+        for vertex in self._vertex:
+            for link in self._links:
+                if vertex == link.v1 and link.v2 not in vertex._links:
+                        vertex._links.append(link.v2)
+                if vertex == link.v2 and link.v1 not in vertex._links:
+                        vertex._links.append(link.v1)
+
     def find_path(self, start_v, stop_v):
         ...
 
