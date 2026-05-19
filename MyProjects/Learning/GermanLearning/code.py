@@ -8,15 +8,46 @@ import os
 from colorama import Fore, Style
 import yaml
 
-from utils.words_directory.words_part_3 import words as words_dict
+words_dict = {
+    "obcas": ("der Absatz", "die Absatze"),
+    "garnitur": ("der Anzug", "die Anzuge"),
+    "bluzka (damska)": ("die Bluse", "die Blusen"),
+    "okulary": ("die Brille", "die Brillen"),
+    "garderoba, odzież": ("die Garderobe", ""),
+    "naszyjnik": ("die Halskette", "die Halsketten"),
+    "rękawiczka": ("der Handschuh", "die Handschuhe"),
+    "koszula": ("das Hemd", "die Hemden"),
+    "spodnie": ("die Hose", "die Hosen"),
+    "kapelusz": ("der Hut", "die Hute"),
+    "kurtka": ("die Jacke", "die Jacken"),
+    "dżinsy": ("die Jeans", ""),
+    "sukienka": ("das Kleid", "die Kleider"),
+    "odzież, ubrania": ("die Kleidung", ""),
+    "element odzieży": ("das Kleidungsstuck", "die Kleidungsstucke"),
+    "krawat": ("die Krawatte", "die Krawatten"),
+    "płaszcz": ("der Mantel", "die Mantel"),
+    "czapka": ("die Mutze", "die Mutzen"),
+    "sweter": ("der Pullover", "die Pullovers"),
+    "spódnica": ("der Rock", "die Rocke"),
+    "szalik": ("der Schal", "die Schals"),
+    "but": ("der Schuh", "die Schuhe"),
+    "skarpetka": ("die Socke", "die Socken"),
+    "dres": ("der Sportanzug", "die Sportanzuge"),
+    "rajstopy": ("die Strumpfhose", "die Strumpfhosen"),
+    "bluza": ("das Sweatshirt", "die Sweatshirts"),
+    "torebka": ("die Tasche", "die Taschen"),
+    "koszulka": ("das T-Shirt", "die T-Shirts"),
+    "kamizelka": ("die Weste", "die Westen")}
+
+
 
 def __resource_path(relative_path):
     if hasattr(sys, "_MEIPASS"):
-        return os.path.join(sys._MEIPASS, relative_path)
+        return os.path.join(os.path.dirname(sys._MEIPASS), relative_path)
     return os.path.join(os.path.abspath("."), relative_path)
 
 
-yaml_path = __resource_path("utils/the_best_time.yaml")
+yaml_path = __resource_path("the_best_time.yaml")
 
 
 def communicate(text, color):
@@ -187,8 +218,8 @@ class WordsChecker:
         for order, word in enumerate(words.words, 1):
             print(communicate(f"\n{order}/{words.words_len}. {word[0]}:", "CYAN"))
             start_time_for_answer = time.time()
-            self.validate_answer(word, 0, "bezokolicznik")
-            self.validate_answer(word, 1, "imiesłów")
+            self.validate_answer(word, 0, "liczba pojedyńcza")
+            self.validate_answer(word, 1, "liczba mnoga")
             stop_time_for_answer = time.time()
             self.set_timing_data(start_time_for_answer, stop_time_for_answer, order)
 
