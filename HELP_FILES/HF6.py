@@ -1,8 +1,7 @@
 from math import prod
 from time import time
-from random import randint
 
-data_list = [randint(-1000, 500) for _ in range(10000000)]
+data_list = [-10, -10, 3, 1, 2]
 
 
 def get_max_mul():
@@ -20,7 +19,7 @@ start = time()
 res = get_max_mul()
 end = time()
 
-res_time = end - start
+res_time = round(end - start, 5)
 
 print(f"The biggest multiplication: {res}")
-print(f"Time: {round(res_time, 5)} s")
+print(f"Time: {res_time} s")
