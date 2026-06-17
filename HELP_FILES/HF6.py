@@ -1,7 +1,8 @@
 from math import prod
 from time import time
+from random import randint
 
-data_list = [-10, -10, 3, 1, 2]
+data_list = [randint(-1000, 500) for _ in range(10000000)]
 
 
 def get_max_mul():
