@@ -16,8 +16,8 @@ class Nation:
         self.color = color
 
 
-vanguard_nation = Nation(name="vanguard", color="BLUE")
-bulwark_nation = Nation(name="bulwark", color="RED")
+vanguard_nation = Nation(name="vanguard", color="LIGHTBLUE_EX")
+bulwark_nation = Nation(name="bulwark", color="LIGHTRED_EX")
 
 
 class Player:
