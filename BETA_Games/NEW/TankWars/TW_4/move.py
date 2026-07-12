@@ -6,16 +6,24 @@ class Move:
     def __init__(self, player):
         self.player = player
 
+    def get_positions(self):
+        if len(self.player.units) != 0:
+            print(communicate("Your units:", "LIGHTWHITE_EX"))
+            get_attrs(self.player.units.values())
+        else:
+            print(communicate("No units yet.", "LIGHTWHITE_EX"))
+
     def set_unit(self):
         print(communicate("Creating unit...\nEnter data:", "CYAN"))
+        self.get_positions()
         while True:
             try:
                 category = input(communicate(f"- category: ({", ".join(categories.keys())}): ", "LIGHTWHITE_EX")).lower()
                 x = int(input(communicate(f"- X (1-{border.width}): ", "LIGHTWHITE_EX")))
                 y = int(input(communicate(f"- Y (1-{border.height}): ", "LIGHTWHITE_EX")))
-            except Exception as e:
-                print(e)
+            except ValueError:
                 print(communicate("ERROR: Wrong data!", "LIGHTRED_EX"))
+                continue
             else:
                 if x not in range(1, border.width + 1) or y not in range(1, border.height + 1):
                     print(communicate("ERROR: Wrong position!", "LIGHTRED_EX"))
@@ -36,21 +44,16 @@ class Move:
                     break
 
     def get_unit(self):
-        def get_positions():
-            print(communicate("Your units:", "LIGHTWHITE_EX"))
-            get_attrs(self.player.units.values())
-
         if len(self.player.units) == 0:
             print(communicate("WARNING: You do not have units!", "LIGHTYELLOW_EX"))
         else:
             print(communicate("Selecting units...\nEnter data:", "CYAN"))
-            get_positions()
+            self.get_positions()
             while True:
                 try:
                     x = int(input(communicate(f"- X (1-{border.width}): ", "LIGHTWHITE_EX")))
                     y = int(input(communicate(f"- Y (1-{border.height}): ", "LIGHTWHITE_EX")))
-                except Exception as e:
-                    print(e)
+                except ValueError:
                     print(communicate("ERROR: Wrong data!", "LIGHTRED_EX"))
                 else:
                     if x not in range(1, border.width + 1) or y not in range(1, border.height + 1):
@@ -75,7 +78,3 @@ class Move:
                     break
                 case _:
                     print(communicate("ERROR: Select one of the options shown above!", "LIGHTWHITE_EX"))
-
-
-move = Move(player1)
-move()
