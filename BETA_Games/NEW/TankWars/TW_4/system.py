@@ -1,13 +1,19 @@
 from colorama import Fore, Style
 
+colors = {"LIGHTBLUE_EX": "blue",
+          "LIGHTRED_EX": "red"}
+
 
 def communicate(text: str, color : str=None):
     return getattr(Fore, color) + text + Style.RESET_ALL if color is not None else text
 
 
-def get_attrs(attrs):
-    for indx, attr in enumerate(attrs, 1):
-        print(communicate(f"{indx}. {attr}", "LIGHTWHITE_EX"))
+def get_attrs(attrs, one_row=False):
+    if one_row:
+        print(", ".join(communicate(str(attr), "LIGHTWHITE_EX") for attr in attrs))
+    else:
+        for indx, attr in enumerate(attrs, 1):
+            print(communicate(f"{indx}. {attr}", "LIGHTWHITE_EX"))
 
 
 class Nation:
@@ -16,8 +22,8 @@ class Nation:
         self.color = color
 
 
-vanguard_nation = Nation(name="vanguard", color="LIGHTBLUE_EX")
-bulwark_nation = Nation(name="bulwark", color="LIGHTRED_EX")
+nation1 = Nation(name="Folk Valley", color="LIGHTBLUE_EX")
+nation2 = Nation(name="Tuff Valley", color="LIGHTRED_EX")
 
 
 class Player:
@@ -26,5 +32,5 @@ class Player:
         self.units = dict()
 
 
-player1 = Player(nation=vanguard_nation)
-player2 = Player(nation=bulwark_nation)
+player1 = Player(nation=nation1)
+player2 = Player(nation=nation2)

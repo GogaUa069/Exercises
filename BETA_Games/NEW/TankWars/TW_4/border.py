@@ -28,9 +28,9 @@ class Cell:
                 f"unit: {self.unit is not None}")
 
     def __str__(self):
-        return communicate(f"CELL INFO:\n"
+        return communicate(f"\nCELL INFO:\n"
                 f"- name: {self.name}\n"
-                f"- nation: {self.nation if self.nation is None else self.nation.name}", "LIGHTWHITE_EX") if self.unit is None else self.unit.__str__()
+                f"- nation: {self.nation if self.nation is None else self.nation.name}\n", "LIGHTWHITE_EX") if self.unit is None else self.unit.__str__()
 
 
 class Border:
@@ -70,9 +70,14 @@ class Border:
             for cell in row[self.width//2:]:
                 cell.nation = player2.nation
 
-    def get_border(self):
+    def get_border(self, player):
         for row in self.border:
-            print("".join([cell.get_symbol() if cell.unit is None else cell.unit.get_symbol() for cell in row]))
+            for cell in row:
+                symbol = cell.get_symbol() if cell.unit is None else cell.unit.get_symbol()
+                symbol = symbol if cell.nation in (None, player.nation) else communicate("#", "WHITE")
+                print(symbol, end="")
+            print()
+        print()
 
 
 border = Border(100, 25)

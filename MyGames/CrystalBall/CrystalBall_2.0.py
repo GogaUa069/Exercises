@@ -2,9 +2,10 @@ from tqdm import tqdm
 from random import choice
 import time
 from colorama import Style, Fore
-from pygame import init, Sound
+import pygame
+import os
 
-init()
+pygame.init()
 
 outstanding_answers = ["It's certain", "It's decidedly so", "Without a doubt", "Yes - definitely", "You may rely on it"]
 good_answers = ["As I see it, yes", "Most likely", "Outlook good", "Signs point to yes", "Yes"]
@@ -18,7 +19,7 @@ answer_dict = {Fore.LIGHTGREEN_EX + "outstanding!": outstanding_answers,
 
 
 class CrystalBall:
-    CRYSTAL_BALL_SOUND = Sound("Audio/MagicCircleSound.wav")
+    CRYSTAL_BALL_SOUND = pygame.mixer.Sound("Audio/MagicCircleSound.wav")
 
     @staticmethod
     def greetings():
@@ -56,8 +57,10 @@ class CrystalBall:
             answer = input("<<< " + Style.RESET_ALL)
             match answer.upper():
                 case "ASK" | "QUESTION" | "1":
+                    os.system("cls")
                     self.get_question()
                 case "LEAVE" | "2":
+                    os.system("cls")
                     print(Fore.LIGHTCYAN_EX + "Goodbye!")
                     time.sleep(1.5)
                 case _:

@@ -195,7 +195,7 @@ class Game(AudioPlayer):
         self.ending_checking()
         time.sleep(3)
         print("\nThe End!\n" + Style.RESET_ALL)
-        self.play_soundtrack(self.true_ending.soundtrack, True)
+        self.play_soundtrack(self.true_ending.soundtrack, False)
 
     def game(self):
         """

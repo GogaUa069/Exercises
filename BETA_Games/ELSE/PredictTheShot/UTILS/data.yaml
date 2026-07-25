@@ -1,0 +1,37 @@
+win_rate: 75.0
+all_games: 4
+move_accuracy: 74.468
+victories: 3
+defeats: 1
+win_streak: 1
+defeat_streak: 0
+average_lives:
+  lives: 6
+  all: 4
+  average: 1.5
+average_moves:
+  moves: 47
+  all: 4
+  average: 11.75
+options_rate:
+  all: 47
+  shot:
+    normal: 17
+    percent: 36.17
+    useful: 6
+    useful_percent: 35.294
+  load:
+    normal: 19
+    percent: 40.426
+    useful: 20
+    useful_percent: 105.263
+  block:
+    normal: 5
+    percent: 10.638
+    useful: 1
+    useful_percent: 20.0
+  deflect:
+    normal: 6
+    percent: 12.766
+    useful: 8
+    useful_percent: 133.333

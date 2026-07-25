@@ -441,7 +441,7 @@ basic_game = BasicGame()
 
 
 class AverageGame:
-    BARRIER_RANGE = range(5, 201)
+    BARRIER_RANGE = range(10, 1001)
 
     min_range = min(BARRIER_RANGE)
     max_range = max(BARRIER_RANGE)

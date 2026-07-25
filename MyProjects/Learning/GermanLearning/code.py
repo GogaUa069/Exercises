@@ -173,7 +173,7 @@ class WordsChecker:
 
     def results(self):
         print(communicate("\n\nWYNIKI:\n", "LIGHTWHITE_EX"))
-        print(communicate(f"Punkty: {self.good_answers_counter}/{float(words.words_len)}", "LIGHTWHITE_EX"))
+        print(communicate(f"Punkty: {self.good_answers_counter}/{float(words.words_len)} / {round(self.good_answers_counter/words.words_len*100, 2)}%", "LIGHTWHITE_EX"))
         print(communicate(f"Czas: {self.__get_time_in_seconds()} / {self.__get_time_in_minutes()}\n", "LIGHTWHITE_EX"))
         self.is_new_record()
         print(communicate(f"\nŚredni czas na odpowiedź: {self.average_time_for_answer}", "LIGHTWHITE_EX"))

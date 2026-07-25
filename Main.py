@@ -1,24 +1,29 @@
-class Track:
-    def __init__(self, start_x, start_y):
-        self.start_x = start_x
-        self.start_y = start_y
-        self.coords = list()
+class DateError(Exception):
+    pass
 
-    def add_point(self, x, y, speed):
-        data = [(x, y), speed]
-        self.coords.append(data)
 
-    def __validate_indx(self, indx):
-        return isinstance(indx, int) and indx in range(len(self.coords))
+class DateString(DateError):
+    def __init__(self, date_string: str):
+        self.date_string = date_string
 
-    def __getitem__(self, item):
-        if self.__validate_indx(item):
-            return self.coords[item]
-        else:
-            raise IndexError("некорректный индекс")
+    def validate_date(self):
+        split_date = self.date_string.split(".")
+        if len(split_date) != 3 or int(split_date[0]) not in range(1, 32) or int(split_date[1] not in range(1, 13)), :
+            raise DateError()
 
-    def __setitem__(self, key, value):
-        if self.__validate_indx(key):
-            self.coords[key][1] = value
-        else:
-            raise IndexError("некорректный индекс")
+    def __str__(self):
+        split_date = self.date_string.split(".")
+        day = split_date[0].rjust(2, "0")
+        month = split_date[1].rjust(2, "0")
+        year = split_date[2]
+        return f"{day}.{month}.{year}"
+
+
+date_string = input()
+
+try:
+    date = DateString(date_string)
+except DateError:
+    print("Неверный формат даты")
+else:
+    print(date)

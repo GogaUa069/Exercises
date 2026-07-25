@@ -3,6 +3,9 @@ from random import shuffle
 import time
 import yaml
 
+with open("../MyProjects/Learning/GermanLearning/the_best_time.yaml", "r", encoding="utf-8") as file:
+    answer_timing = yaml.safe_load(file)
+
 words = {"wygrywać": ("gewinnen", "gewonnen"), "mieć": ("haben", "gehabt"), "pochodić": ("kommen", "gekommen"),
          "biegać": ("laufen", "gelaufen"), "czytać": ("lesen", "gelesen"), "leżeć": ("liegen", "gelegen"),
          "musieć": ("mussen", "gemusst"), "spać": ("schlafen", "geschlafen"), "wisieć": ("hangen", "gehangen"),
@@ -20,8 +23,11 @@ good_answers_counter = bad_answers_counter = 0.0
 input(Fore.LIGHTRED_EX + "Naciśnij ENTER, aby rozpociąć" + Style.RESET_ALL)
 
 start = time.time()
+last_answer_time = 0
+answer_timing_list = list()
 
 for indx, word in enumerate(items, 1):
+    start_answer_time = time.time()
     bad_flag1 = bad_flag2 = False
     bad_counter1 = bad_counter2 = 0
     print(Fore.CYAN + f"\n{indx}/{len(words)}. {word[0]}:" + Style.RESET_ALL)
@@ -58,6 +64,19 @@ for indx, word in enumerate(items, 1):
             print(Fore.LIGHTRED_EX + "Błędna odpowiedź!\n" + Style.RESET_ALL)
     if not bad_flag2:
         good_answers_counter += 0.5
+    stop_answer_time = time.time()
+    record_sub_of_answer = round(answer_timing["times_for_answer"][indx]["time_for_answer"]+start_answer_time-stop_answer_time, 3)
+    if record_sub_of_answer <= 0:
+        record_sub_of_answer = Fore.LIGHTRED_EX + "+" + str(abs(record_sub_of_answer)) + Style.RESET_ALL
+    else:
+        record_sub_of_answer = Fore.LIGHTGREEN_EX + "-" + str(record_sub_of_answer) + Style.RESET_ALL
+    last_answer_time = round(stop_answer_time - start_answer_time, 3)
+    time_for_answer = round(stop_answer_time - start, 3)
+    record_sub_since_start = round(stop_answer_time - answer_timing["times_for_answer"][indx]["time_since_start"], 3)
+    print(f"Czas na odpowiedź: {last_answer_time}")
+    print(f"Czas od początku: {time_for_answer}")
+    print(f"Różnica z rekordowym czasem odpowiedzi: {record_sub_of_answer}")
+    print(f"Różnica z rekordowym czasem od początku: {record_sub_since_start}")
 
 stop = time.time()
 
@@ -82,7 +101,7 @@ print(Fore.LIGHTWHITE_EX + "\nWYNIKI:\n" + Style.RESET_ALL)
 print(Fore.LIGHTWHITE_EX + f"Punkty: {good_answers_counter} / {len(words)}.0\n"
                            f"Czas: [{round(time_count, 3)} s] / [{minutes}:{seconds}.{milliseconds} min]" + Style.RESET_ALL)
 
-with open("the_best_time.yaml", "r", encoding="utf-8") as file:
+with open("../MyProjects/Learning/GermanLearning/the_best_time.yaml", "r", encoding="utf-8") as file:
     data = yaml.safe_load(file)
 
 if time_count >= data["the_best_time"]:
@@ -94,7 +113,7 @@ if time_count < data["the_best_time"]:
                               f"Różnica: -{data["the_best_time"]-time_count} s" + Style.RESET_ALL)
     if bad_answers_counter <= bad_answers_limit:
         data["the_best_time"] = time_count
-        with open("the_best_time.yaml", "w", encoding="utf-8") as file:
+        with open("../MyProjects/Learning/GermanLearning/the_best_time.yaml", "w", encoding="utf-8") as file:
             yaml.dump(data, file)
     else:
         print(Fore.LIGHTRED_EX + f"Rekord się nie liczy:\n"

@@ -58,8 +58,14 @@ class LinkedGraph:
                 if vertex == link.v2 and link.v1 not in vertex._links:
                         vertex._links.append(link.v1)
 
+    def make_path(self, vertex, not_available):
+        for linked_vertex in vertex._links:
+            return
+
     def find_path(self, start_v, stop_v):
-        ...
+        for vertex in self._vertex:
+            for linked_vertex in vertex._links:
+                self.make_path(linked_vertex)
 
 
 class Station(Vertex):
@@ -100,3 +106,5 @@ map_metro.add_link(LinkMetro(v6, v7, 1))
 map_metro.add_link(LinkMetro(v2, v7, 5))
 map_metro.add_link(LinkMetro(v3, v4, 3))
 map_metro.add_link(LinkMetro(v5, v6, 3))
+
+map_metro.find_path(v1, v6)
