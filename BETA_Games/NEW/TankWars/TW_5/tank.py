@@ -96,6 +96,8 @@ class Tank:
                             self.selected_buff = attr
                         case False:
                             self.selected_debuff = attr
+                    self.category.buffs.remove(attr)
+                    break
                 case _:
                     print(communicate("ERROR: Incorrect name of attribute!", "LIGHTRED_EX"))
 
