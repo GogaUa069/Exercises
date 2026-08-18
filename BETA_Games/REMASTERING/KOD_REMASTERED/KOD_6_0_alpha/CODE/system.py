@@ -8,7 +8,8 @@ from colorama import Fore, Style
 import pyfiglet
 
 os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
-import pygame
+
+import pygame.mixer.music
 
 pygame.init()
 
