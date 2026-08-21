@@ -71,11 +71,11 @@ class Heavy(Weapon):
         super().__init__(weapon_type="Heavy", team=team, name=name, manufacturer=mf)
 
 
-M134 = Heavy(team=HECU, name="M134 Minigun", mf=Manufacturer("General Electric"))
-NSV = Heavy(team=HECU, name="NSV 12.7mm HMG", mf=Manufacturer("Nikitin-Sokolov-Volkov"))
+M134 = Heavy(team=HECU, name="M134 Minigun", mf=GE)
+NSV = Heavy(team=HECU, name="NSV 12.7mm HMG", mf=NSV)
 
 M2HB = Heavy(team=SWAT, name="Browning M2HB", mf=USA)
-DShK = Heavy(team=SWAT, name="DShK 12.7mm HMG", mf=Manufacturer("Degitarov-Shpagin"))
+DShK = Heavy(team=SWAT, name="DShK 12.7mm HMG", mf=DS)
 
 
 class ERA(Weapon):
@@ -83,13 +83,13 @@ class ERA(Weapon):
         super().__init__(weapon_type="ERA", team=team, name=name, manufacturer=mf)
 
 
-M72 = ERA(team=HECU, name="M72 LAW", mf=Manufacturer("Nammo"))
-FGM148 = ERA(team=HECU, name="FGM-148 Javelin", mf=Manufacturer("Raytheon"))
+M72 = ERA(team=HECU, name="M72 LAW", mf=Nammo)
+FGM148 = ERA(team=HECU, name="FGM-148 Javelin", mf=Raytheon)
 M4 = ERA(team=HECU, name="Carl Gustaf M4", mf=SBD)
 
 AT4 = ERA(team=SWAT, name="AT4", mf=SBD)
 M320 = ERA(team=SWAT, name="M320 Grenade Launcher", mf=H_K)
-Mk19 = ERA(team=SWAT, name="Mk19 Mod 3 Grenade Launcher", mf=Manufacturer("General Dynamics"))
+Mk19 = ERA(team=SWAT, name="Mk19 Mod 3 Grenade Launcher", mf=GD)
 
 
 class SniperRifle(Weapon):
@@ -102,8 +102,8 @@ Hecate2 = SniperRifle(team=HECU, name="Hecate II", mf=PGM)
 Scout = SniperRifle(team=HECU, name="Scout", mf=Steyr)
 
 Remington700 = SniperRifle(team=SWAT, name="Remington 700", mf=Remington)
-AXMC = SniperRifle(team=SWAT, name="AXMC", mf=Manufacturer("Accuracy International"))
-BarrettMRAD = SniperRifle(team=SWAT, name="MRAD", mf=Manufacturer("Barrett Firearms"))
+AXMC = SniperRifle(team=SWAT, name="AXMC", mf=AI)
+BarrettMRAD = SniperRifle(team=SWAT, name="MRAD", mf=BF)
 
 
 class Shotgun(Weapon):
