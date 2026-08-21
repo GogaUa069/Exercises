@@ -17,9 +17,9 @@ class AssaultRifle(Weapon):
         self.ammo = ammo
 
 
-SCARL = AssaultRifle(team=HECU, name="SCAR-L CQC", mf=FN, ammo=30)
+SCARL = AssaultRifle(team=HECU, name="SCAR-L CQC", mf=FN,      ammo=30)
 M16A4 = AssaultRifle(team=HECU, name="M16A4",      mf=Colt_FN, ammo=30)
-G36C = AssaultRifle( team=HECU, name="G36C",       mf=H_K, ammo=30)
+G36C = AssaultRifle( team=HECU, name="G36C",       mf=H_K,     ammo=30)
 
 HK416 = AssaultRifle(    team=SWAT,  name="HK416 D10RS", mf=H_K,           ammo=30)
 DDM4V7 = AssaultRifle(   team=SWAT,  name="DDM4 V7",     mf=DanielDefense, ammo=32)
@@ -46,7 +46,7 @@ class Knife(Weapon):
         super().__init__(weapon_type="Knife", team=team, name=name, manufacturer=mf)
 
 
-USMC = Knife(team=HECU, name="USMC Fighting Knife", mf=KA_BAR)
+USMC = Knife(     team=HECU, name="USMC Fighting Knife", mf=KA_BAR)
 M9Bayonet = Knife(team=HECU, name="M9 Bayonet",          mf=Ontario)
 RAT7 = Knife(     team=HECU, name="RAT-7",               mf=Ontario)
 
@@ -110,7 +110,7 @@ Scout = SniperRifle(  team=HECU, name="Scout",     mf=Steyr,     ammo=10)
 
 Remington700 = SniperRifle(team=SWAT, name="Remington 700", mf=Remington, ammo=5)
 AXMC = SniperRifle(        team=SWAT, name="AXMC",          mf=AI,        ammo=10)
-MRAD = SniperRifle( team=SWAT, name="MRAD",          mf=BF,        ammo=10)
+MRAD = SniperRifle(        team=SWAT, name="MRAD",          mf=BF,        ammo=10)
 
 
 class Shotgun(Weapon):
@@ -119,10 +119,10 @@ class Shotgun(Weapon):
         self.ammo = ammo
 
 
-SPAS12 = Shotgun(       team=HECU, name="SPAS-12",      mf=Franchi, ammo=8)
-SXP = Shotgun(team=HECU, name="SXP Defender", mf=Winchester, ammo=8)
-Mossberg590 = Shotgun(  team=HECU, name="590A1",        mf=Mossberg, ammo=9)
+SPAS12 = Shotgun(     team=HECU, name="SPAS-12",      mf=Franchi,    ammo=8)
+SXP = Shotgun(        team=HECU, name="SXP Defender", mf=Winchester, ammo=8)
+Mossberg590 = Shotgun(team=HECU, name="590A1",        mf=Mossberg,   ammo=9)
 
-M4Super90 = Shotgun   (team=SWAT, name="M4 Super 90",       mf=Benelli, ammo=6)
-A300Patrol = Shotgun( team=SWAT, name="A300 Patrol",       mf=Beretta, ammo=8)
+M4Super90 = Shotgun(   team=SWAT, name="M4 Super 90",       mf=Benelli,   ammo=6)
+A300Patrol = Shotgun(  team=SWAT, name="A300 Patrol",       mf=Beretta,   ammo=8)
 Remington870 = Shotgun(team=SWAT, name="870 Police Magnum", mf=Remington, ammo=12)
